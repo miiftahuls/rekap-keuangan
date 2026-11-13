@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rekap Keuangan</title>
+  <title>Dasbor • Rekap Keuangan</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -76,10 +76,11 @@
       align-items: center;
       justify-content: center;
       color: #042f2e;
+      flex-shrink: 0;
     }
 
     .brand-text h2 {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 800;
       line-height: 1.2;
     }
@@ -713,7 +714,7 @@
         </div>
         <div class="brand-text">
           <h2>Rekap Keuangan</h2>
-          <span>Kas Huda • v2.0.1</span>
+          <span>Rekap Keuangan • v2.0.1</span>
         </div>
       </div>
 
@@ -938,7 +939,7 @@
   <div class="modal-backdrop" id="modalTransaksi">
     <div class="modal-box">
       <div class="modal-head">
-        <h3 style="font-size:16px;font-weight:700;">Catat Transaksi Kas</h3>
+        <h3 style="font-size:16px;font-weight:700;">Catat Transaksi Rekap Keuangan</h3>
         <span class="material-symbols-rounded" style="cursor:pointer;color:var(--text-gray);" onclick="tutupModal()">close</span>
       </div>
       <form id="formTransaksi" onsubmit="kirimData(event)">
@@ -991,7 +992,7 @@
     const NAMA_BULAN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
     const BULAN_SINGKAT = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
 
-    let bulanAktif = new Date(2026, 10, 1); // Default: November 2026
+    let bulanAktif = new Date(2026, 10, 1);
     let semuaData = [];
     let chartInstance = null;
 
@@ -1287,7 +1288,7 @@
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = 'Cadangan_Kas_Ipi.csv';
+      a.download = 'Rekap Keuangan.csv';
       a.click();
     }
 
