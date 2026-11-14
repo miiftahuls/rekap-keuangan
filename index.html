@@ -1,6 +1,5 @@
-```html
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="violet">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,25 +10,133 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    :root {
-      --bg-body: #0a0f18;
-      --bg-sidebar: #0e1622;
-      --bg-card: #121c2b;
-      --bg-card-hover: #172336;
-      --bg-input: #0a0f18;
-      --border-subtle: #1e2d42;
-      --teal-main: #2dd4bf;
-      --teal-btn: #20c997;
-      --teal-dark: #115e59;
-      --green-val: #22c55e;
+    /* =========================================================================
+       1. KONFIGURASI 4 TEMA (DEFAULT BARU: OBSIDIAN VIOLET GLASS)
+       ========================================================================= */
+    :root,
+    [data-theme="violet"] {
+      --bg-body: #090814;
+      --bg-glow: radial-gradient(circle at 15% 10%, rgba(99, 102, 241, 0.14), transparent 40%),
+                 radial-gradient(circle at 85% 15%, rgba(219, 39, 119, 0.10), transparent 40%);
+      --bg-sidebar: #0e0c1e;
+      --bg-topbar: rgba(14, 12, 30, 0.85);
+      --bg-card: #141229;
+      --bg-card-hover: #1b1836;
+      --bg-input: #0b0a18;
+      --bg-table-head: #100e22;
+      --border-subtle: #27234a;
+      --border-focus: #8b5cf6;
+      --accent-main: #8b5cf6;
+      --accent-sec: #6366f1;
+      --accent-soft: rgba(139, 92, 246, 0.15);
+      --accent-text: #ffffff;
+      --btn-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 55%, #a855f7 100%);
+      --hero-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 52%, #db2777 100%);
+      --hero-border: rgba(167, 139, 250, 0.35);
+      --green-val: #10b981;
       --red-val: #f43f5e;
       --amber-val: #f59e0b;
       --blue-val: #38bdf8;
-      --purple-val: #a855f7;
       --text-white: #f8fafc;
       --text-gray: #94a3b8;
       --text-muted: #64748b;
-      --sidebar-w: clamp(225px, 18vw, 255px);
+      --chart-grid: rgba(255, 255, 255, 0.05);
+      --chart-tick: #94a3b8;
+      --select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      --sidebar-w: clamp(228px, 18vw, 256px);
+    }
+
+    /* TEMA 2: EMERALD GOLD (LUXURY DARK GOLD & FOREST) */
+    [data-theme="gold"] {
+      --bg-body: #090d0b;
+      --bg-glow: radial-gradient(circle at 18% 12%, rgba(245, 158, 11, 0.11), transparent 40%),
+                 radial-gradient(circle at 82% 18%, rgba(16, 185, 129, 0.11), transparent 40%);
+      --bg-sidebar: #0e1411;
+      --bg-topbar: rgba(14, 20, 17, 0.88);
+      --bg-card: #131c18;
+      --bg-card-hover: #1a2621;
+      --bg-input: #0b100e;
+      --bg-table-head: #0f1713;
+      --border-subtle: #24352d;
+      --border-focus: #f59e0b;
+      --accent-main: #f59e0b;
+      --accent-sec: #10b981;
+      --accent-soft: rgba(245, 158, 11, 0.15);
+      --accent-text: #090d0b;
+      --btn-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      --hero-gradient: linear-gradient(135deg, #065f46 0%, #047857 50%, #b45309 100%);
+      --hero-border: rgba(245, 158, 11, 0.35);
+      --green-val: #10b981;
+      --red-val: #fb7185;
+      --amber-val: #fbbf24;
+      --blue-val: #38bdf8;
+      --text-white: #f8fafc;
+      --text-gray: #a7f3d0;
+      --text-muted: #6ee7b7;
+      --chart-grid: rgba(255, 255, 255, 0.05);
+      --chart-tick: #94a3b8;
+    }
+
+    /* TEMA 3: DAYLIGHT CLEAN (TEMA TERANG MODERN & BERSIH) */
+    [data-theme="light"] {
+      --bg-body: #f1f5f9;
+      --bg-glow: radial-gradient(circle at 15% 10%, rgba(99, 102, 241, 0.08), transparent 40%);
+      --bg-sidebar: #ffffff;
+      --bg-topbar: rgba(255, 255, 255, 0.88);
+      --bg-card: #ffffff;
+      --bg-card-hover: #f8fafc;
+      --bg-input: #f8fafc;
+      --bg-table-head: #f1f5f9;
+      --border-subtle: #e2e8f0;
+      --border-focus: #4f46e5;
+      --accent-main: #4f46e5;
+      --accent-sec: #6366f1;
+      --accent-soft: rgba(79, 70, 229, 0.10);
+      --accent-text: #ffffff;
+      --btn-gradient: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+      --hero-gradient: linear-gradient(135deg, #312e81 0%, #4f46e5 55%, #7c3aed 100%);
+      --hero-border: rgba(79, 70, 229, 0.25);
+      --green-val: #059669;
+      --red-val: #e11d48;
+      --amber-val: #d97706;
+      --blue-val: #0284c7;
+      --text-white: #0f172a;
+      --text-gray: #475569;
+      --text-muted: #64748b;
+      --chart-grid: rgba(15, 23, 42, 0.06);
+      --chart-tick: #475569;
+      --select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    }
+
+    /* TEMA 4: OCEAN GLASS (DEEP NAVY & CYAN GLASSMORPHISM) */
+    [data-theme="ocean"] {
+      --bg-body: #07111e;
+      --bg-glow: radial-gradient(circle at 20% 10%, rgba(14, 165, 233, 0.14), transparent 45%),
+                 radial-gradient(circle at 80% 20%, rgba(45, 212, 191, 0.12), transparent 45%);
+      --bg-sidebar: #0b1829;
+      --bg-topbar: rgba(11, 24, 41, 0.85);
+      --bg-card: #102238;
+      --bg-card-hover: #152c47;
+      --bg-input: #091524;
+      --bg-table-head: #0d1c30;
+      --border-subtle: #1e3a5f;
+      --border-focus: #38bdf8;
+      --accent-main: #38bdf8;
+      --accent-sec: #0ea5e9;
+      --accent-soft: rgba(56, 189, 248, 0.15);
+      --accent-text: #041322;
+      --btn-gradient: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+      --hero-gradient: linear-gradient(135deg, #0369a1 0%, #0d9488 55%, #1d4ed8 100%);
+      --hero-border: rgba(56, 189, 248, 0.35);
+      --green-val: #2dd4bf;
+      --red-val: #fb7185;
+      --amber-val: #facc15;
+      --blue-val: #38bdf8;
+      --text-white: #f8fafc;
+      --text-gray: #94a3b8;
+      --text-muted: #64748b;
+      --chart-grid: rgba(255, 255, 255, 0.05);
+      --chart-tick: #94a3b8;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -42,10 +149,13 @@
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       background-color: var(--bg-body);
+      background-image: var(--bg-glow);
+      background-attachment: fixed;
       color: var(--text-white);
       display: flex;
       min-height: 100vh;
       overflow-x: hidden;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
 
     img, svg, canvas {
@@ -60,36 +170,143 @@
       user-select: none;
     }
 
-    /* DROPDOWN SELECT DENGAN PANAH PRESISI (DIGESER 14PX DARI KANAN) */
-    select {
+    /* =========================================================================
+       2. STANDARISASI INPUT & DROPDOWN SELECT (PRESISI & SIMETRIS)
+       ========================================================================= */
+    select.input-ctrl,
+    select.theme-select {
       appearance: none;
       -webkit-appearance: none;
       -moz-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-image: var(--select-arrow);
       background-repeat: no-repeat;
       background-position: right 14px center;
       background-size: 16px;
-      padding-right: 40px !important;
+      padding: 0 40px 0 14px !important;
+      height: 42px;
+      line-height: 42px;
       cursor: pointer;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     select:hover, input:hover, textarea:hover {
-      border-color: #334155;
+      border-color: var(--border-focus);
     }
 
     select:focus, input:focus, textarea:focus {
       outline: none;
-      border-color: var(--teal-main);
-      box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.15);
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px var(--accent-soft);
     }
 
     input[type="date"]::-webkit-calendar-picker-indicator {
-      filter: invert(1);
+      filter: invert(0.7);
       cursor: pointer;
     }
 
-    /* SIDEBAR */
+    /* =========================================================================
+       3. PEMILIH BULAN ATAS 100% SIMETRIS PRESISI ([ < ] November 2026 [ > ])
+       ========================================================================= */
+    .month-control {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 3px;
+      height: 40px;
+      gap: 2px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .month-btn {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      border-radius: 9px;
+      border: none;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-gray);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: all 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    [data-theme="light"] .month-btn {
+      background: rgba(15, 23, 42, 0.04);
+    }
+
+    .month-btn:hover {
+      background: var(--accent-soft);
+      color: var(--accent-main);
+    }
+
+    .month-btn:active {
+      transform: scale(0.94);
+    }
+
+    .month-btn svg {
+      width: 18px;
+      height: 18px;
+      display: block;
+      stroke: currentColor;
+      stroke-width: 2.4;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Select Bulan di Tengah Tanpa Panah Bawaan Agar 100% Center Simetris */
+    .month-select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: none !important;
+      background-color: transparent;
+      border: none;
+      color: var(--text-white);
+      font-family: inherit;
+      font-size: clamp(12.5px, 0.9vw, 13.5px);
+      font-weight: 700;
+      height: 32px;
+      line-height: 32px;
+      padding: 0 14px !important;
+      margin: 0;
+      min-width: 136px;
+      text-align: center;
+      text-align-last: center;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.15s;
+    }
+
+    .month-select:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    [data-theme="light"] .month-select:hover {
+      background: rgba(15, 23, 42, 0.04);
+    }
+
+    .month-select:focus {
+      box-shadow: none;
+      outline: none;
+    }
+
+    .month-select option {
+      background: var(--bg-card);
+      color: var(--text-white);
+      text-align: center;
+    }
+
+    /* =========================================================================
+       4. SIDEBAR & LAYOUT UTAMA
+       ========================================================================= */
     .sidebar {
       width: var(--sidebar-w);
       background-color: var(--bg-sidebar);
@@ -103,7 +320,7 @@
       bottom: 0;
       padding: clamp(14px, 1.5vw, 20px) clamp(10px, 1vw, 14px);
       z-index: 80;
-      transition: transform 0.25s ease;
+      transition: transform 0.25s ease, background-color 0.25s ease;
     }
 
     .sidebar-overlay {
@@ -123,19 +340,20 @@
     }
 
     .brand-icon {
-      width: clamp(34px, 2.5vw, 40px);
-      height: clamp(34px, 2.5vw, 40px);
-      border-radius: 10px;
-      background: linear-gradient(135deg, #2dd4bf, #0d9488);
+      width: clamp(36px, 2.5vw, 40px);
+      height: clamp(36px, 2.5vw, 40px);
+      border-radius: 11px;
+      background: var(--btn-gradient);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #042f2e;
+      color: var(--accent-text);
       flex-shrink: 0;
+      box-shadow: 0 6px 16px var(--accent-soft);
     }
 
     .brand-text h2 {
-      font-size: clamp(14px, 1.1vw, 16px);
+      font-size: clamp(14.5px, 1.1vw, 16px);
       font-weight: 800;
       line-height: 1.2;
     }
@@ -171,19 +389,20 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.15s;
-      margin-bottom: 2px;
+      margin-bottom: 3px;
       text-decoration: none;
       user-select: none;
     }
 
     .nav-item:hover {
-      background: rgba(255, 255, 255, 0.04);
+      background: var(--accent-soft);
       color: var(--text-white);
     }
 
     .nav-item.active {
-      background: rgba(45, 212, 191, 0.14);
-      color: var(--teal-main);
+      background: var(--btn-gradient);
+      color: var(--accent-text);
+      box-shadow: 0 4px 14px var(--accent-soft);
     }
 
     .user-box {
@@ -209,9 +428,9 @@
       width: 34px;
       height: 34px;
       border-radius: 50%;
-      background: #0d9488;
-      color: #fff;
-      font-weight: 700;
+      background: var(--btn-gradient);
+      color: var(--accent-text);
+      font-weight: 800;
       font-size: 12px;
       display: flex;
       align-items: center;
@@ -233,12 +452,12 @@
     }
 
     .user-badge {
-      background: rgba(244, 63, 94, 0.2);
-      color: #fb7185;
+      background: var(--accent-soft);
+      color: var(--accent-main);
       font-size: 9px;
       font-weight: 700;
-      padding: 2px 5px;
-      border-radius: 4px;
+      padding: 2px 6px;
+      border-radius: 5px;
     }
 
     .user-email {
@@ -260,18 +479,19 @@
     }
 
     .topbar {
-      min-height: 60px;
+      min-height: 64px;
       border-bottom: 1px solid var(--border-subtle);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 10px clamp(16px, 2.2vw, 28px);
-      background: rgba(10, 15, 24, 0.88);
-      backdrop-filter: blur(8px);
+      background: var(--bg-topbar);
+      backdrop-filter: blur(12px);
       position: sticky;
       top: 0;
       z-index: 40;
       gap: 12px;
+      flex-wrap: wrap;
     }
 
     .topbar-left {
@@ -285,76 +505,54 @@
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       color: var(--text-white);
-      border-radius: 8px;
-      padding: 6px;
+      border-radius: 9px;
+      width: 38px;
+      height: 38px;
       cursor: pointer;
     }
 
     .topbar-title {
       font-size: clamp(15px, 1.1vw, 17px);
-      font-weight: 700;
+      font-weight: 800;
     }
 
     .topbar-right {
       display: flex;
       align-items: center;
       gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .theme-select {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      color: var(--text-white);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      height: 40px !important;
+      line-height: 40px !important;
+      padding: 0 36px 0 12px !important;
     }
 
     .sync-pill {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 5px 10px;
-      border-radius: 99px;
-      background: rgba(45, 212, 191, 0.1);
-      border: 1px solid rgba(45, 212, 191, 0.25);
-      color: var(--teal-main);
-      font-size: 11px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .month-control {
-      display: flex;
-      align-items: center;
-      background: var(--bg-card);
+      height: 40px;
+      padding: 0 12px;
+      border-radius: 12px;
+      background: var(--accent-soft);
       border: 1px solid var(--border-subtle);
-      border-radius: 10px;
-      padding: 4px 6px;
-      gap: 4px;
-    }
-
-    .month-btn {
-      background: none;
-      border: none;
-      color: var(--text-gray);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      padding: 4px 6px;
-      border-radius: 6px;
-    }
-
-    .month-btn:hover {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-white);
-    }
-
-    .month-select {
-      background-color: transparent;
-      border: none;
-      color: var(--text-white);
-      font-family: inherit;
-      font-size: clamp(12px, 0.9vw, 13.5px);
+      color: var(--accent-main);
+      font-size: 11.5px;
       font-weight: 700;
-      padding: 4px 36px 4px 10px !important;
-      background-position: right 10px center;
-      text-align: center;
+      cursor: pointer;
+      transition: transform 0.15s;
     }
 
-    .month-select:focus { box-shadow: none; }
-    .month-select option { background: var(--bg-card); color: var(--text-white); }
+    .sync-pill:hover { transform: translateY(-1px); }
 
     .content-area {
       padding: clamp(16px, 2.2vw, 28px) clamp(16px, 2.2vw, 28px) 90px;
@@ -366,7 +564,7 @@
     /* SPA PAGE VIEWS */
     .page-view {
       display: none;
-      animation: fadeView 0.2s ease;
+      animation: fadeView 0.22s ease;
     }
 
     .page-view.active {
@@ -374,7 +572,7 @@
     }
 
     @keyframes fadeView {
-      from { opacity: 0; transform: translateY(5px); }
+      from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -392,6 +590,7 @@
       font-size: clamp(20px, 1.8vw, 26px);
       font-weight: 800;
       margin-bottom: 4px;
+      letter-spacing: -0.3px;
     }
 
     .greeting-text p {
@@ -411,8 +610,8 @@
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       color: var(--text-white);
-      padding: 9px 14px;
-      border-radius: 10px;
+      padding: 10px 15px;
+      border-radius: 11px;
       font-family: inherit;
       font-size: clamp(12px, 0.9vw, 13px);
       font-weight: 600;
@@ -423,14 +622,14 @@
       transition: all 0.15s;
     }
 
-    .btn-dark:hover { background: var(--bg-card-hover); border-color: #334155; }
+    .btn-dark:hover { background: var(--bg-card-hover); border-color: var(--border-focus); }
 
     .btn-teal {
-      background: var(--teal-main);
+      background: var(--btn-gradient);
       border: none;
-      color: #042f2e;
-      padding: 9px 16px;
-      border-radius: 10px;
+      color: var(--accent-text);
+      padding: 10px 18px;
+      border-radius: 11px;
       font-family: inherit;
       font-size: clamp(12px, 0.9vw, 13px);
       font-weight: 700;
@@ -438,23 +637,24 @@
       align-items: center;
       gap: 6px;
       cursor: pointer;
-      transition: opacity 0.15s;
+      box-shadow: 0 6px 16px var(--accent-soft);
+      transition: transform 0.15s, opacity 0.15s;
     }
 
-    .btn-teal:hover { opacity: 0.92; }
+    .btn-teal:hover { opacity: 0.94; transform: translateY(-1px); }
 
     .btn-danger {
       background: rgba(244, 63, 94, 0.14);
       border: 1px solid rgba(244, 63, 94, 0.3);
       color: var(--red-val);
-      padding: 7px 12px;
-      border-radius: 8px;
+      padding: 8px 14px;
+      border-radius: 10px;
       font-family: inherit;
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 12.5px;
+      font-weight: 700;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
       cursor: pointer;
     }
 
@@ -469,28 +669,33 @@
     }
 
     .hero-card {
-      background: linear-gradient(135deg, #1b6b63 0%, #134e4a 55%, #0f3738 100%);
-      border: 1px solid rgba(45, 212, 191, 0.25);
-      border-radius: 16px;
-      padding: clamp(18px, 2vw, 24px);
+      background: var(--hero-gradient);
+      border: 1px solid var(--hero-border);
+      border-radius: 18px;
+      padding: clamp(20px, 2vw, 26px);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      color: #ffffff;
+      box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.35);
+      position: relative;
+      overflow: hidden;
     }
 
     .hero-label {
       font-size: clamp(11px, 0.85vw, 12.5px);
       font-weight: 600;
-      color: rgba(255, 255, 255, 0.85);
+      color: rgba(255, 255, 255, 0.88);
       margin-bottom: 6px;
     }
 
     .hero-amount {
-      font-size: clamp(24px, 2.4vw, 36px);
+      font-size: clamp(26px, 2.5vw, 38px);
       font-weight: 800;
       margin-bottom: 18px;
-      letter-spacing: -0.5px;
+      letter-spacing: -0.6px;
       word-break: break-word;
+      color: #ffffff;
     }
 
     .hero-subgrid {
@@ -501,8 +706,10 @@
     }
 
     .hero-subbox {
-      background: rgba(255, 255, 255, 0.09);
-      border-radius: 10px;
+      background: rgba(15, 23, 42, 0.28);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(6px);
+      border-radius: 12px;
       padding: 12px 14px;
     }
 
@@ -510,7 +717,7 @@
       display: block;
       font-size: 11px;
       font-weight: 600;
-      color: rgba(255, 255, 255, 0.75);
+      color: rgba(255, 255, 255, 0.8);
       margin-bottom: 4px;
     }
 
@@ -520,22 +727,23 @@
       white-space: nowrap;
     }
 
-    .sub-in { color: #4ade80; }
-    .sub-out { color: #f8fafc; }
+    .sub-in { color: #6ee7b7; }
+    .sub-out { color: #ffffff; }
 
     .hero-progress-bar {
-      height: 6px;
-      background: rgba(255, 255, 255, 0.18);
-      border-radius: 4px;
+      height: 7px;
+      background: rgba(15, 23, 42, 0.35);
+      border-radius: 99px;
       overflow: hidden;
       margin-bottom: 8px;
     }
 
     .hero-progress-fill {
       height: 100%;
-      background: #2dd4bf;
+      background: #34d399;
       width: 0%;
-      transition: width 0.3s;
+      border-radius: 99px;
+      transition: width 0.35s ease;
     }
 
     .hero-footer {
@@ -543,8 +751,9 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 8px;
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.85);
+      font-size: 11.5px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.9);
     }
 
     /* RIGHT 2X2 STATUS CARDS */
@@ -557,28 +766,34 @@
     .stat-card {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
-      border-radius: 14px;
+      border-radius: 16px;
       padding: clamp(14px, 1.4vw, 18px);
       display: flex;
       align-items: flex-start;
       gap: 12px;
       min-width: 0;
+      transition: transform 0.15s, border-color 0.15s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-focus);
     }
 
     .stat-icon {
-      width: clamp(34px, 2.4vw, 40px);
-      height: clamp(34px, 2.4vw, 40px);
-      border-radius: 10px;
+      width: clamp(36px, 2.4vw, 42px);
+      height: clamp(36px, 2.4vw, 42px);
+      border-radius: 11px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
     }
 
-    .ic-green { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
-    .ic-red { background: rgba(244, 63, 94, 0.15); color: #f43f5e; }
-    .ic-amber { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
-    .ic-teal { background: rgba(45, 212, 191, 0.15); color: #2dd4bf; }
+    .ic-green { background: rgba(16, 185, 129, 0.15); color: var(--green-val); }
+    .ic-red { background: rgba(244, 63, 94, 0.15); color: var(--red-val); }
+    .ic-amber { background: rgba(245, 158, 11, 0.15); color: var(--amber-val); }
+    .ic-teal { background: var(--accent-soft); color: var(--accent-main); }
 
     .stat-body {
       min-width: 0;
@@ -587,7 +802,8 @@
 
     .stat-body span {
       display: block;
-      font-size: 11px;
+      font-size: 11.5px;
+      font-weight: 600;
       color: var(--text-gray);
       margin-bottom: 3px;
     }
@@ -619,9 +835,10 @@
     .panel {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
-      border-radius: 16px;
+      border-radius: 18px;
       padding: clamp(16px, 1.8vw, 22px);
       min-width: 0;
+      box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.18);
     }
 
     .panel-head {
@@ -642,7 +859,8 @@
     }
 
     .panel-badge {
-      font-size: 11px;
+      font-size: 11.5px;
+      font-weight: 600;
       color: var(--text-muted);
       white-space: nowrap;
       flex-shrink: 0;
@@ -674,7 +892,7 @@
     .cat-ic {
       width: 36px;
       height: 36px;
-      border-radius: 9px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -725,12 +943,16 @@
       padding: 10px 12px;
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid var(--border-subtle);
-      border-radius: 10px;
-      transition: background 0.15s;
+      border-radius: 12px;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    [data-theme="light"] .list-row {
+      background: #f8fafc;
     }
 
     .list-row:hover {
-      background: rgba(255, 255, 255, 0.04);
+      border-color: var(--border-focus);
     }
 
     .list-left {
@@ -744,10 +966,10 @@
     .check-btn {
       width: 28px;
       height: 28px;
-      border-radius: 7px;
+      border-radius: 8px;
       border: 1px solid var(--border-subtle);
-      background: rgba(45, 212, 191, 0.08);
-      color: var(--teal-main);
+      background: var(--accent-soft);
+      color: var(--accent-main);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -757,21 +979,21 @@
     }
 
     .check-btn:hover {
-      background: var(--teal-main);
-      color: #042f2e;
+      background: var(--accent-main);
+      color: var(--accent-text);
     }
 
     .rank-badge {
       width: 24px;
       height: 24px;
-      border-radius: 6px;
-      background: rgba(255, 255, 255, 0.06);
+      border-radius: 7px;
+      background: var(--accent-soft);
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 800;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--text-gray);
+      color: var(--accent-main);
       flex-shrink: 0;
     }
 
@@ -790,8 +1012,8 @@
 
     .badge-belum {
       background: rgba(245, 158, 11, 0.15);
-      color: #f59e0b;
-      font-size: 10px;
+      color: var(--amber-val);
+      font-size: 10.5px;
       font-weight: 700;
       padding: 3px 8px;
       border-radius: 6px;
@@ -800,9 +1022,9 @@
     }
 
     .badge-lunas {
-      background: rgba(34, 197, 94, 0.15);
-      color: #22c55e;
-      font-size: 10px;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--green-val);
+      font-size: 10.5px;
       font-weight: 700;
       padding: 3px 8px;
       border-radius: 6px;
@@ -811,9 +1033,9 @@
     }
 
     .badge-masuk {
-      background: rgba(45, 212, 191, 0.15);
-      color: var(--teal-main);
-      font-size: 10px;
+      background: var(--accent-soft);
+      color: var(--accent-main);
+      font-size: 10.5px;
       font-weight: 700;
       padding: 3px 8px;
       border-radius: 6px;
@@ -830,7 +1052,8 @@
 
     .input-ctrl {
       width: 100%;
-      padding: 10px 14px;
+      height: 42px;
+      padding: 0 14px;
       background-color: var(--bg-input);
       border: 1px solid var(--border-subtle);
       border-radius: 10px;
@@ -839,10 +1062,15 @@
       font-size: 13px;
     }
 
+    textarea.input-ctrl {
+      height: auto;
+      padding: 12px 14px;
+    }
+
     .table-responsive {
       overflow-x: auto;
       border: 1px solid var(--border-subtle);
-      border-radius: 12px;
+      border-radius: 14px;
       background: var(--bg-input);
     }
 
@@ -859,7 +1087,7 @@
     }
 
     table.data-table th {
-      background: #0e1624;
+      background: var(--bg-table-head);
       color: var(--text-gray);
       font-weight: 700;
       font-size: 11.5px;
@@ -869,7 +1097,7 @@
     }
 
     table.data-table tr:last-child td { border-bottom: none; }
-    table.data-table tr:hover td { background: rgba(255, 255, 255, 0.02); }
+    table.data-table tr:hover td { background: var(--accent-soft); }
 
     .icon-btn {
       background: rgba(255, 255, 255, 0.04);
@@ -886,8 +1114,8 @@
     }
 
     .icon-btn:hover {
-      color: var(--text-white);
-      border-color: var(--teal-main);
+      color: var(--accent-main);
+      border-color: var(--accent-main);
     }
 
     .icon-btn.del:hover {
@@ -908,13 +1136,13 @@
       position: fixed;
       bottom: clamp(18px, 2.5vw, 28px);
       right: clamp(18px, 2.5vw, 28px);
-      width: clamp(48px, 4vw, 56px);
-      height: clamp(48px, 4vw, 56px);
+      width: clamp(50px, 4vw, 56px);
+      height: clamp(50px, 4vw, 56px);
       border-radius: 50%;
-      background: var(--teal-main);
-      color: #042f2e;
+      background: var(--btn-gradient);
+      color: var(--accent-text);
       border: none;
-      box-shadow: 0 10px 25px rgba(45, 212, 191, 0.4);
+      box-shadow: 0 10px 25px var(--accent-soft);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -943,12 +1171,13 @@
     .modal-box {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
-      border-radius: 16px;
+      border-radius: 18px;
       width: 100%;
       max-width: 450px;
       max-height: 92vh;
       overflow-y: auto;
       padding: clamp(18px, 2vw, 24px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
     }
 
     .modal-head {
@@ -972,17 +1201,17 @@
       bottom: 24px;
       left: 50%;
       transform: translateX(-50%) translateY(100px);
-      background: #121c2b;
-      border: 1px solid var(--teal-main);
+      background: var(--bg-card);
+      border: 1px solid var(--accent-main);
       color: var(--text-white);
       padding: 10px 18px;
       border-radius: 99px;
       font-size: 12.5px;
-      font-weight: 600;
+      font-weight: 700;
       display: flex;
       align-items: center;
       gap: 8px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
       z-index: 200;
       opacity: 0;
       transition: all 0.28s ease;
@@ -1008,24 +1237,25 @@
       .sidebar.open { transform: translateX(0); }
       .sidebar-overlay.open { display: block; }
       .main { margin-left: 0; }
-      .menu-toggle { display: flex; align-items: center; justify-content: center; }
+      .menu-toggle { display: inline-flex; align-items: center; justify-content: center; }
       .master-grid { grid-template-columns: 1fr; }
       .filter-grid { grid-template-columns: 1fr 1fr; }
     }
 
-    @media (max-width: 520px) {
+    @media (max-width: 560px) {
       .greeting-row { flex-direction: column; align-items: flex-start; }
       .action-btns { width: 100%; }
       .action-btns button { flex: 1; justify-content: center; }
       .status-grid { grid-template-columns: 1fr; }
       .filter-grid { grid-template-columns: 1fr; }
       .sync-pill span.sync-txt { display: none; }
+      .topbar { padding: 10px 14px; }
+      .month-select { min-width: 118px; padding: 0 8px !important; }
     }
 
     @media print {
       .sidebar, .topbar, .fab, .action-btns { display: none !important; }
       .main { margin-left: 0 !important; }
-      body { background: #0a0f18; color: #fff; }
     }
   </style>
 </head>
@@ -1043,7 +1273,7 @@
         </div>
         <div class="brand-text">
           <h2 id="brandTitleSidebar">Rekap Keuangan</h2>
-          <span>Rekap Keuangan • v2.0.1</span>
+          <span>Rekap Keuangan • v2.1</span>
         </div>
       </div>
 
@@ -1090,12 +1320,12 @@
         <div class="user-meta">
           <div class="user-name-row">
             <span class="user-name" id="sidebarUserName">Huda</span>
-            <span class="user-badge">Pengguna</span>
+            <span class="user-badge">Aktif</span>
           </div>
           <div class="user-email" id="sidebarUserEmail">miiftahuls@gmail.com</div>
         </div>
       </div>
-      <span class="material-symbols-rounded" style="color:var(--red-val);cursor:pointer;" title="Pengaturan Profil" onclick="navigasiKe('pengaturan')">manage_accounts</span>
+      <span class="material-symbols-rounded" style="color:var(--accent-main);cursor:pointer;" title="Pengaturan Profil" onclick="navigasiKe('pengaturan')">manage_accounts</span>
     </div>
   </aside>
 
@@ -1103,25 +1333,35 @@
   <div class="main">
     <header class="topbar">
       <div class="topbar-left">
-        <button class="menu-toggle" onclick="toggleSidebar()">
+        <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Buka Menu">
           <span class="material-symbols-rounded">menu</span>
         </button>
         <div class="topbar-title" id="topbarTitle">Dasbor</div>
       </div>
 
       <div class="topbar-right">
+        <!-- PEMILIH TEMA INSTAN -->
+        <select id="pilihTemaAtas" class="theme-select" onchange="gantiTema(this.value)" title="Pilih Tema Tampilan">
+          <option value="violet">✨ Obsidian Violet</option>
+          <option value="gold">👑 Emerald Gold</option>
+          <option value="ocean">🌊 Ocean Glass</option>
+          <option value="light">☀️ Daylight Clean</option>
+        </select>
+
+        <!-- STATUS SINKRONISASI -->
         <div class="sync-pill" onclick="muatDataDariServer(true)" title="Klik untuk sinkronisasi ulang Google Sheets">
-          <span class="material-symbols-rounded" style="font-size:15px;" id="syncIcon">cloud_done</span>
+          <span class="material-symbols-rounded" style="font-size:16px;" id="syncIcon">cloud_done</span>
           <span class="sync-txt" id="syncStatusText">Tersinkron</span>
         </div>
 
+        <!-- PEMILIH WAKTU / BULAN 100% SIMETRIS PRESISI -->
         <div class="month-control">
-          <button class="month-btn" onclick="geserBulan(-1)" title="Bulan Sebelumnya">
-            <span class="material-symbols-rounded">chevron_left</span>
+          <button type="button" class="month-btn" onclick="geserBulan(-1)" title="Bulan Sebelumnya" aria-label="Bulan Sebelumnya">
+            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
           </button>
-          <select id="pilihBulanAtas" class="month-select" onchange="pilihBulanLangsung(this.value)"></select>
-          <button class="month-btn" onclick="geserBulan(1)" title="Bulan Berikutnya">
-            <span class="material-symbols-rounded">chevron_right</span>
+          <select id="pilihBulanAtas" class="month-select" onchange="pilihBulanLangsung(this.value)" aria-label="Pilih Bulan"></select>
+          <button type="button" class="month-btn" onclick="geserBulan(1)" title="Bulan Berikutnya" aria-label="Bulan Berikutnya">
+            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
           </button>
         </div>
       </div>
@@ -1230,7 +1470,7 @@
           <div class="panel">
             <div class="panel-head">
               <div class="panel-title">
-                <span class="material-symbols-rounded" style="color:var(--teal-main);">donut_large</span>
+                <span class="material-symbols-rounded" style="color:var(--accent-main);">donut_large</span>
                 Pengeluaran per Kategori
               </div>
               <span class="panel-badge" id="jmlKategoriLabel">4 kategori</span>
@@ -1241,7 +1481,7 @@
           <div class="panel">
             <div class="panel-head">
               <div class="panel-title">
-                <span class="material-symbols-rounded" style="color:var(--teal-main);">show_chart</span>
+                <span class="material-symbols-rounded" style="color:var(--accent-main);">show_chart</span>
                 Tren Kas 12 Bulan Terakhir
               </div>
             </div>
@@ -1259,7 +1499,7 @@
                 <span class="material-symbols-rounded" style="color:var(--amber-val);">assignment_late</span>
                 Jatuh Tempo & Belum Dibayar
               </div>
-              <span class="panel-badge" style="color:var(--teal-main);cursor:pointer;" onclick="navigasiKe('transaksi')">Lihat semua</span>
+              <span class="panel-badge" style="color:var(--accent-main);cursor:pointer;" onclick="navigasiKe('transaksi')">Lihat semua</span>
             </div>
             <div class="item-list" id="wadahJatuhTempo"></div>
           </div>
@@ -1359,7 +1599,7 @@
           <div class="panel">
             <div class="panel-head">
               <div class="panel-title">
-                <span class="material-symbols-rounded" style="color:var(--teal-main);">pie_chart</span>
+                <span class="material-symbols-rounded" style="color:var(--accent-main);">pie_chart</span>
                 Diagram Proporsi Kategori Bulan Ini
               </div>
             </div>
@@ -1425,7 +1665,7 @@
           <div class="panel">
             <div class="panel-head">
               <div class="panel-title">
-                <span class="material-symbols-rounded" style="color:var(--teal-main);">add_box</span>
+                <span class="material-symbols-rounded" style="color:var(--accent-main);">add_box</span>
                 Tambah Uraian Rutin
               </div>
             </div>
@@ -1526,7 +1766,7 @@
           <div class="panel">
             <div class="panel-head">
               <div class="panel-title">
-                <span class="material-symbols-rounded" style="color:var(--teal-main);">new_label</span>
+                <span class="material-symbols-rounded" style="color:var(--accent-main);">new_label</span>
                 Tambah Kategori Baru
               </div>
             </div>
@@ -1545,16 +1785,16 @@
                   <option value="restaurant">🍽️ Makan & Kuliner (restaurant)</option>
                   <option value="medical_services">💊 Kesehatan (medical_services)</option>
                   <option value="school">🎓 Pendidikan (school)</option>
-                  <option value="Attractions">🎮 Hiburan & Keluarga (attractions)</option>
+                  <option value="attractions">🎮 Hiburan & Keluarga (attractions)</option>
                   <option value="payments">💰 Gaji & Pemasukan (payments)</option>
                 </select>
               </div>
               <div class="form-group">
                 <label>Warna Indikator</label>
                 <select id="kat_warna" class="input-ctrl">
-                  <option value="#22c55e">Hijau (#22c55e)</option>
-                  <option value="#f97316">Oranye (#f97316)</option>
-                  <option value="#a855f7">Ungu (#a855f7)</option>
+                  <option value="#8b5cf6">Ungu Elektrik (#8b5cf6)</option>
+                  <option value="#10b981">Hijau Emerald (#10b981)</option>
+                  <option value="#f97316">Oranye Hangat (#f97316)</option>
                   <option value="#38bdf8">Biru Langit (#38bdf8)</option>
                   <option value="#f43f5e">Merah Rose (#f43f5e)</option>
                   <option value="#eab308">Kuning Amber (#eab308)</option>
@@ -1570,7 +1810,7 @@
           <div class="panel">
             <div class="panel-head">
               <div class="panel-title">
-                <span class="material-symbols-rounded" style="color:var(--teal-main);">category</span>
+                <span class="material-symbols-rounded" style="color:var(--accent-main);">category</span>
                 Daftar Kategori Tersedia
               </div>
             </div>
@@ -1600,7 +1840,7 @@
           <div class="panel">
             <div class="panel-head">
               <div class="panel-title">
-                <span class="material-symbols-rounded" style="color:var(--teal-main);">edit_note</span>
+                <span class="material-symbols-rounded" style="color:var(--accent-main);">edit_note</span>
                 Ketik atau Tempel Catatan
               </div>
             </div>
@@ -1642,7 +1882,7 @@
           <div class="panel">
             <div class="panel-head">
               <div class="panel-title">
-                <span class="material-symbols-rounded" style="color:var(--teal-main);">download_for_offline</span>
+                <span class="material-symbols-rounded" style="color:var(--accent-main);">download_for_offline</span>
                 Ekspor & Unduh Data
               </div>
             </div>
@@ -1675,7 +1915,7 @@
             <p style="font-size:13px;color:var(--text-gray);margin-bottom:16px;">
               Pilih file cadangan <code>Rekap Keuangan.json</code> untuk memulihkan daftar transaksi lokal, kategori, dan template rutin:
             </p>
-            <input type="file" id="fileRestoreJSON" accept=".json" class="input-ctrl" style="margin-bottom:14px;">
+            <input type="file" id="fileRestoreJSON" accept=".json" class="input-ctrl" style="padding:8px 12px;margin-bottom:14px;">
             <button class="btn-dark" style="width:100%;justify-content:center;padding:12px;" onclick="pulihkanDariJSON()">
               <span class="material-symbols-rounded">upload_file</span>
               Pulihkan Data Cadangan
@@ -1691,7 +1931,7 @@
         <div class="greeting-row">
           <div class="greeting-text">
             <h1>Pengaturan Sistem</h1>
-            <p>Sesuaikan profil pengguna, koneksi Google Apps Script, serta target anggaran bulanan</p>
+            <p>Sesuaikan profil pengguna, tema tampilan, serta koneksi Google Apps Script</p>
           </div>
         </div>
 
@@ -1699,7 +1939,7 @@
           <div class="panel">
             <div class="panel-head">
               <div class="panel-title">
-                <span class="material-symbols-rounded" style="color:var(--teal-main);">person</span>
+                <span class="material-symbols-rounded" style="color:var(--accent-main);">person</span>
                 Profil & Preferensi
               </div>
             </div>
@@ -1715,6 +1955,15 @@
               <div class="form-group">
                 <label>Inisial Avatar (2 Huruf)</label>
                 <input type="text" id="set_avatar" class="input-ctrl" maxlength="2" required>
+              </div>
+              <div class="form-group">
+                <label>Tema Visual Aplikasi</label>
+                <select id="set_tema" class="input-ctrl" onchange="gantiTema(this.value)">
+                  <option value="violet">✨ Obsidian Violet (Default Modern)</option>
+                  <option value="gold">👑 Emerald Gold (Luxury Dark)</option>
+                  <option value="ocean">🌊 Ocean Glass (Deep Navy)</option>
+                  <option value="light">☀️ Daylight Clean (Tema Terang)</option>
+                </select>
               </div>
               <div class="form-group">
                 <label>URL Google Apps Script Web App (/exec)</label>
@@ -1823,7 +2072,7 @@
 
   <!-- TOAST NOTIFICATION -->
   <div class="toast-box" id="toastBox">
-    <span class="material-symbols-rounded" style="color:var(--teal-main);">check_circle</span>
+    <span class="material-symbols-rounded" style="color:var(--accent-main);">check_circle</span>
     <span id="toastMsg">Berhasil disimpan</span>
   </div>
 
@@ -1837,9 +2086,9 @@
     const BULAN_SINGKAT = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
 
     const DEFAULT_KATEGORI = [
-      { nama: 'Kebutuhan Dapur', icon: 'shopping_basket', warna: '#22c55e' },
+      { nama: 'Kebutuhan Dapur', icon: 'shopping_basket', warna: '#10b981' },
       { nama: 'Rumah & Utilitas', icon: 'home', warna: '#f97316' },
-      { nama: 'Tagihan & Langganan', icon: 'wifi', warna: '#a855f7' },
+      { nama: 'Tagihan & Langganan', icon: 'wifi', warna: '#8b5cf6' },
       { nama: 'Transportasi', icon: 'directions_car', warna: '#38bdf8' },
       { nama: 'Gaji & Pemasukan', icon: 'payments', warna: '#2dd4bf' }
     ];
@@ -1864,6 +2113,7 @@
       nama: 'Huda',
       email: 'miiftahuls@gmail.com',
       avatar: 'HU',
+      tema: 'violet',
       scriptUrl: DEFAULT_SCRIPT_URL
     };
 
@@ -1880,14 +2130,14 @@
     let chartDonutLaporanInstance = null;
 
     // =========================================================================
-    // 2. INISIALISASI STORAGE & UTILITAS DASAR
+    // 2. INISIALISASI STORAGE, TEMA & UTILITAS DASAR
     // =========================================================================
     function muatStorageLokal() {
       try {
         kategoriList = JSON.parse(localStorage.getItem('rk_kategori')) || DEFAULT_KATEGORI.slice();
         uraianMaster = JSON.parse(localStorage.getItem('rk_uraian')) || DEFAULT_URAIAN.slice();
         sumberMaster = JSON.parse(localStorage.getItem('rk_sumber')) || DEFAULT_SUMBER.slice();
-        profilUser = JSON.parse(localStorage.getItem('rk_profil')) || Object.assign({}, DEFAULT_PROFIL);
+        profilUser = Object.assign({}, DEFAULT_PROFIL, JSON.parse(localStorage.getItem('rk_profil')) || {});
         const cacheTransaksi = JSON.parse(localStorage.getItem('rk_transaksi_cache'));
         if (Array.isArray(cacheTransaksi) && cacheTransaksi.length > 0) {
           semuaData = cacheTransaksi;
@@ -1898,6 +2148,7 @@
         sumberMaster = DEFAULT_SUMBER.slice();
         profilUser = Object.assign({}, DEFAULT_PROFIL);
       }
+      terapkanTemaDOM(profilUser.tema || 'violet');
     }
 
     function simpanStorageLokal() {
@@ -1908,8 +2159,30 @@
       localStorage.setItem('rk_transaksi_cache', JSON.stringify(semuaData));
     }
 
+    function terapkanTemaDOM(namaTema) {
+      document.documentElement.setAttribute('data-theme', namaTema);
+      const selAtas = document.getElementById('pilihTemaAtas');
+      const selSet = document.getElementById('set_tema');
+      if (selAtas) selAtas.value = namaTema;
+      if (selSet) selSet.value = namaTema;
+    }
+
+    function gantiTema(namaTema) {
+      profilUser.tema = namaTema;
+      terapkanTemaDOM(namaTema);
+      simpanStorageLokal();
+      renderSemuaTampilan();
+      const labelTema = {
+        violet: 'Obsidian Violet',
+        gold: 'Emerald Gold',
+        ocean: 'Ocean Glass',
+        light: 'Daylight Clean'
+      };
+      tampilToast('Tema diubah ke ' + (labelTema[namaTema] || namaTema));
+    }
+
     function hexToRgba(hex, alpha) {
-      let c = (hex || '#2dd4bf').replace('#', '');
+      let c = (hex || '#8b5cf6').replace('#', '');
       if (c.length === 3) c = c.split('').map(x => x + x).join('');
       const num = parseInt(c, 16);
       return `rgba(${(num >> 16) & 255}, ${(num >> 8) & 255}, ${num & 255}, ${alpha})`;
@@ -2158,7 +2431,7 @@
         }))
         .filter(d => d.jenis === 'Pengeluaran');
 
-      const sumberList = pengeluaranData.length > 0 ? pengeluaranData : uraianMaster.map((u, i) => ({
+      const sumberList = pengeluaranData.length > 0 ? pengeluaranData : uraianMaster.map(u => ({
         indexAsli: -1,
         uraian: u.uraian,
         kategori: u.kategori,
@@ -2253,25 +2526,29 @@
         dataKeluar.push(k);
       }
 
+      const styleKomputasi = getComputedStyle(document.documentElement);
+      const tickColor = styleKomputasi.getPropertyValue('--chart-tick').trim() || '#94a3b8';
+      const gridColor = styleKomputasi.getPropertyValue('--chart-grid').trim() || 'rgba(255,255,255,0.05)';
+
       if (chartTrenInstance) chartTrenInstance.destroy();
       chartTrenInstance = new Chart(canvas, {
         type: 'bar',
         data: {
           labels: labels,
           datasets: [
-            { label: 'Pemasukan', data: dataMasuk, backgroundColor: '#22c55e', borderRadius: 4 },
-            { label: 'Pengeluaran', data: dataKeluar, backgroundColor: '#f43f5e', borderRadius: 4 }
+            { label: 'Pemasukan', data: dataMasuk, backgroundColor: '#10b981', borderRadius: 5 },
+            { label: 'Pengeluaran', data: dataKeluar, backgroundColor: '#f43f5e', borderRadius: 5 }
           ]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
-            legend: { position: 'bottom', labels: { color: '#94a3b8', boxWidth: 12 } }
+            legend: { position: 'bottom', labels: { color: tickColor, boxWidth: 12 } }
           },
           scales: {
-            x: { ticks: { color: '#64748b', font: { size: 11 } }, grid: { display: false } },
-            y: { beginAtZero: true, ticks: { color: '#64748b', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.04)' } }
+            x: { ticks: { color: tickColor, font: { size: 11 } }, grid: { display: false } },
+            y: { beginAtZero: true, ticks: { color: tickColor, font: { size: 11 } }, grid: { color: gridColor } }
           }
         }
       });
@@ -2414,7 +2691,7 @@
           <div class="list-row"><span>Total Pemasukan Periode Ini</span><strong style="color:var(--green-val);">${formatRp(masuk)}</strong></div>
           <div class="list-row"><span>Pengeluaran Sudah Dibayar (Lunas)</span><strong style="color:var(--red-val);">${formatRp(lunas)}</strong></div>
           <div class="list-row"><span>Tagihan Belum Dibayar</span><strong style="color:var(--amber-val);">${formatRp(belum)}</strong></div>
-          <div class="list-row"><span>Sisa Kas Bersih</span><strong style="color:var(--teal-main);">${formatRp(sisa)}</strong></div>
+          <div class="list-row"><span>Sisa Kas Bersih</span><strong style="color:var(--accent-main);">${formatRp(sisa)}</strong></div>
           <div class="list-row"><span>Rasio Sisa Tabungan</span><strong>${rasioTabungan}% dari pemasukan</strong></div>
         `;
       }
@@ -2431,6 +2708,7 @@
           return s;
         });
         const adaNilai = nilaiKat.some(v => v > 0);
+        const tickColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-tick').trim() || '#94a3b8';
 
         if (chartDonutLaporanInstance) chartDonutLaporanInstance.destroy();
         chartDonutLaporanInstance = new Chart(canvasDonut, {
@@ -2439,7 +2717,7 @@
             labels: adaNilai ? katKeluar.map(k => k.nama) : ['Belum Ada Pengeluaran'],
             datasets: [{
               data: adaNilai ? nilaiKat : [1],
-              backgroundColor: adaNilai ? katKeluar.map(k => k.warna) : ['#1e2d42'],
+              backgroundColor: adaNilai ? katKeluar.map(k => k.warna) : ['#27234a'],
               borderWidth: 0
             }]
           },
@@ -2447,7 +2725,7 @@
             responsive: true,
             maintainAspectRatio: false,
             cutout: '64%',
-            plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', boxWidth: 12 } } }
+            plugins: { legend: { position: 'bottom', labels: { color: tickColor, boxWidth: 12 } } }
           }
         });
       }
@@ -2482,7 +2760,7 @@
             <td style="text-align:right;color:var(--green-val);font-weight:600;">${formatRp(m)}</td>
             <td style="text-align:right;color:var(--red-val);">${formatRp(lns)}</td>
             <td style="text-align:right;color:var(--amber-val);">${formatRp(blm)}</td>
-            <td style="text-align:right;font-weight:700;color:${selisih >= 0 ? 'var(--teal-main)' : 'var(--red-val)'};">${formatRp(selisih)}</td>
+            <td style="text-align:right;font-weight:700;color:${selisih >= 0 ? 'var(--accent-main)' : 'var(--red-val)'};">${formatRp(selisih)}</td>
             <td style="text-align:center;"><span class="${pct > 85 ? 'badge-belum' : 'badge-lunas'}">${pct}%</span></td>
           `;
           tbodyBulanan.appendChild(tr);
@@ -2814,7 +3092,7 @@
     function unduhBackupJSON() {
       const paket = {
         app: 'Rekap Keuangan',
-        versi: '2.0.1',
+        versi: '2.1',
         tanggalBackup: new Date().toISOString(),
         profilUser,
         kategoriList,
@@ -2840,8 +3118,9 @@
           if (data.kategoriList) kategoriList = data.kategoriList;
           if (data.uraianMaster) uraianMaster = data.uraianMaster;
           if (data.sumberMaster) sumberMaster = data.sumberMaster;
-          if (data.profilUser) profilUser = data.profilUser;
+          if (data.profilUser) profilUser = Object.assign({}, DEFAULT_PROFIL, data.profilUser);
           if (Array.isArray(data.semuaData)) semuaData = data.semuaData;
+          terapkanTemaDOM(profilUser.tema || 'violet');
           simpanStorageLokal();
           renderSemuaTampilan();
           tampilToast('Database berhasil dipulihkan!');
@@ -2857,6 +3136,7 @@
       document.getElementById('set_nama').value = profilUser.nama || 'Huda';
       document.getElementById('set_email').value = profilUser.email || 'miiftahuls@gmail.com';
       document.getElementById('set_avatar').value = profilUser.avatar || 'HU';
+      document.getElementById('set_tema').value = profilUser.tema || 'violet';
       document.getElementById('set_script_url').value = profilUser.scriptUrl || DEFAULT_SCRIPT_URL;
     }
 
@@ -2865,7 +3145,9 @@
       profilUser.nama = document.getElementById('set_nama').value.trim();
       profilUser.email = document.getElementById('set_email').value.trim();
       profilUser.avatar = document.getElementById('set_avatar').value.trim().toUpperCase();
+      profilUser.tema = document.getElementById('set_tema').value;
       profilUser.scriptUrl = document.getElementById('set_script_url').value.trim();
+      terapkanTemaDOM(profilUser.tema);
       simpanStorageLokal();
       renderSemuaTampilan();
       tampilToast('Pengaturan berhasil disimpan');
@@ -3016,4 +3298,3 @@
   </script>
 </body>
 </html>
-```
