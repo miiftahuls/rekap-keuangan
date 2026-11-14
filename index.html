@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -15,6 +16,7 @@
       --bg-sidebar: #0e1622;
       --bg-card: #121c2b;
       --bg-card-hover: #172336;
+      --bg-input: #0a0f18;
       --border-subtle: #1e2d42;
       --teal-main: #2dd4bf;
       --teal-btn: #20c997;
@@ -22,16 +24,18 @@
       --green-val: #22c55e;
       --red-val: #f43f5e;
       --amber-val: #f59e0b;
+      --blue-val: #38bdf8;
+      --purple-val: #a855f7;
       --text-white: #f8fafc;
       --text-gray: #94a3b8;
       --text-muted: #64748b;
-      --sidebar-w: clamp(220px, 18vw, 255px);
+      --sidebar-w: clamp(225px, 18vw, 255px);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     html {
-      font-size: clamp(13px, 0.85vw + 0.5rem, 16px);
+      font-size: clamp(13px, 0.82vw + 0.5rem, 16px);
       -webkit-text-size-adjust: 100%;
     }
 
@@ -51,12 +55,12 @@
 
     .material-symbols-rounded {
       font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 20;
-      font-size: clamp(18px, 1.2vw, 22px);
+      font-size: clamp(18px, 1.2vw, 21px);
       vertical-align: middle;
       user-select: none;
     }
 
-    /* CUSTOM DROPDOWN SELECT ARROW (GESER KE DALAM AGAR RAPI) */
+    /* DROPDOWN SELECT DENGAN PANAH PRESISI (DIGESER 14PX DARI KANAN) */
     select {
       appearance: none;
       -webkit-appearance: none;
@@ -70,14 +74,19 @@
       transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    select:hover {
+    select:hover, input:hover, textarea:hover {
       border-color: #334155;
     }
 
-    select:focus {
+    select:focus, input:focus, textarea:focus {
       outline: none;
       border-color: var(--teal-main);
       box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.15);
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+      cursor: pointer;
     }
 
     /* SIDEBAR */
@@ -110,7 +119,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 4px 10px 20px 10px;
+      padding: 4px 10px 18px 10px;
     }
 
     .brand-icon {
@@ -139,6 +148,7 @@
     .nav-scroll {
       flex: 1;
       overflow-y: auto;
+      padding-right: 2px;
     }
 
     .nav-section {
@@ -147,7 +157,7 @@
       text-transform: uppercase;
       letter-spacing: 0.8px;
       color: var(--text-muted);
-      padding: 16px 12px 6px 12px;
+      padding: 15px 12px 6px 12px;
     }
 
     .nav-item {
@@ -163,6 +173,7 @@
       transition: all 0.15s;
       margin-bottom: 2px;
       text-decoration: none;
+      user-select: none;
     }
 
     .nav-item:hover {
@@ -255,7 +266,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 10px clamp(16px, 2.2vw, 28px);
-      background: rgba(10, 15, 24, 0.85);
+      background: rgba(10, 15, 24, 0.88);
       backdrop-filter: blur(8px);
       position: sticky;
       top: 0;
@@ -284,6 +295,26 @@
       font-weight: 700;
     }
 
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sync-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 99px;
+      background: rgba(45, 212, 191, 0.1);
+      border: 1px solid rgba(45, 212, 191, 0.25);
+      color: var(--teal-main);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
     .month-control {
       display: flex;
       align-items: center;
@@ -291,7 +322,7 @@
       border: 1px solid var(--border-subtle);
       border-radius: 10px;
       padding: 4px 6px;
-      gap: 6px;
+      gap: 4px;
     }
 
     .month-btn {
@@ -317,7 +348,7 @@
       font-family: inherit;
       font-size: clamp(12px, 0.9vw, 13.5px);
       font-weight: 700;
-      padding: 4px 34px 4px 10px !important;
+      padding: 4px 36px 4px 10px !important;
       background-position: right 10px center;
       text-align: center;
     }
@@ -332,7 +363,22 @@
       margin: 0 auto;
     }
 
-    /* GREETING ROW */
+    /* SPA PAGE VIEWS */
+    .page-view {
+      display: none;
+      animation: fadeView 0.2s ease;
+    }
+
+    .page-view.active {
+      display: block;
+    }
+
+    @keyframes fadeView {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* GREETING & PAGE HEADERS */
     .greeting-row {
       display: flex;
       justify-content: space-between;
@@ -370,13 +416,14 @@
       font-family: inherit;
       font-size: clamp(12px, 0.9vw, 13px);
       font-weight: 600;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 8px;
       cursor: pointer;
+      transition: all 0.15s;
     }
 
-    .btn-dark:hover { background: var(--bg-card-hover); }
+    .btn-dark:hover { background: var(--bg-card-hover); border-color: #334155; }
 
     .btn-teal {
       background: var(--teal-main);
@@ -387,13 +434,31 @@
       font-family: inherit;
       font-size: clamp(12px, 0.9vw, 13px);
       font-weight: 700;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 6px;
       cursor: pointer;
+      transition: opacity 0.15s;
     }
 
     .btn-teal:hover { opacity: 0.92; }
+
+    .btn-danger {
+      background: rgba(244, 63, 94, 0.14);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      color: var(--red-val);
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .btn-danger:hover { background: rgba(244, 63, 94, 0.24); }
 
     /* HERO GRID */
     .hero-grid {
@@ -543,8 +608,8 @@
       color: var(--text-muted);
     }
 
-    /* MIDDLE CHARTS GRID */
-    .mid-grid {
+    /* MIDDLE & BOTTOM GRIDS */
+    .mid-grid, .bot-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
       gap: clamp(14px, 1.5vw, 20px);
@@ -646,13 +711,6 @@
       position: relative;
     }
 
-    /* BOTTOM LISTS GRID */
-    .bot-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
-      gap: clamp(14px, 1.5vw, 20px);
-    }
-
     .item-list {
       display: flex;
       flex-direction: column;
@@ -668,6 +726,11 @@
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid var(--border-subtle);
       border-radius: 10px;
+      transition: background 0.15s;
+    }
+
+    .list-row:hover {
+      background: rgba(255, 255, 255, 0.04);
     }
 
     .list-left {
@@ -679,20 +742,24 @@
     }
 
     .check-btn {
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
       border-radius: 7px;
       border: 1px solid var(--border-subtle);
-      background: transparent;
+      background: rgba(45, 212, 191, 0.08);
       color: var(--teal-main);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       flex-shrink: 0;
+      transition: all 0.15s;
     }
 
-    .check-btn:hover { background: rgba(45, 212, 191, 0.15); }
+    .check-btn:hover {
+      background: var(--teal-main);
+      color: #042f2e;
+    }
 
     .rank-badge {
       width: 24px;
@@ -726,10 +793,10 @@
       color: #f59e0b;
       font-size: 10px;
       font-weight: 700;
-      padding: 2px 7px;
-      border-radius: 5px;
-      margin-right: 8px;
+      padding: 3px 8px;
+      border-radius: 6px;
       white-space: nowrap;
+      cursor: pointer;
     }
 
     .badge-lunas {
@@ -737,10 +804,103 @@
       color: #22c55e;
       font-size: 10px;
       font-weight: 700;
-      padding: 2px 7px;
-      border-radius: 5px;
-      margin-right: 8px;
+      padding: 3px 8px;
+      border-radius: 6px;
       white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .badge-masuk {
+      background: rgba(45, 212, 191, 0.15);
+      color: var(--teal-main);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    /* TABLES & FILTERS (TRANSAKSI, LAPORAN, MASTER DATA) */
+    .filter-grid {
+      display: grid;
+      grid-template-columns: 1.5fr repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .input-ctrl {
+      width: 100%;
+      padding: 10px 14px;
+      background-color: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      color: var(--text-white);
+      font-family: inherit;
+      font-size: 13px;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      background: var(--bg-input);
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    table.data-table th, table.data-table td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    table.data-table th {
+      background: #0e1624;
+      color: var(--text-gray);
+      font-weight: 700;
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      white-space: nowrap;
+    }
+
+    table.data-table tr:last-child td { border-bottom: none; }
+    table.data-table tr:hover td { background: rgba(255, 255, 255, 0.02); }
+
+    .icon-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-gray);
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .icon-btn:hover {
+      color: var(--text-white);
+      border-color: var(--teal-main);
+    }
+
+    .icon-btn.del:hover {
+      color: var(--red-val);
+      border-color: var(--red-val);
+    }
+
+    /* TWO COLUMN MASTER DATA LAYOUT */
+    .master-grid {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 20px;
+      align-items: start;
     }
 
     /* FLOATING ACTION BUTTON */
@@ -760,13 +920,16 @@
       justify-content: center;
       cursor: pointer;
       z-index: 60;
+      transition: transform 0.15s;
     }
 
-    /* MODAL */
+    .fab:hover { transform: scale(1.06); }
+
+    /* MODAL & TOAST */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.72);
       backdrop-filter: blur(4px);
       display: none;
       align-items: center;
@@ -782,7 +945,7 @@
       border: 1px solid var(--border-subtle);
       border-radius: 16px;
       width: 100%;
-      max-width: 440px;
+      max-width: 450px;
       max-height: 92vh;
       overflow-y: auto;
       padding: clamp(18px, 2vw, 24px);
@@ -804,20 +967,31 @@
       margin-bottom: 6px;
     }
 
-    .form-group input, .form-group select {
-      width: 100%;
-      padding: 11px 14px;
-      background-color: var(--bg-body);
-      border: 1px solid var(--border-subtle);
-      border-radius: 10px;
+    .toast-box {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #121c2b;
+      border: 1px solid var(--teal-main);
       color: var(--text-white);
-      font-family: inherit;
-      font-size: 13.5px;
+      padding: 10px 18px;
+      border-radius: 99px;
+      font-size: 12.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+      z-index: 200;
+      opacity: 0;
+      transition: all 0.28s ease;
+      pointer-events: none;
     }
 
-    input[type="date"]::-webkit-calendar-picker-indicator {
-      filter: invert(1);
-      cursor: pointer;
+    .toast-box.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
     }
 
     /* RESPONSIVE BREAKPOINTS */
@@ -831,46 +1005,36 @@
         transform: translateX(-100%);
         width: 260px;
       }
-      .sidebar.open {
-        transform: translateX(0);
-      }
-      .sidebar-overlay.open {
-        display: block;
-      }
-      .main {
-        margin-left: 0;
-      }
-      .menu-toggle {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+      .sidebar.open { transform: translateX(0); }
+      .sidebar-overlay.open { display: block; }
+      .main { margin-left: 0; }
+      .menu-toggle { display: flex; align-items: center; justify-content: center; }
+      .master-grid { grid-template-columns: 1fr; }
+      .filter-grid { grid-template-columns: 1fr 1fr; }
     }
 
-    @media (max-width: 480px) {
-      .greeting-row {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .action-btns {
-        width: 100%;
-      }
-      .action-btns button {
-        flex: 1;
-        justify-content: center;
-      }
-      .status-grid {
-        grid-template-columns: 1fr;
-      }
+    @media (max-width: 520px) {
+      .greeting-row { flex-direction: column; align-items: flex-start; }
+      .action-btns { width: 100%; }
+      .action-btns button { flex: 1; justify-content: center; }
+      .status-grid { grid-template-columns: 1fr; }
+      .filter-grid { grid-template-columns: 1fr; }
+      .sync-pill span.sync-txt { display: none; }
+    }
+
+    @media print {
+      .sidebar, .topbar, .fab, .action-btns { display: none !important; }
+      .main { margin-left: 0 !important; }
+      body { background: #0a0f18; color: #fff; }
     }
   </style>
 </head>
 <body>
 
-  <!-- OVERLAY UNTUK LAYAR HP/TABLET -->
-  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+  <!-- OVERLAY LAYAR KECIL -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar(false)"></div>
 
-  <!-- SIDEBAR -->
+  <!-- SIDEBAR LENGKAP 9 MENU AKTIF -->
   <aside class="sidebar" id="sidebarMenu">
     <div>
       <div class="brand">
@@ -878,43 +1042,43 @@
           <span class="material-symbols-rounded">account_balance_wallet</span>
         </div>
         <div class="brand-text">
-          <h2>Rekap Keuangan</h2>
+          <h2 id="brandTitleSidebar">Rekap Keuangan</h2>
           <span>Rekap Keuangan • v2.0.1</span>
         </div>
       </div>
 
       <nav class="nav-scroll">
-        <a class="nav-item active" onclick="toggleSidebar()">
+        <a class="nav-item active" data-view="dasbor" onclick="navigasiKe('dasbor', this)">
           <span class="material-symbols-rounded">space_dashboard</span> Dasbor
         </a>
-        <a class="nav-item" onclick="bukaModal()">
+        <a class="nav-item" data-view="transaksi" onclick="navigasiKe('transaksi', this)">
           <span class="material-symbols-rounded">receipt_long</span> Transaksi
         </a>
-        <a class="nav-item" onclick="unduhCSV()">
+        <a class="nav-item" data-view="laporan" onclick="navigasiKe('laporan', this)">
           <span class="material-symbols-rounded">bar_chart</span> Laporan
         </a>
 
         <div class="nav-section">Master Data</div>
-        <a class="nav-item" onclick="isiTemplateRutin()">
+        <a class="nav-item" data-view="uraian" onclick="navigasiKe('uraian', this)">
           <span class="material-symbols-rounded">playlist_add_check</span> Uraian Pengeluaran
         </a>
-        <a class="nav-item" onclick="bukaModal('Pemasukan')">
+        <a class="nav-item" data-view="sumber" onclick="navigasiKe('sumber', this)">
           <span class="material-symbols-rounded">savings</span> Sumber Pemasukan
         </a>
-        <a class="nav-item">
+        <a class="nav-item" data-view="kategori" onclick="navigasiKe('kategori', this)">
           <span class="material-symbols-rounded">category</span> Kategori
         </a>
 
         <div class="nav-section">Alat</div>
-        <a class="nav-item" onclick="bukaModal()">
+        <a class="nav-item" data-view="impor" onclick="navigasiKe('impor', this)">
           <span class="material-symbols-rounded">content_paste_go</span> Impor dari Note
         </a>
-        <a class="nav-item" onclick="unduhCSV()">
+        <a class="nav-item" data-view="cadangan" onclick="navigasiKe('cadangan', this)">
           <span class="material-symbols-rounded">backup</span> Cadangan Database
         </a>
 
         <div class="nav-section">Sistem</div>
-        <a class="nav-item">
+        <a class="nav-item" data-view="pengaturan" onclick="navigasiKe('pengaturan', this)">
           <span class="material-symbols-rounded">settings</span> Pengaturan
         </a>
       </nav>
@@ -922,233 +1086,711 @@
 
     <div class="user-box">
       <div class="user-info">
-        <div class="avatar">HU</div>
+        <div class="avatar" id="sidebarAvatar">HU</div>
         <div class="user-meta">
           <div class="user-name-row">
-            <span class="user-name">Huda</span>
+            <span class="user-name" id="sidebarUserName">Huda</span>
             <span class="user-badge">Pengguna</span>
           </div>
-          <div class="user-email">miiftahuls@gmail.com</div>
+          <div class="user-email" id="sidebarUserEmail">miiftahuls@gmail.com</div>
         </div>
       </div>
-      <span class="material-symbols-rounded" style="color:var(--red-val);cursor:pointer;">logout</span>
+      <span class="material-symbols-rounded" style="color:var(--red-val);cursor:pointer;" title="Pengaturan Profil" onclick="navigasiKe('pengaturan')">manage_accounts</span>
     </div>
   </aside>
 
-  <!-- MAIN AREA -->
+  <!-- AREA UTAMA -->
   <div class="main">
     <header class="topbar">
       <div class="topbar-left">
         <button class="menu-toggle" onclick="toggleSidebar()">
           <span class="material-symbols-rounded">menu</span>
         </button>
-        <div class="topbar-title">Dasbor</div>
+        <div class="topbar-title" id="topbarTitle">Dasbor</div>
       </div>
 
-      <div class="month-control">
-        <button class="month-btn" onclick="geserBulan(-1)" title="Bulan Sebelumnya">
-          <span class="material-symbols-rounded">chevron_left</span>
-        </button>
-        <select id="pilihBulanAtas" class="month-select" onchange="pilihBulanLangsung(this.value)"></select>
-        <button class="month-btn" onclick="geserBulan(1)" title="Bulan Berikutnya">
-          <span class="material-symbols-rounded">chevron_right</span>
-        </button>
+      <div class="topbar-right">
+        <div class="sync-pill" onclick="muatDataDariServer(true)" title="Klik untuk sinkronisasi ulang Google Sheets">
+          <span class="material-symbols-rounded" style="font-size:15px;" id="syncIcon">cloud_done</span>
+          <span class="sync-txt" id="syncStatusText">Tersinkron</span>
+        </div>
+
+        <div class="month-control">
+          <button class="month-btn" onclick="geserBulan(-1)" title="Bulan Sebelumnya">
+            <span class="material-symbols-rounded">chevron_left</span>
+          </button>
+          <select id="pilihBulanAtas" class="month-select" onchange="pilihBulanLangsung(this.value)"></select>
+          <button class="month-btn" onclick="geserBulan(1)" title="Bulan Berikutnya">
+            <span class="material-symbols-rounded">chevron_right</span>
+          </button>
+        </div>
       </div>
     </header>
 
     <div class="content-area">
-      <div class="greeting-row">
-        <div class="greeting-text">
-          <h1>Halo, Huda!</h1>
-          <p>Ringkasan kas bulan <strong id="labelBulanSub">November 2026</strong></p>
-        </div>
-        <div class="action-btns">
-          <button class="btn-dark" onclick="isiTemplateRutin()">
-            <span class="material-symbols-rounded">playlist_add_check</span>
-            Template Rutin
-          </button>
-          <button class="btn-teal" onclick="bukaModal()">
-            <span class="material-symbols-rounded">add</span>
-            Catat
-          </button>
-        </div>
-      </div>
 
-      <!-- HERO SUMMARY & STATUS GRID -->
-      <div class="hero-grid">
-        <div class="hero-card">
-          <div>
-            <div class="hero-label">Sisa Kas Periode Ini (Pemasukan − Pengeluaran)</div>
-            <div class="hero-amount" id="txtSisaKas">Rp 0</div>
-            <div class="hero-subgrid">
-              <div class="hero-subbox">
-                <span>Pemasukan</span>
-                <strong class="sub-in" id="txtPemasukan">Rp 0</strong>
+      <!-- ====================================================================
+           1. VIEW: DASBOR UTAMA
+           ==================================================================== -->
+      <section id="view-dasbor" class="page-view active">
+        <div class="greeting-row">
+          <div class="greeting-text">
+            <h1>Halo, <span id="greetUserName">Huda</span>!</h1>
+            <p>Ringkasan kas bulan <strong id="labelBulanSub">November 2026</strong></p>
+          </div>
+          <div class="action-btns">
+            <button class="btn-dark" onclick="bukaModalTemplateRutin()">
+              <span class="material-symbols-rounded">playlist_add_check</span>
+              Template Rutin
+            </button>
+            <button class="btn-teal" onclick="bukaModalTransaksi()">
+              <span class="material-symbols-rounded">add</span>
+              Catat
+            </button>
+          </div>
+        </div>
+
+        <!-- HERO SUMMARY & 2X2 STATUS GRID -->
+        <div class="hero-grid">
+          <div class="hero-card">
+            <div>
+              <div class="hero-label">Sisa Kas Periode Ini (Pemasukan − Pengeluaran)</div>
+              <div class="hero-amount" id="txtSisaKas">Rp 0</div>
+              <div class="hero-subgrid">
+                <div class="hero-subbox">
+                  <span>Pemasukan</span>
+                  <strong class="sub-in" id="txtPemasukan">Rp 0</strong>
+                </div>
+                <div class="hero-subbox">
+                  <span>Pengeluaran</span>
+                  <strong class="sub-out" id="txtPengeluaran">Rp 0</strong>
+                </div>
               </div>
-              <div class="hero-subbox">
-                <span>Pengeluaran</span>
-                <strong class="sub-out" id="txtPengeluaran">Rp 0</strong>
+            </div>
+            <div>
+              <div class="hero-progress-bar">
+                <div class="hero-progress-fill" id="barAnggaran"></div>
+              </div>
+              <div class="hero-footer">
+                <span id="txtPersenPakai">0% anggaran terpakai</span>
+                <span id="txtStatusLunas">Semua transaksi lunas ✓</span>
               </div>
             </div>
           </div>
-          <div>
-            <div class="hero-progress-bar">
-              <div class="hero-progress-fill" id="barAnggaran"></div>
+
+          <div class="status-grid">
+            <div class="stat-card">
+              <div class="stat-icon ic-green">
+                <span class="material-symbols-rounded">payments</span>
+              </div>
+              <div class="stat-body">
+                <span>Diterima</span>
+                <strong style="color:var(--green-val);" id="txtDiterima">Rp 0</strong>
+                <small id="subDiterima">0 sumber masuk</small>
+              </div>
             </div>
-            <div class="hero-footer">
-              <span id="txtPersenPakai">0% anggaran terpakai</span>
-              <span id="txtStatusLunas">Semua transaksi lunas ✓</span>
+
+            <div class="stat-card">
+              <div class="stat-icon ic-red">
+                <span class="material-symbols-rounded">check_circle</span>
+              </div>
+              <div class="stat-body">
+                <span>Sudah Dibayar</span>
+                <strong style="color:var(--red-val);" id="txtSudahBayar">Rp 0</strong>
+                <small id="subSudahBayar">0 item lunas</small>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon ic-amber">
+                <span class="material-symbols-rounded">pending_actions</span>
+              </div>
+              <div class="stat-body">
+                <span>Belum Dibayar</span>
+                <strong style="color:var(--amber-val);" id="txtBelumBayar">Rp 0</strong>
+                <small id="subBelumBayar">0 item belum dibayar</small>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon ic-teal">
+                <span class="material-symbols-rounded">account_balance</span>
+              </div>
+              <div class="stat-body">
+                <span>Saldo Kas Riil</span>
+                <strong id="txtSaldoRiil">Rp 0</strong>
+                <small>Diterima − Dibayar</small>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="status-grid">
-          <div class="stat-card">
-            <div class="stat-icon ic-green">
-              <span class="material-symbols-rounded">payments</span>
+        <!-- MIDDLE ROW: KATEGORI & TREN 12 BULAN -->
+        <div class="mid-grid">
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <span class="material-symbols-rounded" style="color:var(--teal-main);">donut_large</span>
+                Pengeluaran per Kategori
+              </div>
+              <span class="panel-badge" id="jmlKategoriLabel">4 kategori</span>
             </div>
-            <div class="stat-body">
-              <span>Diterima</span>
-              <strong style="color:var(--green-val);" id="txtDiterima">Rp 0</strong>
-              <small id="subDiterima">-</small>
-            </div>
+            <div class="cat-list" id="wadahKategori"></div>
           </div>
 
-          <div class="stat-card">
-            <div class="stat-icon ic-red">
-              <span class="material-symbols-rounded">check_circle</span>
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <span class="material-symbols-rounded" style="color:var(--teal-main);">show_chart</span>
+                Tren Kas 12 Bulan Terakhir
+              </div>
             </div>
-            <div class="stat-body">
-              <span>Sudah Dibayar</span>
-              <strong style="color:var(--red-val);" id="txtSudahBayar">Rp 0</strong>
-              <small id="subSudahBayar">-</small>
-            </div>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-icon ic-amber">
-              <span class="material-symbols-rounded">pending_actions</span>
-            </div>
-            <div class="stat-body">
-              <span>Belum Dibayar</span>
-              <strong style="color:var(--amber-val);" id="txtBelumBayar">Rp 0</strong>
-              <small id="subBelumBayar">7 item belum dibayar</small>
-            </div>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-icon ic-teal">
-              <span class="material-symbols-rounded">account_balance</span>
-            </div>
-            <div class="stat-body">
-              <span>Saldo Kas Riil</span>
-              <strong id="txtSaldoRiil">Rp 0</strong>
-              <small>Diterima − Dibayar</small>
+            <div class="chart-container">
+              <canvas id="chartTren12"></canvas>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- MIDDLE ROW: CATEGORIES & 12-MONTH TREND -->
-      <div class="mid-grid">
+        <!-- BOTTOM ROW: JATUH TEMPO & PENGELUARAN TERBESAR -->
+        <div class="bot-grid">
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <span class="material-symbols-rounded" style="color:var(--amber-val);">assignment_late</span>
+                Jatuh Tempo & Belum Dibayar
+              </div>
+              <span class="panel-badge" style="color:var(--teal-main);cursor:pointer;" onclick="navigasiKe('transaksi')">Lihat semua</span>
+            </div>
+            <div class="item-list" id="wadahJatuhTempo"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <span class="material-symbols-rounded" style="color:var(--red-val);">local_fire_department</span>
+                Pengeluaran Terbesar Bulan Ini
+              </div>
+            </div>
+            <div class="item-list" id="wadahTerbesar"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           2. VIEW: TRANSAKSI (MANAJEMEN & FILTER TRANSAKSI LENGKAP)
+           ==================================================================== -->
+      <section id="view-transaksi" class="page-view">
+        <div class="greeting-row">
+          <div class="greeting-text">
+            <h1>Daftar Transaksi</h1>
+            <p>Kelola, cari, ubah status lunas, atau edit transaksi bulan <strong id="labelBulanTransaksi">November 2026</strong></p>
+          </div>
+          <div class="action-btns">
+            <button class="btn-dark" id="btnToggleSemuaPeriode" onclick="toggleSemuaPeriodeTransaksi()">
+              <span class="material-symbols-rounded">calendar_month</span>
+              <span id="txtTogglePeriode">Tampilkan Semua Bulan</span>
+            </button>
+            <button class="btn-teal" onclick="bukaModalTransaksi()">
+              <span class="material-symbols-rounded">add</span>
+              Tambah Transaksi
+            </button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="filter-grid">
+            <input type="text" id="filterCariTransaksi" class="input-ctrl" placeholder="Cari uraian atau catatan transaksi..." oninput="renderHalamanTransaksi()">
+            <select id="filterJenisTransaksi" class="input-ctrl" onchange="renderHalamanTransaksi()">
+              <option value="ALL">Semua Jenis</option>
+              <option value="Pemasukan">Pemasukan</option>
+              <option value="Pengeluaran">Pengeluaran</option>
+            </select>
+            <select id="filterStatusTransaksi" class="input-ctrl" onchange="renderHalamanTransaksi()">
+              <option value="ALL">Semua Status</option>
+              <option value="LUNAS">Sudah Dibayar / Lunas</option>
+              <option value="BELUM">Belum Dibayar</option>
+            </select>
+            <select id="filterKatTransaksi" class="input-ctrl" onchange="renderHalamanTransaksi()">
+              <option value="ALL">Semua Kategori</option>
+            </select>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Tanggal</th>
+                  <th>Uraian / Item</th>
+                  <th>Kategori</th>
+                  <th>Jenis</th>
+                  <th>Status (Klik Ubah)</th>
+                  <th style="text-align:right;">Nominal</th>
+                  <th style="text-align:center;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyDaftarTransaksi"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           3. VIEW: LAPORAN (ANALITIK, GRAFIK DONAT, REKAP 12 BULAN, EKSPOR)
+           ==================================================================== -->
+      <section id="view-laporan" class="page-view">
+        <div class="greeting-row">
+          <div class="greeting-text">
+            <h1>Laporan Keuangan</h1>
+            <p>Rekapitulasi arus kas dan proporsi pengeluaran periode <strong id="labelBulanLaporan">November 2026</strong></p>
+          </div>
+          <div class="action-btns">
+            <button class="btn-dark" onclick="window.print()">
+              <span class="material-symbols-rounded">print</span>
+              Cetak / PDF
+            </button>
+            <button class="btn-teal" onclick="unduhCSV()">
+              <span class="material-symbols-rounded">download</span>
+              Unduh Rekap Keuangan.csv
+            </button>
+          </div>
+        </div>
+
+        <div class="mid-grid">
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <span class="material-symbols-rounded" style="color:var(--teal-main);">pie_chart</span>
+                Diagram Proporsi Kategori Bulan Ini
+              </div>
+            </div>
+            <div class="chart-container" style="height:240px;">
+              <canvas id="chartDonutLaporan"></canvas>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <span class="material-symbols-rounded" style="color:var(--blue-val);">analytics</span>
+                Ringkasan Eksekutif Bulan Ini
+              </div>
+            </div>
+            <div class="item-list" id="wadahRingkasanLaporan"></div>
+          </div>
+        </div>
+
         <div class="panel">
           <div class="panel-head">
             <div class="panel-title">
-              <span class="material-symbols-rounded" style="color:var(--teal-main);">donut_large</span>
-              Pengeluaran per Kategori
+              <span class="material-symbols-rounded" style="color:var(--green-val);">table_chart</span>
+              Tabel Rekapitulasi 12 Bulan Terakhir
             </div>
-            <span class="panel-badge" id="jmlKategoriLabel">4 kategori</span>
           </div>
-          <div class="cat-list" id="wadahKategori"></div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Periode Bulan</th>
+                  <th style="text-align:right;">Total Pemasukan</th>
+                  <th style="text-align:right;">Sudah Dibayar</th>
+                  <th style="text-align:right;">Belum Dibayar</th>
+                  <th style="text-align:right;">Sisa Kas Bersih</th>
+                  <th style="text-align:center;">Rasio Terpakai</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyLaporanBulanan"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           4. VIEW: MASTER DATA -> URAIAN PENGELUARAN (TEMPLATE RUTIN)
+           ==================================================================== -->
+      <section id="view-uraian" class="page-view">
+        <div class="greeting-row">
+          <div class="greeting-text">
+            <h1>Uraian Pengeluaran (Template Rutin)</h1>
+            <p>Daftar pengeluaran rutin bulanan yang tampil pada jatuh tempo & bisa dicatat otomatis</p>
+          </div>
+          <div class="action-btns">
+            <button class="btn-teal" onclick="terapkanSemuaTemplateRutin()">
+              <span class="material-symbols-rounded">playlist_add_check</span>
+              Terapkan Semua ke Bulan Ini
+            </button>
+          </div>
         </div>
 
-        <div class="panel">
-          <div class="panel-head">
-            <div class="panel-title">
-              <span class="material-symbols-rounded" style="color:var(--teal-main);">show_chart</span>
-              Tren Kas 12 Bulan Terakhir
+        <div class="master-grid">
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <span class="material-symbols-rounded" style="color:var(--teal-main);">add_box</span>
+                Tambah Uraian Rutin
+              </div>
             </div>
+            <form onsubmit="tambahUraianMaster(event)">
+              <div class="form-group">
+                <label>Nama Uraian / Item</label>
+                <input type="text" id="u_nama" class="input-ctrl" placeholder="Contoh: Listrik, Beras, Air Galon" required>
+              </div>
+              <div class="form-group">
+                <label>Kategori</label>
+                <select id="u_kategori" class="input-ctrl" required></select>
+              </div>
+              <div class="form-group">
+                <label>Estimasi Nominal Default (Rp)</label>
+                <input type="number" id="u_nominal" class="input-ctrl" placeholder="Contoh: 250000" value="0" required>
+              </div>
+              <div class="form-group">
+                <label>Catatan Jatuh Tempo (Opsional)</label>
+                <input type="text" id="u_tempo" class="input-ctrl" placeholder="Contoh: Jatuh tempo: Tgl 20">
+              </div>
+              <button type="submit" class="btn-teal" style="width:100%;justify-content:center;padding:11px;">
+                <span class="material-symbols-rounded">save</span> Simpan ke Master Uraian
+              </button>
+            </form>
           </div>
-          <div class="chart-container">
-            <canvas id="chartTren12"></canvas>
-          </div>
-        </div>
-      </div>
 
-      <!-- BOTTOM ROW: JATUH TEMPO & PENGELUARAN TERBESAR -->
-      <div class="bot-grid">
-        <div class="panel">
-          <div class="panel-head">
-            <div class="panel-title">
-              <span class="material-symbols-rounded" style="color:var(--amber-val);">assignment_late</span>
-              Jatuh Tempo & Belum Dibayar
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <span class="material-symbols-rounded" style="color:var(--amber-val);">format_list_bulleted</span>
+                Daftar Master Uraian Pengeluaran
+              </div>
+              <span class="panel-badge" id="jmlUraianBadge">0 item</span>
             </div>
-            <span class="panel-badge" style="color:var(--teal-main);cursor:pointer;" onclick="bukaModal()">Lihat semua</span>
+            <div class="item-list" id="wadahMasterUraian"></div>
           </div>
-          <div class="item-list" id="wadahJatuhTempo"></div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           5. VIEW: MASTER DATA -> SUMBER PEMASUKAN
+           ==================================================================== -->
+      <section id="view-sumber" class="page-view">
+        <div class="greeting-row">
+          <div class="greeting-text">
+            <h1>Sumber Pemasukan</h1>
+            <p>Kelola daftar sumber pemasukan tetap maupun sampingan untuk pencatatan 1-klik</p>
+          </div>
         </div>
 
-        <div class="panel">
-          <div class="panel-head">
-            <div class="panel-title">
-              <span class="material-symbols-rounded" style="color:var(--red-val);">local_fire_department</span>
-              Pengeluaran Terbesar Bulan Ini
+        <div class="master-grid">
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <span class="material-symbols-rounded" style="color:var(--green-val);">add_card</span>
+                Tambah Sumber Pemasukan
+              </div>
+            </div>
+            <form onsubmit="tambahSumberMaster(event)">
+              <div class="form-group">
+                <label>Nama Sumber Pemasukan</label>
+                <input type="text" id="s_nama" class="input-ctrl" placeholder="Contoh: Gaji Bulanan, Bonus, Proyek" required>
+              </div>
+              <div class="form-group">
+                <label>Nominal Default (Rp)</label>
+                <input type="number" id="s_nominal" class="input-ctrl" placeholder="Contoh: 8500000" required>
+              </div>
+              <button type="submit" class="btn-teal" style="width:100%;justify-content:center;padding:11px;">
+                <span class="material-symbols-rounded">save</span> Simpan Sumber Pemasukan
+              </button>
+            </form>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <span class="material-symbols-rounded" style="color:var(--green-val);">savings</span>
+                Daftar Sumber Pemasukan Aktif
+              </div>
+            </div>
+            <div class="item-list" id="wadahMasterSumber"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           6. VIEW: MASTER DATA -> KATEGORI
+           ==================================================================== -->
+      <section id="view-kategori" class="page-view">
+        <div class="greeting-row">
+          <div class="greeting-text">
+            <h1>Master Kategori</h1>
+            <p>Atur kategori pengeluaran & pemasukan beserta ikon dan warna indikatornya</p>
+          </div>
+        </div>
+
+        <div class="master-grid">
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <span class="material-symbols-rounded" style="color:var(--teal-main);">new_label</span>
+                Tambah Kategori Baru
+              </div>
+            </div>
+            <form onsubmit="tambahKategoriMaster(event)">
+              <div class="form-group">
+                <label>Nama Kategori</label>
+                <input type="text" id="kat_nama" class="input-ctrl" placeholder="Contoh: Pendidikan, Kesehatan" required>
+              </div>
+              <div class="form-group">
+                <label>Ikon Kategori</label>
+                <select id="kat_icon" class="input-ctrl">
+                  <option value="shopping_basket">🛒 Keranjang Dapur (shopping_basket)</option>
+                  <option value="home">🏠 Rumah & Utilitas (home)</option>
+                  <option value="wifi">🌐 Internet & Tagihan (wifi)</option>
+                  <option value="directions_car">🚗 Transportasi (directions_car)</option>
+                  <option value="restaurant">🍽️ Makan & Kuliner (restaurant)</option>
+                  <option value="medical_services">💊 Kesehatan (medical_services)</option>
+                  <option value="school">🎓 Pendidikan (school)</option>
+                  <option value="Attractions">🎮 Hiburan & Keluarga (attractions)</option>
+                  <option value="payments">💰 Gaji & Pemasukan (payments)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Warna Indikator</label>
+                <select id="kat_warna" class="input-ctrl">
+                  <option value="#22c55e">Hijau (#22c55e)</option>
+                  <option value="#f97316">Oranye (#f97316)</option>
+                  <option value="#a855f7">Ungu (#a855f7)</option>
+                  <option value="#38bdf8">Biru Langit (#38bdf8)</option>
+                  <option value="#f43f5e">Merah Rose (#f43f5e)</option>
+                  <option value="#eab308">Kuning Amber (#eab308)</option>
+                  <option value="#2dd4bf">Teal Toska (#2dd4bf)</option>
+                </select>
+              </div>
+              <button type="submit" class="btn-teal" style="width:100%;justify-content:center;padding:11px;">
+                <span class="material-symbols-rounded">add</span> Tambah Kategori
+              </button>
+            </form>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <span class="material-symbols-rounded" style="color:var(--teal-main);">category</span>
+                Daftar Kategori Tersedia
+              </div>
+            </div>
+            <div class="item-list" id="wadahMasterKategori"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           7. VIEW: ALAT -> IMPOR DARI NOTE (SMART PARSER CATATAN)
+           ==================================================================== -->
+      <section id="view-impor" class="page-view">
+        <div class="greeting-row">
+          <div class="greeting-text">
+            <h1>Impor Cepat dari Note / WhatsApp</h1>
+            <p>Tempelkan catatan pengeluaran harian Anda (satu baris per transaksi) untuk dideteksi otomatis</p>
+          </div>
+          <div class="action-btns">
+            <button class="btn-dark" onclick="isiContohNote()">
+              <span class="material-symbols-rounded">auto_fix_high</span>
+              Isi Contoh Catatan
+            </button>
+          </div>
+        </div>
+
+        <div class="mid-grid">
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <span class="material-symbols-rounded" style="color:var(--teal-main);">edit_note</span>
+                Ketik atau Tempel Catatan
+              </div>
+            </div>
+            <textarea id="inputNoteMentah" class="input-ctrl" rows="9" placeholder="Contoh format bebas (satu baris satu item):&#10;Belanja pasar 125rb&#10;Beras 5kg 75000&#10;Listrik 450k belum&#10;Bensin motor 50rb&#10;+ Gaji bulanan 8.500.000" oninput="parseNoteOtomatis()"></textarea>
+            <div style="font-size:11.5px;color:var(--text-muted);margin-top:10px;line-height:1.5;">
+              💡 <strong>Tips Deteksi Otomatis:</strong> Gunakan akhiran <code>rb</code>, <code>k</code>, atau <code>jt</code> (misal <code>150rb</code>). Tambahkan kata <code>belum</code> jika masih berupa tagihan, atau awali dengan tanda <code>+</code> untuk Pemasukan.
             </div>
           </div>
-          <div class="item-list" id="wadahTerbesar"></div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <span class="material-symbols-rounded" style="color:var(--green-val);">fact_check</span>
+                Hasil Deteksi Transaksi
+              </div>
+              <span class="panel-badge" id="badgeJmlDeteksiNote">0 baris terdeteksi</span>
+            </div>
+            <div class="item-list" id="wadahPreviewNote" style="max-height:240px;overflow-y:auto;margin-bottom:14px;"></div>
+            <button class="btn-teal" id="btnSimpanImporNote" style="width:100%;justify-content:center;padding:12px;" onclick="simpanHasilImporNote()">
+              <span class="material-symbols-rounded">cloud_upload</span>
+              Simpan Semua ke Rekap Keuangan
+            </button>
+          </div>
         </div>
-      </div>
+      </section>
+
+      <!-- ====================================================================
+           8. VIEW: ALAT -> CADANGAN DATABASE (CSV, JSON BACKUP & RESTORE)
+           ==================================================================== -->
+      <section id="view-cadangan" class="page-view">
+        <div class="greeting-row">
+          <div class="greeting-text">
+            <h1>Cadangan Database & Sinkronisasi</h1>
+            <p>Unduh laporan Excel/CSV, cadangkan seluruh pengaturan, atau tarik ulang data dari Google Sheets</p>
+          </div>
+        </div>
+
+        <div class="mid-grid">
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <span class="material-symbols-rounded" style="color:var(--teal-main);">download_for_offline</span>
+                Ekspor & Unduh Data
+              </div>
+            </div>
+            <p style="font-size:13px;color:var(--text-gray);margin-bottom:16px;">
+              Pilih format cadangan sesuai kebutuhan pelaporan atau pencadangan sistem:
+            </p>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <button class="btn-teal" style="justify-content:center;padding:12px;" onclick="unduhCSV()">
+                <span class="material-symbols-rounded">table_view</span>
+                Unduh File Excel / CSV (Rekap Keuangan.csv)
+              </button>
+              <button class="btn-dark" style="justify-content:center;padding:12px;" onclick="unduhBackupJSON()">
+                <span class="material-symbols-rounded">data_object</span>
+                Unduh Full Backup Database (Rekap Keuangan.json)
+              </button>
+              <button class="btn-dark" style="justify-content:center;padding:12px;" onclick="muatDataDariServer(true)">
+                <span class="material-symbols-rounded">sync</span>
+                Sinkronisasi Ulang dari Google Sheets Sekarang
+              </button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <span class="material-symbols-rounded" style="color:var(--amber-val);">restore_page</span>
+                Pulihkan dari File Cadangan (.json)
+              </div>
+            </div>
+            <p style="font-size:13px;color:var(--text-gray);margin-bottom:16px;">
+              Pilih file cadangan <code>Rekap Keuangan.json</code> untuk memulihkan daftar transaksi lokal, kategori, dan template rutin:
+            </p>
+            <input type="file" id="fileRestoreJSON" accept=".json" class="input-ctrl" style="margin-bottom:14px;">
+            <button class="btn-dark" style="width:100%;justify-content:center;padding:12px;" onclick="pulihkanDariJSON()">
+              <span class="material-symbols-rounded">upload_file</span>
+              Pulihkan Data Cadangan
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           9. VIEW: SISTEM -> PENGATURAN
+           ==================================================================== -->
+      <section id="view-pengaturan" class="page-view">
+        <div class="greeting-row">
+          <div class="greeting-text">
+            <h1>Pengaturan Sistem</h1>
+            <p>Sesuaikan profil pengguna, koneksi Google Apps Script, serta target anggaran bulanan</p>
+          </div>
+        </div>
+
+        <div class="master-grid">
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <span class="material-symbols-rounded" style="color:var(--teal-main);">person</span>
+                Profil & Preferensi
+              </div>
+            </div>
+            <form onsubmit="simpanPengaturan(event)">
+              <div class="form-group">
+                <label>Nama Panggilan (Tampil di Sapaan Dasbor)</label>
+                <input type="text" id="set_nama" class="input-ctrl" required>
+              </div>
+              <div class="form-group">
+                <label>Alamat Email</label>
+                <input type="email" id="set_email" class="input-ctrl" required>
+              </div>
+              <div class="form-group">
+                <label>Inisial Avatar (2 Huruf)</label>
+                <input type="text" id="set_avatar" class="input-ctrl" maxlength="2" required>
+              </div>
+              <div class="form-group">
+                <label>URL Google Apps Script Web App (/exec)</label>
+                <input type="url" id="set_script_url" class="input-ctrl" required>
+              </div>
+              <button type="submit" class="btn-teal" style="width:100%;justify-content:center;padding:12px;">
+                <span class="material-symbols-rounded">save</span>
+                Simpan Pengaturan
+              </button>
+            </form>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <span class="material-symbols-rounded" style="color:var(--red-val);">restart_alt</span>
+                Pemeliharaan Data Lokal
+              </div>
+            </div>
+            <p style="font-size:13px;color:var(--text-gray);margin-bottom:16px;line-height:1.5;">
+              Aplikasi ini menyinkronkan transaksi ke Google Sheets Anda sekaligus menyimpan master kategori & template rutin di memori perangkat. Jika ingin mengembalikan daftar kategori & template rutin ke setelan awal:
+            </p>
+            <button class="btn-danger" onclick="resetMasterKeDefault()">
+              <span class="material-symbols-rounded">delete_sweep</span>
+              Kembalikan Master Data ke Setelan Awal
+            </button>
+          </div>
+        </div>
+      </section>
+
     </div>
   </div>
 
-  <!-- FLOATING BUTTON -->
-  <button class="fab" onclick="bukaModal()">
+  <!-- TOMBOL MELAYANG (+ CATAT) -->
+  <button class="fab" onclick="bukaModalTransaksi()" title="Catat Transaksi Baru">
     <span class="material-symbols-rounded" style="font-size:28px;">add</span>
   </button>
 
-  <!-- MODAL CATAT TRANSAKSI -->
+  <!-- MODAL CATAT / EDIT TRANSAKSI -->
   <div class="modal-backdrop" id="modalTransaksi">
     <div class="modal-box">
       <div class="modal-head">
-        <h3 style="font-size:16px;font-weight:700;">Catat Transaksi Rekap Keuangan</h3>
-        <span class="material-symbols-rounded" style="cursor:pointer;color:var(--text-gray);" onclick="tutupModal()">close</span>
+        <h3 style="font-size:16px;font-weight:700;" id="judulModalTransaksi">Catat Transaksi Rekap Keuangan</h3>
+        <span class="material-symbols-rounded" style="cursor:pointer;color:var(--text-gray);" onclick="tutupModalTransaksi()">close</span>
       </div>
-      <form id="formTransaksi" onsubmit="kirimData(event)">
+      <form id="formTransaksi" onsubmit="kirimDataTransaksi(event)">
+        <input type="hidden" id="editIndexTransaksi" value="-1">
         <div class="form-group">
           <label>Tanggal</label>
-          <input type="date" id="tanggal" required>
+          <input type="date" id="tanggal" class="input-ctrl" required>
         </div>
         <div class="form-group">
           <label>Jenis Transaksi</label>
-          <select id="jenis" required>
+          <select id="jenis" class="input-ctrl" required>
             <option value="Pengeluaran">Pengeluaran</option>
             <option value="Pemasukan">Pemasukan</option>
           </select>
         </div>
         <div class="form-group">
           <label>Kategori</label>
-          <select id="kategori" required>
-            <option value="Kebutuhan Dapur">Kebutuhan Dapur</option>
-            <option value="Rumah & Utilitas">Rumah & Utilitas</option>
-            <option value="Tagihan & Langganan">Tagihan & Langganan</option>
-            <option value="Transportasi">Transportasi</option>
-            <option value="Gaji & Pemasukan">Gaji & Pemasukan</option>
-          </select>
+          <select id="kategori" class="input-ctrl" required></select>
         </div>
         <div class="form-group">
           <label>Uraian / Nama Item</label>
-          <input type="text" id="keterangan" placeholder="Contoh: Listrik, Belanja Pasar, Beras" required>
+          <input type="text" id="keterangan" class="input-ctrl" placeholder="Contoh: Listrik, Belanja Pasar, Beras" required>
         </div>
         <div class="form-group">
           <label>Status Pembayaran</label>
-          <select id="statusBayar">
-            <option value="LUNAS">Sudah Dibayar / Diterima</option>
+          <select id="statusBayar" class="input-ctrl">
+            <option value="LUNAS">Sudah Dibayar / Diterima (Lunas)</option>
             <option value="BELUM">Belum Dibayar (Jatuh Tempo)</option>
           </select>
         </div>
         <div class="form-group">
           <label>Nominal (Rp)</label>
-          <input type="number" id="nominal" placeholder="Contoh: 150000" required>
+          <input type="number" id="nominal" class="input-ctrl" placeholder="Contoh: 150000" required>
         </div>
         <button type="submit" id="btnSimpan" class="btn-teal" style="width:100%;justify-content:center;padding:12px;margin-top:8px;">
           Simpan Transaksi
@@ -1157,17 +1799,52 @@
     </div>
   </div>
 
+  <!-- MODAL PILIH CEPAT TEMPLATE RUTIN -->
+  <div class="modal-backdrop" id="modalTemplateRutin">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 style="font-size:16px;font-weight:700;">Template Pengeluaran Rutin</h3>
+        <span class="material-symbols-rounded" style="cursor:pointer;color:var(--text-gray);" onclick="tutupModalTemplateRutin()">close</span>
+      </div>
+      <p style="font-size:12px;color:var(--text-gray);margin-bottom:14px;">
+        Klik tombol <strong>Pilih</strong> untuk mencatat item rutin, atau klik <strong>Kelola Template</strong> untuk mengatur nominal default:
+      </p>
+      <div class="item-list" id="wadahModalTemplateList" style="max-height:300px;overflow-y:auto;margin-bottom:14px;"></div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn-dark" style="flex:1;justify-content:center;" onclick="tutupModalTemplateRutin();navigasiKe('uraian');">
+          Kelola Template
+        </button>
+        <button class="btn-teal" style="flex:1;justify-content:center;" onclick="terapkanSemuaTemplateRutin();tutupModalTemplateRutin();">
+          Terapkan Semua
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast-box" id="toastBox">
+    <span class="material-symbols-rounded" style="color:var(--teal-main);">check_circle</span>
+    <span id="toastMsg">Berhasil disimpan</span>
+  </div>
+
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzd4Tex0Qxfa4EElY1qVMqusBynPG2-1vN10jBMmEkTCJKdDrfPXjrbaiFXe7MPQ4Pn/exec';
+    // =========================================================================
+    // 1. KONFIGURASI DEFAULT & STATE APLIKASI
+    // =========================================================================
+    const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzd4Tex0Qxfa4EElY1qVMqusBynPG2-1vN10jBMmEkTCJKdDrfPXjrbaiFXe7MPQ4Pn/exec';
 
     const NAMA_BULAN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
     const BULAN_SINGKAT = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
 
-    let bulanAktif = new Date(2026, 10, 1);
-    let semuaData = [];
-    let chartInstance = null;
+    const DEFAULT_KATEGORI = [
+      { nama: 'Kebutuhan Dapur', icon: 'shopping_basket', warna: '#22c55e' },
+      { nama: 'Rumah & Utilitas', icon: 'home', warna: '#f97316' },
+      { nama: 'Tagihan & Langganan', icon: 'wifi', warna: '#a855f7' },
+      { nama: 'Transportasi', icon: 'directions_car', warna: '#38bdf8' },
+      { nama: 'Gaji & Pemasukan', icon: 'payments', warna: '#2dd4bf' }
+    ];
 
-    const ITEM_DEFAULT = [
+    const DEFAULT_URAIAN = [
       { uraian: 'Belanja Pasar & Dapur', kategori: 'Kebutuhan Dapur', tempo: '', nominal: 0, status: 'Belum' },
       { uraian: 'Beras', kategori: 'Kebutuhan Dapur', tempo: '', nominal: 0, status: 'Belum' },
       { uraian: 'Air Galon & Gas', kategori: 'Rumah & Utilitas', tempo: '', nominal: 0, status: 'Belum' },
@@ -1177,22 +1854,123 @@
       { uraian: 'Bensin & Transportasi', kategori: 'Transportasi', tempo: '', nominal: 0, status: 'Belum' }
     ];
 
-    const KATEGORI_MASTER = [
-      { nama: 'Kebutuhan Dapur', icon: 'shopping_basket', warna: '#22c55e', bg: 'rgba(34,197,94,0.15)' },
-      { nama: 'Rumah & Utilitas', icon: 'home', warna: '#f97316', bg: 'rgba(249,115,22,0.15)' },
-      { nama: 'Tagihan & Langganan', icon: 'wifi', warna: '#a855f7', bg: 'rgba(168,85,247,0.15)' },
-      { nama: 'Transportasi', icon: 'directions_car', warna: '#38bdf8', bg: 'rgba(56,189,248,0.15)' }
+    const DEFAULT_SUMBER = [
+      { nama: 'Gaji Bulanan Utama', nominal: 8500000 },
+      { nama: 'Bonus / Insentif Proyek', nominal: 1500000 },
+      { nama: 'Usaha Sampingan', nominal: 1000000 }
     ];
 
-    document.getElementById('tanggal').valueAsDate = new Date();
+    const DEFAULT_PROFIL = {
+      nama: 'Huda',
+      email: 'miiftahuls@gmail.com',
+      avatar: 'HU',
+      scriptUrl: DEFAULT_SCRIPT_URL
+    };
 
-    function toggleSidebar() {
-      const sb = document.getElementById('sidebarMenu');
-      const ov = document.getElementById('sidebarOverlay');
-      sb.classList.toggle('open');
-      ov.classList.toggle('open');
+    let bulanAktif = new Date(2026, 10, 1); // Default: November 2026
+    let semuaData = [];
+    let kategoriList = [];
+    let uraianMaster = [];
+    let sumberMaster = [];
+    let profilUser = {};
+    let tampilSemuaPeriodeTransaksi = false;
+    let hasilParseNote = [];
+
+    let chartTrenInstance = null;
+    let chartDonutLaporanInstance = null;
+
+    // =========================================================================
+    // 2. INISIALISASI STORAGE & UTILITAS DASAR
+    // =========================================================================
+    function muatStorageLokal() {
+      try {
+        kategoriList = JSON.parse(localStorage.getItem('rk_kategori')) || DEFAULT_KATEGORI.slice();
+        uraianMaster = JSON.parse(localStorage.getItem('rk_uraian')) || DEFAULT_URAIAN.slice();
+        sumberMaster = JSON.parse(localStorage.getItem('rk_sumber')) || DEFAULT_SUMBER.slice();
+        profilUser = JSON.parse(localStorage.getItem('rk_profil')) || Object.assign({}, DEFAULT_PROFIL);
+        const cacheTransaksi = JSON.parse(localStorage.getItem('rk_transaksi_cache'));
+        if (Array.isArray(cacheTransaksi) && cacheTransaksi.length > 0) {
+          semuaData = cacheTransaksi;
+        }
+      } catch (e) {
+        kategoriList = DEFAULT_KATEGORI.slice();
+        uraianMaster = DEFAULT_URAIAN.slice();
+        sumberMaster = DEFAULT_SUMBER.slice();
+        profilUser = Object.assign({}, DEFAULT_PROFIL);
+      }
     }
 
+    function simpanStorageLokal() {
+      localStorage.setItem('rk_kategori', JSON.stringify(kategoriList));
+      localStorage.setItem('rk_uraian', JSON.stringify(uraianMaster));
+      localStorage.setItem('rk_sumber', JSON.stringify(sumberMaster));
+      localStorage.setItem('rk_profil', JSON.stringify(profilUser));
+      localStorage.setItem('rk_transaksi_cache', JSON.stringify(semuaData));
+    }
+
+    function hexToRgba(hex, alpha) {
+      let c = (hex || '#2dd4bf').replace('#', '');
+      if (c.length === 3) c = c.split('').map(x => x + x).join('');
+      const num = parseInt(c, 16);
+      return `rgba(${(num >> 16) & 255}, ${(num >> 8) & 255}, ${num & 255}, ${alpha})`;
+    }
+
+    function formatRp(n) {
+      return 'Rp ' + Math.round(Number(n || 0)).toLocaleString('id-ID');
+    }
+
+    function tampilToast(pesan) {
+      const box = document.getElementById('toastBox');
+      document.getElementById('toastMsg').innerText = pesan;
+      box.classList.add('show');
+      setTimeout(() => box.classList.remove('show'), 2800);
+    }
+
+    function toggleSidebar(forceState) {
+      const sb = document.getElementById('sidebarMenu');
+      const ov = document.getElementById('sidebarOverlay');
+      if (typeof forceState === 'boolean') {
+        sb.classList.toggle('open', forceState);
+        ov.classList.toggle('open', forceState);
+      } else {
+        sb.classList.toggle('open');
+        ov.classList.toggle('open');
+      }
+    }
+
+    // =========================================================================
+    // 3. NAVIGASI SPA 9 MENU SIDEBAR
+    // =========================================================================
+    const JUDUL_HALAMAN = {
+      dasbor: 'Dasbor',
+      transaksi: 'Transaksi',
+      laporan: 'Laporan Keuangan',
+      uraian: 'Master Data • Uraian Pengeluaran',
+      sumber: 'Master Data • Sumber Pemasukan',
+      kategori: 'Master Data • Kategori',
+      impor: 'Alat • Impor dari Note',
+      cadangan: 'Alat • Cadangan Database',
+      pengaturan: 'Sistem • Pengaturan'
+    };
+
+    function navigasiKe(namaView, elKlik) {
+      document.querySelectorAll('.page-view').forEach(sec => sec.classList.remove('active'));
+      const target = document.getElementById('view-' + namaView);
+      if (target) target.classList.add('active');
+
+      document.querySelectorAll('.sidebar .nav-item').forEach(item => {
+        item.classList.toggle('active', item.getAttribute('data-view') === namaView);
+      });
+      if (elKlik) elKlik.classList.add('active');
+
+      document.getElementById('topbarTitle').innerText = JUDUL_HALAMAN[namaView] || 'Dasbor';
+      toggleSidebar(false);
+      renderSemuaTampilan();
+    }
+
+    // =========================================================================
+    // 4. KONTROL BULAN & DROPDOWN DINAMIS
+    // =========================================================================
     function bangunDropdownBulan() {
       const sel = document.getElementById('pilihBulanAtas');
       sel.innerHTML = '';
@@ -1209,49 +1987,84 @@
     function pilihBulanLangsung(val) {
       const [th, bl] = val.split('-').map(Number);
       bulanAktif = new Date(th, bl, 1);
-      renderDasbor();
-    }
-
-    function formatRp(n) {
-      return 'Rp ' + Number(n || 0).toLocaleString('id-ID');
-    }
-
-    function bukaModal(jenisDefault) {
-      if (jenisDefault) document.getElementById('jenis').value = jenisDefault;
-      document.getElementById('modalTransaksi').classList.add('show');
-    }
-
-    function tutupModal() {
-      document.getElementById('modalTransaksi').classList.remove('show');
+      renderSemuaTampilan();
     }
 
     function geserBulan(arah) {
       bulanAktif.setMonth(bulanAktif.getMonth() + arah);
-      renderDasbor();
+      renderSemuaTampilan();
     }
 
-    function isiTemplateRutin() {
-      bukaModal('Pengeluaran');
-      document.getElementById('keterangan').value = 'Listrik Bulan Ini';
-      document.getElementById('kategori').value = 'Rumah & Utilitas';
+    function perbaruiDropdownKategori() {
+      const ids = ['kategori', 'u_kategori', 'filterKatTransaksi'];
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const valLama = el.value;
+        el.innerHTML = id === 'filterKatTransaksi' ? '<option value="ALL">Semua Kategori</option>' : '';
+        kategoriList.forEach(k => {
+          const opt = document.createElement('option');
+          opt.value = k.nama;
+          opt.innerText = k.nama;
+          el.appendChild(opt);
+        });
+        if (valLama && Array.from(el.options).some(o => o.value === valLama)) {
+          el.value = valLama;
+        }
+      });
     }
 
-    function renderDasbor() {
+    function ambilPrefixBulanAktif() {
+      const thn = bulanAktif.getFullYear();
+      const bln = bulanAktif.getMonth();
+      return thn + '-' + String(bln + 1).padStart(2, '0');
+    }
+
+    function ambilDataBulanAktif() {
+      const prefix = ambilPrefixBulanAktif();
+      return semuaData.filter(d => d.tanggal && d.tanggal.startsWith(prefix));
+    }
+
+    // =========================================================================
+    // 5. RENDER UTAMA SELURUH HALAMAN
+    // =========================================================================
+    function renderSemuaTampilan() {
       const thn = bulanAktif.getFullYear();
       const bln = bulanAktif.getMonth();
       const teksBulan = NAMA_BULAN[bln] + ' ' + thn;
-      const prefixBulan = thn + '-' + String(bln + 1).padStart(2, '0');
 
       const selBulan = document.getElementById('pilihBulanAtas');
       if (selBulan.options.length === 0) bangunDropdownBulan();
       selBulan.value = `${thn}-${bln}`;
 
-      document.getElementById('labelBulanSub').innerText = teksBulan;
+      // Update profil di UI
+      document.getElementById('greetUserName').innerText = profilUser.nama || 'Huda';
+      document.getElementById('sidebarUserName').innerText = profilUser.nama || 'Huda';
+      document.getElementById('sidebarUserEmail').innerText = profilUser.email || 'miiftahuls@gmail.com';
+      document.getElementById('sidebarAvatar').innerText = (profilUser.avatar || 'HU').toUpperCase();
 
-      const dataBulan = semuaData.filter(d => d.tanggal && d.tanggal.startsWith(prefixBulan));
+      document.getElementById('labelBulanSub').innerText = teksBulan;
+      document.getElementById('labelBulanTransaksi').innerText = tampilSemuaPeriodeTransaksi ? 'Semua Periode' : teksBulan;
+      document.getElementById('labelBulanLaporan').innerText = teksBulan;
+
+      perbaruiDropdownKategori();
+
+      renderHalamanDasbor();
+      renderHalamanTransaksi();
+      renderHalamanLaporan();
+      renderHalamanMasterData();
+      isiFormPengaturan();
+    }
+
+    // =========================================================================
+    // 6. RENDER VIEW 1: DASBOR
+    // =========================================================================
+    function renderHalamanDasbor() {
+      const dataBulan = ambilDataBulanAktif();
       const dataAktif = dataBulan.length > 0 ? dataBulan : semuaData;
 
-      let pemasukan = 0, pengeluaran = 0, sudahDibayar = 0, belumDibayar = 0, jmlBelum = 0;
+      let pemasukan = 0, pengeluaran = 0, sudahDibayar = 0, belumDibayar = 0;
+      let jmlMasuk = 0, jmlLunas = 0, jmlBelum = 0;
 
       dataAktif.forEach(item => {
         const nom = Number(item.nominal) || 0;
@@ -1260,6 +2073,7 @@
 
         if (item.jenis === 'Pemasukan') {
           pemasukan += nom;
+          jmlMasuk++;
         } else if (item.jenis === 'Pengeluaran') {
           pengeluaran += nom;
           if (isBelum) {
@@ -1267,6 +2081,7 @@
             jmlBelum++;
           } else {
             sudahDibayar += nom;
+            jmlLunas++;
           }
         }
       });
@@ -1280,36 +2095,39 @@
       document.getElementById('txtPengeluaran').innerText = formatRp(pengeluaran);
       document.getElementById('barAnggaran').style.width = persen + '%';
       document.getElementById('txtPersenPakai').innerText = persen + '% anggaran terpakai';
+      document.getElementById('txtStatusLunas').innerText = jmlBelum > 0
+        ? `${jmlBelum} tagihan belum dibayar`
+        : 'Semua transaksi lunas ✓';
 
       document.getElementById('txtDiterima').innerText = formatRp(pemasukan);
+      document.getElementById('subDiterima').innerText = jmlMasuk > 0 ? `${jmlMasuk} transaksi masuk` : '-';
       document.getElementById('txtSudahBayar').innerText = formatRp(sudahDibayar);
+      document.getElementById('subSudahBayar').innerText = jmlLunas > 0 ? `${jmlLunas} item lunas` : '-';
       document.getElementById('txtBelumBayar').innerText = formatRp(belumDibayar);
-      document.getElementById('subBelumBayar').innerText = (jmlBelum || 7) + ' item belum dibayar';
+      document.getElementById('subBelumBayar').innerText = (jmlBelum || uraianMaster.length) + ' item belum dibayar';
       document.getElementById('txtSaldoRiil').innerText = formatRp(saldoRiil);
 
-      renderKategori(dataAktif, pengeluaran);
-      renderListBawah(dataAktif);
-      renderGrafik12Bulan();
-    }
+      // Render Kategori
+      const wadahKat = document.getElementById('wadahKategori');
+      wadahKat.innerHTML = '';
+      const katPengeluaran = kategoriList.filter(k => k.nama !== 'Gaji & Pemasukan');
+      document.getElementById('jmlKategoriLabel').innerText = katPengeluaran.length + ' kategori';
 
-    function renderKategori(dataAktif, totalKeluar) {
-      const wadah = document.getElementById('wadahKategori');
-      wadah.innerHTML = '';
-
-      KATEGORI_MASTER.forEach(kat => {
+      katPengeluaran.forEach(kat => {
         let subTotal = 0;
         dataAktif.forEach(d => {
           if (d.jenis === 'Pengeluaran' && d.kategori === kat.nama) {
             subTotal += Number(d.nominal) || 0;
           }
         });
-        const pct = totalKeluar > 0 ? Math.round((subTotal / totalKeluar) * 100) : 0;
+        const pct = pengeluaran > 0 ? Math.round((subTotal / pengeluaran) * 100) : 0;
+        const bgWarna = hexToRgba(kat.warna, 0.15);
 
         const row = document.createElement('div');
         row.className = 'cat-row';
         row.innerHTML = `
           <div class="cat-left">
-            <div class="cat-ic" style="background:${kat.bg};color:${kat.warna};">
+            <div class="cat-ic" style="background:${bgWarna};color:${kat.warna};">
               <span class="material-symbols-rounded">${kat.icon}</span>
             </div>
             <div class="cat-name">${kat.nama}</div>
@@ -1319,34 +2137,45 @@
             <div class="cat-pct">${pct}%</div>
           </div>
         `;
-        wadah.appendChild(row);
+        wadahKat.appendChild(row);
       });
-    }
 
-    function renderListBawah(dataAktif) {
+      // Render Jatuh Tempo & Pengeluaran Terbesar
       const wadahTempo = document.getElementById('wadahJatuhTempo');
       const wadahBesar = document.getElementById('wadahTerbesar');
       wadahTempo.innerHTML = '';
       wadahBesar.innerHTML = '';
 
       const pengeluaranData = dataAktif
-        .filter(d => d.jenis === 'Pengeluaran')
-        .map(d => ({
-          uraian: (d.keterangan || d.kategori).replace('[BELUM] ', ''),
+        .map((d, indexAsli) => ({
+          indexAsli,
+          jenis: d.jenis,
+          uraian: (d.keterangan || d.kategori || '').replace('[BELUM] ', ''),
           kategori: d.kategori || 'Lainnya',
-          tempo: '',
+          tempo: d.tanggal || '',
           nominal: Number(d.nominal) || 0,
           status: (d.keterangan || '').startsWith('[BELUM]') ? 'Belum' : 'Lunas'
-        }));
+        }))
+        .filter(d => d.jenis === 'Pengeluaran');
 
-      const sumberList = pengeluaranData.length > 0 ? pengeluaranData : ITEM_DEFAULT;
+      const sumberList = pengeluaranData.length > 0 ? pengeluaranData : uraianMaster.map((u, i) => ({
+        indexAsli: -1,
+        uraian: u.uraian,
+        kategori: u.kategori,
+        tempo: u.tempo,
+        nominal: Number(u.nominal) || 0,
+        status: 'Belum'
+      }));
 
-      sumberList.slice(0, 6).forEach(item => {
+      const daftarBelum = sumberList.filter(i => i.status === 'Belum');
+      const tampilTempo = daftarBelum.length > 0 ? daftarBelum : sumberList;
+
+      tampilTempo.slice(0, 6).forEach(item => {
         const div = document.createElement('div');
         div.className = 'list-row';
         div.innerHTML = `
           <div class="list-left">
-            <button class="check-btn" onclick="bukaModal('Pengeluaran')">
+            <button class="check-btn" title="Tandai Sudah Dibayar / Catat" onclick="aksiCeklisItemDasbor(${item.indexAsli}, '${item.uraian.replace(/'/g, "\\'")}', '${item.kategori}', ${item.nominal})">
               <span class="material-symbols-rounded" style="font-size:16px;">check</span>
             </button>
             <div style="min-width:0;">
@@ -1372,16 +2201,37 @@
               <div class="item-sub">${item.kategori}</div>
             </div>
           </div>
-          <div style="display:flex;align-items:center;flex-shrink:0;">
-            <span class="${badgeCls}">${item.status}</span>
+          <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+            <span class="${badgeCls}" onclick="aksiCeklisItemDasbor(${item.indexAsli}, '${item.uraian.replace(/'/g, "\\'")}', '${item.kategori}', ${item.nominal})">${item.status}</span>
             <strong style="font-size:13px;white-space:nowrap;">${formatRp(item.nominal)}</strong>
           </div>
         `;
         wadahBesar.appendChild(div);
       });
+
+      renderGrafik12Bulan();
+    }
+
+    function aksiCeklisItemDasbor(indexData, uraian, kategori, nominal) {
+      if (indexData >= 0 && semuaData[indexData]) {
+        const ketLama = semuaData[indexData].keterangan || '';
+        if (ketLama.startsWith('[BELUM]')) {
+          semuaData[indexData].keterangan = ketLama.replace('[BELUM] ', '');
+          tampilToast(`"${uraian}" ditandai Sudah Dibayar ✓`);
+        } else {
+          semuaData[indexData].keterangan = '[BELUM] ' + ketLama;
+          tampilToast(`Status "${uraian}" diubah menjadi Belum Dibayar`);
+        }
+        simpanStorageLokal();
+        renderSemuaTampilan();
+      } else {
+        bukaModalTransaksi('Pengeluaran', kategori, uraian, nominal, 'LUNAS');
+      }
     }
 
     function renderGrafik12Bulan() {
+      const canvas = document.getElementById('chartTren12');
+      if (!canvas) return;
       const labels = [];
       const dataMasuk = [];
       const dataKeluar = [];
@@ -1403,8 +2253,8 @@
         dataKeluar.push(k);
       }
 
-      if (chartInstance) chartInstance.destroy();
-      chartInstance = new Chart(document.getElementById('chartTren12'), {
+      if (chartTrenInstance) chartTrenInstance.destroy();
+      chartTrenInstance = new Chart(canvas, {
         type: 'bar',
         data: {
           labels: labels,
@@ -1427,72 +2277,743 @@
       });
     }
 
-    function muatData() {
-      fetch(SCRIPT_URL)
-        .then(res => res.json())
-        .then(data => {
-          semuaData = data.riwayat || [];
-          renderDasbor();
-        })
-        .catch(err => {
-          console.error('Gagal memuat data:', err);
-          renderDasbor();
-        });
+    // =========================================================================
+    // 7. RENDER VIEW 2: HALAMAN TRANSAKSI LENGKAP
+    // =========================================================================
+    function toggleSemuaPeriodeTransaksi() {
+      tampilSemuaPeriodeTransaksi = !tampilSemuaPeriodeTransaksi;
+      document.getElementById('txtTogglePeriode').innerText = tampilSemuaPeriodeTransaksi
+        ? 'Filter Bulan Aktif'
+        : 'Tampilkan Semua Bulan';
+      renderSemuaTampilan();
     }
 
-    function kirimData(e) {
-      e.preventDefault();
-      const btn = document.getElementById('btnSimpan');
-      btn.disabled = true;
-      btn.innerText = 'Menyimpan...';
+    function renderHalamanTransaksi() {
+      const tbody = document.getElementById('tbodyDaftarTransaksi');
+      if (!tbody) return;
+      tbody.innerHTML = '';
 
-      const status = document.getElementById('statusBayar').value;
-      const ketInput = document.getElementById('keterangan').value;
-      const ketFinal = status === 'BELUM' ? '[BELUM] ' + ketInput : ketInput;
+      const cari = (document.getElementById('filterCariTransaksi').value || '').toLowerCase();
+      const jns = document.getElementById('filterJenisTransaksi').value;
+      const sts = document.getElementById('filterStatusTransaksi').value;
+      const kat = document.getElementById('filterKatTransaksi').value;
+      const prefix = ambilPrefixBulanAktif();
 
-      const payload = {
-        tanggal: document.getElementById('tanggal').value,
-        jenis: document.getElementById('jenis').value,
-        kategori: document.getElementById('kategori').value,
-        nominal: document.getElementById('nominal').value,
-        keterangan: ketFinal
-      };
+      const daftar = semuaData
+        .map((item, idx) => ({ ...item, _idx: idx }))
+        .filter(item => {
+          if (!tampilSemuaPeriodeTransaksi && item.tanggal && !item.tanggal.startsWith(prefix)) return false;
+          const isBelum = (item.keterangan || '').startsWith('[BELUM]');
+          if (jns !== 'ALL' && item.jenis !== jns) return false;
+          if (kat !== 'ALL' && item.kategori !== kat) return false;
+          if (sts === 'BELUM' && !isBelum) return false;
+          if (sts === 'LUNAS' && isBelum) return false;
+          const teks = ((item.keterangan || '') + ' ' + (item.kategori || '')).toLowerCase();
+          return teks.includes(cari);
+        });
 
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify(payload)
-      })
-      .then(res => res.json())
-      .then(res => {
-        semuaData = res.riwayat || [];
-        renderDasbor();
-        document.getElementById('formTransaksi').reset();
-        document.getElementById('tanggal').valueAsDate = new Date();
-        tutupModal();
-        btn.disabled = false;
-        btn.innerText = 'Simpan Transaksi';
-      })
-      .catch(err => {
-        alert('Gagal menyimpan transaksi.');
-        btn.disabled = false;
-        btn.innerText = 'Simpan Transaksi';
+      if (daftar.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:28px;">Belum ada transaksi pada filter ini. Klik tombol <strong>+ Tambah Transaksi</strong> untuk mencatat.</td></tr>`;
+        return;
+      }
+
+      daftar.forEach(item => {
+        const isBelum = (item.keterangan || '').startsWith('[BELUM]');
+        const uraianBersih = (item.keterangan || item.kategori || '-').replace('[BELUM] ', '');
+        const warnaNominal = item.jenis === 'Pemasukan' ? 'var(--green-val)' : 'var(--text-white)';
+        const tanda = item.jenis === 'Pemasukan' ? '+ ' : '';
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="white-space:nowrap;">${item.tanggal || '-'}</td>
+          <td><strong>${uraianBersih}</strong></td>
+          <td>${item.kategori || '-'}</td>
+          <td><span class="${item.jenis === 'Pemasukan' ? 'badge-masuk' : 'badge-belum'}">${item.jenis}</span></td>
+          <td>
+            <span class="${isBelum ? 'badge-belum' : 'badge-lunas'}" onclick="toggleStatusTransaksi(${item._idx})" title="Klik untuk mengubah status Lunas / Belum">
+              ${isBelum ? 'Belum Dibayar' : 'Lunas ✓'}
+            </span>
+          </td>
+          <td style="text-align:right;font-weight:700;color:${warnaNominal};white-space:nowrap;">${tanda}${formatRp(item.nominal)}</td>
+          <td style="text-align:center;white-space:nowrap;">
+            <button class="icon-btn" title="Edit" onclick="editTransaksi(${item._idx})">
+              <span class="material-symbols-rounded" style="font-size:16px;">edit</span>
+            </button>
+            <button class="icon-btn del" title="Hapus" onclick="hapusTransaksi(${item._idx})">
+              <span class="material-symbols-rounded" style="font-size:16px;">delete</span>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
       });
     }
 
+    function toggleStatusTransaksi(idx) {
+      if (!semuaData[idx]) return;
+      const ket = semuaData[idx].keterangan || '';
+      if (ket.startsWith('[BELUM]')) {
+        semuaData[idx].keterangan = ket.replace('[BELUM] ', '');
+        tampilToast('Status diubah menjadi Lunas ✓');
+      } else {
+        semuaData[idx].keterangan = '[BELUM] ' + ket;
+        tampilToast('Status diubah menjadi Belum Dibayar');
+      }
+      simpanStorageLokal();
+      renderSemuaTampilan();
+    }
+
+    function editTransaksi(idx) {
+      const d = semuaData[idx];
+      if (!d) return;
+      const isBelum = (d.keterangan || '').startsWith('[BELUM]');
+      const uraian = (d.keterangan || '').replace('[BELUM] ', '');
+      document.getElementById('editIndexTransaksi').value = idx;
+      document.getElementById('judulModalTransaksi').innerText = 'Edit Transaksi';
+      document.getElementById('tanggal').value = d.tanggal || new Date().toISOString().slice(0, 10);
+      document.getElementById('jenis').value = d.jenis || 'Pengeluaran';
+      document.getElementById('kategori').value = d.kategori || kategoriList[0].nama;
+      document.getElementById('keterangan').value = uraian;
+      document.getElementById('statusBayar').value = isBelum ? 'BELUM' : 'LUNAS';
+      document.getElementById('nominal').value = d.nominal || 0;
+      document.getElementById('modalTransaksi').classList.add('show');
+    }
+
+    function hapusTransaksi(idx) {
+      if (!semuaData[idx]) return;
+      const nama = (semuaData[idx].keterangan || '').replace('[BELUM] ', '');
+      semuaData.splice(idx, 1);
+      simpanStorageLokal();
+      renderSemuaTampilan();
+      tampilToast(`Transaksi "${nama}" dihapus dari daftar`);
+    }
+
+    // =========================================================================
+    // 8. RENDER VIEW 3: LAPORAN KEUANGAN
+    // =========================================================================
+    function renderHalamanLaporan() {
+      const dataBulan = ambilDataBulanAktif();
+      const dataAktif = dataBulan.length > 0 ? dataBulan : semuaData;
+
+      let masuk = 0, keluar = 0, lunas = 0, belum = 0;
+      dataAktif.forEach(d => {
+        const nom = Number(d.nominal) || 0;
+        if (d.jenis === 'Pemasukan') masuk += nom;
+        if (d.jenis === 'Pengeluaran') {
+          keluar += nom;
+          if ((d.keterangan || '').startsWith('[BELUM]')) belum += nom;
+          else lunas += nom;
+        }
+      });
+
+      const sisa = masuk - keluar;
+      const rasioTabungan = masuk > 0 ? Math.max(0, Math.round((sisa / masuk) * 100)) : 0;
+
+      const wadahRingkasan = document.getElementById('wadahRingkasanLaporan');
+      if (wadahRingkasan) {
+        wadahRingkasan.innerHTML = `
+          <div class="list-row"><span>Total Pemasukan Periode Ini</span><strong style="color:var(--green-val);">${formatRp(masuk)}</strong></div>
+          <div class="list-row"><span>Pengeluaran Sudah Dibayar (Lunas)</span><strong style="color:var(--red-val);">${formatRp(lunas)}</strong></div>
+          <div class="list-row"><span>Tagihan Belum Dibayar</span><strong style="color:var(--amber-val);">${formatRp(belum)}</strong></div>
+          <div class="list-row"><span>Sisa Kas Bersih</span><strong style="color:var(--teal-main);">${formatRp(sisa)}</strong></div>
+          <div class="list-row"><span>Rasio Sisa Tabungan</span><strong>${rasioTabungan}% dari pemasukan</strong></div>
+        `;
+      }
+
+      // Doughnut Chart Laporan
+      const canvasDonut = document.getElementById('chartDonutLaporan');
+      if (canvasDonut) {
+        const katKeluar = kategoriList.filter(k => k.nama !== 'Gaji & Pemasukan');
+        const nilaiKat = katKeluar.map(k => {
+          let s = 0;
+          dataAktif.forEach(d => {
+            if (d.jenis === 'Pengeluaran' && d.kategori === k.nama) s += Number(d.nominal) || 0;
+          });
+          return s;
+        });
+        const adaNilai = nilaiKat.some(v => v > 0);
+
+        if (chartDonutLaporanInstance) chartDonutLaporanInstance.destroy();
+        chartDonutLaporanInstance = new Chart(canvasDonut, {
+          type: 'doughnut',
+          data: {
+            labels: adaNilai ? katKeluar.map(k => k.nama) : ['Belum Ada Pengeluaran'],
+            datasets: [{
+              data: adaNilai ? nilaiKat : [1],
+              backgroundColor: adaNilai ? katKeluar.map(k => k.warna) : ['#1e2d42'],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '64%',
+            plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', boxWidth: 12 } } }
+          }
+        });
+      }
+
+      // Tabel Rekap 12 Bulan
+      const tbodyBulanan = document.getElementById('tbodyLaporanBulanan');
+      if (tbodyBulanan) {
+        tbodyBulanan.innerHTML = '';
+        for (let i = 11; i >= 0; i--) {
+          const d = new Date(bulanAktif.getFullYear(), bulanAktif.getMonth() - i, 1);
+          const namaPeriode = NAMA_BULAN[d.getMonth()] + ' ' + d.getFullYear();
+          const prefix = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+
+          let m = 0, lns = 0, blm = 0;
+          semuaData.forEach(item => {
+            if (item.tanggal && item.tanggal.startsWith(prefix)) {
+              const nom = Number(item.nominal) || 0;
+              if (item.jenis === 'Pemasukan') m += nom;
+              if (item.jenis === 'Pengeluaran') {
+                if ((item.keterangan || '').startsWith('[BELUM]')) blm += nom;
+                else lns += nom;
+              }
+            }
+          });
+          const totKeluar = lns + blm;
+          const selisih = m - totKeluar;
+          const pct = m > 0 ? Math.round((totKeluar / m) * 100) : 0;
+
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><strong>${namaPeriode}</strong></td>
+            <td style="text-align:right;color:var(--green-val);font-weight:600;">${formatRp(m)}</td>
+            <td style="text-align:right;color:var(--red-val);">${formatRp(lns)}</td>
+            <td style="text-align:right;color:var(--amber-val);">${formatRp(blm)}</td>
+            <td style="text-align:right;font-weight:700;color:${selisih >= 0 ? 'var(--teal-main)' : 'var(--red-val)'};">${formatRp(selisih)}</td>
+            <td style="text-align:center;"><span class="${pct > 85 ? 'badge-belum' : 'badge-lunas'}">${pct}%</span></td>
+          `;
+          tbodyBulanan.appendChild(tr);
+        }
+      }
+    }
+
+    // =========================================================================
+    // 9. RENDER VIEW 4, 5, 6: MASTER DATA (URAIAN, SUMBER, KATEGORI)
+    // =========================================================================
+    function renderHalamanMasterData() {
+      // 1. Master Uraian Pengeluaran
+      const wadahUraian = document.getElementById('wadahMasterUraian');
+      if (wadahUraian) {
+        wadahUraian.innerHTML = '';
+        document.getElementById('jmlUraianBadge').innerText = uraianMaster.length + ' item';
+        uraianMaster.forEach((item, idx) => {
+          const div = document.createElement('div');
+          div.className = 'list-row';
+          div.innerHTML = `
+            <div class="list-left">
+              <div class="rank-badge">${idx + 1}</div>
+              <div>
+                <div class="item-title">${item.uraian}</div>
+                <div class="item-sub">${item.kategori} ${item.tempo ? '• ' + item.tempo : ''}</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <strong style="font-size:13px;margin-right:4px;">${formatRp(item.nominal)}</strong>
+              <button class="btn-dark" style="padding:5px 10px;font-size:11px;" onclick="bukaModalTransaksi('Pengeluaran','${item.kategori}','${item.uraian.replace(/'/g, "\\'")}',${item.nominal},'BELUM')">Catat</button>
+              <button class="icon-btn del" onclick="hapusUraianMaster(${idx})">
+                <span class="material-symbols-rounded" style="font-size:16px;">delete</span>
+              </button>
+            </div>
+          `;
+          wadahUraian.appendChild(div);
+        });
+      }
+
+      // 2. Master Sumber Pemasukan
+      const wadahSumber = document.getElementById('wadahMasterSumber');
+      if (wadahSumber) {
+        wadahSumber.innerHTML = '';
+        sumberMaster.forEach((s, idx) => {
+          const div = document.createElement('div');
+          div.className = 'list-row';
+          div.innerHTML = `
+            <div class="list-left">
+              <div class="stat-icon ic-green" style="width:32px;height:32px;">
+                <span class="material-symbols-rounded" style="font-size:18px;">savings</span>
+              </div>
+              <div>
+                <div class="item-title">${s.nama}</div>
+                <div class="item-sub">Nominal Default: ${formatRp(s.nominal)}</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <button class="btn-teal" style="padding:6px 12px;font-size:11.5px;" onclick="catatSumberPemasukanLangsung(${idx})">
+                + Catat ke Bulan Ini
+              </button>
+              <button class="icon-btn del" onclick="hapusSumberMaster(${idx})">
+                <span class="material-symbols-rounded" style="font-size:16px;">delete</span>
+              </button>
+            </div>
+          `;
+          wadahSumber.appendChild(div);
+        });
+      }
+
+      // 3. Master Kategori
+      const wadahKat = document.getElementById('wadahMasterKategori');
+      if (wadahKat) {
+        wadahKat.innerHTML = '';
+        kategoriList.forEach((k, idx) => {
+          const bg = hexToRgba(k.warna, 0.15);
+          const div = document.createElement('div');
+          div.className = 'list-row';
+          div.innerHTML = `
+            <div class="list-left">
+              <div class="cat-ic" style="background:${bg};color:${k.warna};">
+                <span class="material-symbols-rounded">${k.icon}</span>
+              </div>
+              <div>
+                <div class="item-title">${k.nama}</div>
+                <div class="item-sub">Warna: ${k.warna} • Ikon: ${k.icon}</div>
+              </div>
+            </div>
+            <button class="icon-btn del" onclick="hapusKategoriMaster(${idx})">
+              <span class="material-symbols-rounded" style="font-size:16px;">delete</span>
+            </button>
+          `;
+          wadahKat.appendChild(div);
+        });
+      }
+    }
+
+    function tambahUraianMaster(e) {
+      e.preventDefault();
+      uraianMaster.push({
+        uraian: document.getElementById('u_nama').value,
+        kategori: document.getElementById('u_kategori').value,
+        nominal: Number(document.getElementById('u_nominal').value) || 0,
+        tempo: document.getElementById('u_tempo').value,
+        status: 'Belum'
+      });
+      simpanStorageLokal();
+      e.target.reset();
+      renderSemuaTampilan();
+      tampilToast('Uraian pengeluaran rutin ditambahkan');
+    }
+
+    function hapusUraianMaster(idx) {
+      uraianMaster.splice(idx, 1);
+      simpanStorageLokal();
+      renderSemuaTampilan();
+      tampilToast('Uraian dihapus');
+    }
+
+    function tambahSumberMaster(e) {
+      e.preventDefault();
+      sumberMaster.push({
+        nama: document.getElementById('s_nama').value,
+        nominal: Number(document.getElementById('s_nominal').value) || 0
+      });
+      simpanStorageLokal();
+      e.target.reset();
+      renderSemuaTampilan();
+      tampilToast('Sumber pemasukan ditambahkan');
+    }
+
+    function hapusSumberMaster(idx) {
+      sumberMaster.splice(idx, 1);
+      simpanStorageLokal();
+      renderSemuaTampilan();
+      tampilToast('Sumber pemasukan dihapus');
+    }
+
+    function catatSumberPemasukanLangsung(idx) {
+      const s = sumberMaster[idx];
+      if (!s) return;
+      const tgl = ambilPrefixBulanAktif() + '-01';
+      simpanSatuTransaksiKeServer({
+        tanggal: tgl,
+        jenis: 'Pemasukan',
+        kategori: 'Gaji & Pemasukan',
+        nominal: Number(s.nominal) || 0,
+        keterangan: s.nama
+      }, `Pemasukan "${s.nama}" dicatat ke bulan ini`);
+    }
+
+    function tambahKategoriMaster(e) {
+      e.preventDefault();
+      kategoriList.push({
+        nama: document.getElementById('kat_nama').value,
+        icon: document.getElementById('kat_icon').value,
+        warna: document.getElementById('kat_warna').value
+      });
+      simpanStorageLokal();
+      e.target.reset();
+      renderSemuaTampilan();
+      tampilToast('Kategori baru ditambahkan');
+    }
+
+    function hapusKategoriMaster(idx) {
+      if (kategoriList.length <= 1) return tampilToast('Minimal harus ada 1 kategori');
+      kategoriList.splice(idx, 1);
+      simpanStorageLokal();
+      renderSemuaTampilan();
+      tampilToast('Kategori dihapus');
+    }
+
+    // =========================================================================
+    // 10. TEMPLATE RUTIN MODAL & BATCH INSERT
+    // =========================================================================
+    function bukaModalTemplateRutin() {
+      const wadah = document.getElementById('wadahModalTemplateList');
+      wadah.innerHTML = '';
+      uraianMaster.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'list-row';
+        div.innerHTML = `
+          <div>
+            <div class="item-title">${item.uraian}</div>
+            <div class="item-sub">${item.kategori} • ${formatRp(item.nominal)}</div>
+          </div>
+          <button class="btn-teal" style="padding:6px 12px;font-size:11.5px;" onclick="tutupModalTemplateRutin();bukaModalTransaksi('Pengeluaran','${item.kategori}','${item.uraian.replace(/'/g, "\\'")}',${item.nominal},'BELUM')">
+            Pilih
+          </button>
+        `;
+        wadah.appendChild(div);
+      });
+      document.getElementById('modalTemplateRutin').classList.add('show');
+    }
+
+    function tutupModalTemplateRutin() {
+      document.getElementById('modalTemplateRutin').classList.remove('show');
+    }
+
+    function terapkanSemuaTemplateRutin() {
+      const tglDefault = ambilPrefixBulanAktif() + '-05';
+      uraianMaster.forEach(u => {
+        const payload = {
+          tanggal: tglDefault,
+          jenis: 'Pengeluaran',
+          kategori: u.kategori,
+          nominal: Number(u.nominal) || 0,
+          keterangan: '[BELUM] ' + u.uraian
+        };
+        semuaData.unshift(payload);
+        kirimSilentKeServer(payload);
+      });
+      simpanStorageLokal();
+      renderSemuaTampilan();
+      tampilToast(`${uraianMaster.length} item template rutin diterapkan ke bulan ini`);
+    }
+
+    // =========================================================================
+    // 11. ALAT: IMPOR DARI NOTE (SMART PARSER)
+    // =========================================================================
+    function isiContohNote() {
+      document.getElementById('inputNoteMentah').value =
+        "+ Gaji Bulanan 8.500.000\nBelanja Pasar & Sayur 250rb\nBeras 10kg 145000\nToken Listrik 450k belum\nInternet WiFi 385rb belum\nBensin Pertamax 120rb";
+      parseNoteOtomatis();
+    }
+
+    function parseNoteOtomatis() {
+      const teks = document.getElementById('inputNoteMentah').value || '';
+      const baris = teks.split('\n').map(b => b.trim()).filter(Boolean);
+      const tglDefault = ambilPrefixBulanAktif() + '-' + String(new Date().getDate()).padStart(2, '0');
+      hasilParseNote = [];
+
+      baris.forEach(line => {
+        const lower = line.toLowerCase();
+        const isMasuk = line.startsWith('+') || lower.includes('gaji') || lower.includes('bonus') || lower.includes('pemasukan');
+        const isBelum = lower.includes('belum') || lower.includes('tagihan') || lower.includes('hutang');
+
+        const matchAngka = line.match(/(\d+(?:[.,]\d+)*)\s*(jt|juta|rb|ribu|k)?/i);
+        let nominal = 0;
+        let teksBersih = line;
+
+        if (matchAngka) {
+          let rawNum = matchAngka[1].replace(/\./g, '').replace(',', '.');
+          let mult = 1;
+          const unit = (matchAngka[2] || '').toLowerCase();
+          if (unit === 'jt' || unit === 'juta') mult = 1000000;
+          else if (unit === 'rb' || unit === 'ribu' || unit === 'k') mult = 1000;
+          nominal = Math.round(parseFloat(rawNum) * mult);
+          teksBersih = line.replace(matchAngka[0], '');
+        }
+
+        teksBersih = teksBersih
+          .replace(/^[+\-*•]\s*/, '')
+          .replace(/\b(belum|lunas)\b/gi, '')
+          .trim() || 'Transaksi Catatan';
+
+        let kategori = isMasuk ? 'Gaji & Pemasukan' : 'Kebutuhan Dapur';
+        if (lower.includes('listrik') || lower.includes('air') || lower.includes('galon') || lower.includes('gas')) {
+          kategori = 'Rumah & Utilitas';
+        } else if (lower.includes('wifi') || lower.includes('internet') || lower.includes('pulsa') || lower.includes('kuota')) {
+          kategori = 'Tagihan & Langganan';
+        } else if (lower.includes('bensin') || lower.includes('parkir') || lower.includes('tol') || lower.includes('ojek')) {
+          kategori = 'Transportasi';
+        }
+
+        hasilParseNote.push({
+          tanggal: tglDefault,
+          jenis: isMasuk ? 'Pemasukan' : 'Pengeluaran',
+          kategori,
+          nominal,
+          keterangan: (!isMasuk && isBelum) ? '[BELUM] ' + teksBersih : teksBersih
+        });
+      });
+
+      document.getElementById('badgeJmlDeteksiNote').innerText = hasilParseNote.length + ' baris terdeteksi';
+      const wadah = document.getElementById('wadahPreviewNote');
+      wadah.innerHTML = '';
+
+      if (hasilParseNote.length === 0) {
+        wadah.innerHTML = '<div style="font-size:12px;color:var(--text-muted);padding:12px;">Belum ada catatan yang diketik...</div>';
+        return;
+      }
+
+      hasilParseNote.forEach(item => {
+        const isBelum = item.keterangan.startsWith('[BELUM]');
+        const div = document.createElement('div');
+        div.className = 'list-row';
+        div.innerHTML = `
+          <div>
+            <div class="item-title">${item.keterangan.replace('[BELUM] ', '')}</div>
+            <div class="item-sub">${item.kategori} • ${item.jenis} ${isBelum ? '• Belum Dibayar' : ''}</div>
+          </div>
+          <strong style="color:${item.jenis === 'Pemasukan' ? 'var(--green-val)' : 'var(--text-white)'};">${formatRp(item.nominal)}</strong>
+        `;
+        wadah.appendChild(div);
+      });
+    }
+
+    function simpanHasilImporNote() {
+      if (hasilParseNote.length === 0) return tampilToast('Ketik atau tempel catatan terlebih dahulu');
+      hasilParseNote.forEach(payload => {
+        semuaData.unshift(payload);
+        kirimSilentKeServer(payload);
+      });
+      simpanStorageLokal();
+      document.getElementById('inputNoteMentah').value = '';
+      parseNoteOtomatis();
+      renderSemuaTampilan();
+      tampilToast(`${hasilParseNote.length} transaksi berhasil diimpor!`);
+      navigasiKe('dasbor');
+    }
+
+    // =========================================================================
+    // 12. CADANGAN DATABASE (CSV, JSON BACKUP & RESTORE) & PENGATURAN
+    // =========================================================================
     function unduhCSV() {
-      if (!semuaData.length) return alert('Belum ada data transaksi.');
+      if (!semuaData.length) return tampilToast('Belum ada data transaksi untuk diunduh');
       let csv = 'Tanggal,Jenis,Kategori,Nominal,Keterangan\n';
       semuaData.forEach(r => {
-        csv += `"${r.tanggal}","${r.jenis}","${r.kategori}","${r.nominal}","${r.keterangan || ''}"\n`;
+        csv += `"${r.tanggal || ''}","${r.jenis || ''}","${r.kategori || ''}","${r.nominal || 0}","${(r.keterangan || '').replace(/"/g, '""')}"\n`;
       });
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
       a.download = 'Rekap Keuangan.csv';
       a.click();
+      tampilToast('Mengunduh Rekap Keuangan.csv');
     }
 
-    window.onload = muatData;
+    function unduhBackupJSON() {
+      const paket = {
+        app: 'Rekap Keuangan',
+        versi: '2.0.1',
+        tanggalBackup: new Date().toISOString(),
+        profilUser,
+        kategoriList,
+        uraianMaster,
+        sumberMaster,
+        semuaData
+      };
+      const blob = new Blob([JSON.stringify(paket, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'Rekap Keuangan.json';
+      a.click();
+      tampilToast('File cadangan Rekap Keuangan.json berhasil diunduh');
+    }
+
+    function pulihkanDariJSON() {
+      const fileInput = document.getElementById('fileRestoreJSON');
+      if (!fileInput.files || !fileInput.files[0]) return tampilToast('Pilih file .json terlebih dahulu');
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = JSON.parse(e.target.result);
+          if (data.kategoriList) kategoriList = data.kategoriList;
+          if (data.uraianMaster) uraianMaster = data.uraianMaster;
+          if (data.sumberMaster) sumberMaster = data.sumberMaster;
+          if (data.profilUser) profilUser = data.profilUser;
+          if (Array.isArray(data.semuaData)) semuaData = data.semuaData;
+          simpanStorageLokal();
+          renderSemuaTampilan();
+          tampilToast('Database berhasil dipulihkan!');
+          navigasiKe('dasbor');
+        } catch (err) {
+          tampilToast('Format file JSON tidak valid');
+        }
+      };
+      reader.readAsText(fileInput.files[0]);
+    }
+
+    function isiFormPengaturan() {
+      document.getElementById('set_nama').value = profilUser.nama || 'Huda';
+      document.getElementById('set_email').value = profilUser.email || 'miiftahuls@gmail.com';
+      document.getElementById('set_avatar').value = profilUser.avatar || 'HU';
+      document.getElementById('set_script_url').value = profilUser.scriptUrl || DEFAULT_SCRIPT_URL;
+    }
+
+    function simpanPengaturan(e) {
+      e.preventDefault();
+      profilUser.nama = document.getElementById('set_nama').value.trim();
+      profilUser.email = document.getElementById('set_email').value.trim();
+      profilUser.avatar = document.getElementById('set_avatar').value.trim().toUpperCase();
+      profilUser.scriptUrl = document.getElementById('set_script_url').value.trim();
+      simpanStorageLokal();
+      renderSemuaTampilan();
+      tampilToast('Pengaturan berhasil disimpan');
+    }
+
+    function resetMasterKeDefault() {
+      kategoriList = DEFAULT_KATEGORI.slice();
+      uraianMaster = DEFAULT_URAIAN.slice();
+      sumberMaster = DEFAULT_SUMBER.slice();
+      simpanStorageLokal();
+      renderSemuaTampilan();
+      tampilToast('Master data dikembalikan ke setelan awal');
+    }
+
+    // =========================================================================
+    // 13. MODAL TRANSAKSI & KONEKSI KE GOOGLE APPS SCRIPT
+    // =========================================================================
+    function bukaModalTransaksi(jenisDefault, kategoriDefault, uraianDefault, nominalDefault, statusDefault) {
+      document.getElementById('editIndexTransaksi').value = '-1';
+      document.getElementById('judulModalTransaksi').innerText = 'Catat Transaksi Rekap Keuangan';
+      document.getElementById('formTransaksi').reset();
+      document.getElementById('tanggal').valueAsDate = new Date();
+
+      if (jenisDefault) document.getElementById('jenis').value = jenisDefault;
+      if (kategoriDefault) document.getElementById('kategori').value = kategoriDefault;
+      if (uraianDefault) document.getElementById('keterangan').value = uraianDefault;
+      if (typeof nominalDefault === 'number' && nominalDefault > 0) document.getElementById('nominal').value = nominalDefault;
+      if (statusDefault) document.getElementById('statusBayar').value = statusDefault;
+
+      document.getElementById('modalTransaksi').classList.add('show');
+    }
+
+    function tutupModalTransaksi() {
+      document.getElementById('modalTransaksi').classList.remove('show');
+    }
+
+    function kirimSilentKeServer(payload) {
+      const url = profilUser.scriptUrl || DEFAULT_SCRIPT_URL;
+      fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      }).catch(() => {});
+    }
+
+    function simpanSatuTransaksiKeServer(payload, pesanSukses) {
+      semuaData.unshift(payload);
+      simpanStorageLokal();
+      renderSemuaTampilan();
+      kirimSilentKeServer(payload);
+      tampilToast(pesanSukses || 'Transaksi berhasil disimpan');
+    }
+
+    function kirimDataTransaksi(e) {
+      e.preventDefault();
+      const editIdx = parseInt(document.getElementById('editIndexTransaksi').value, 10);
+      const status = document.getElementById('statusBayar').value;
+      const ketInput = document.getElementById('keterangan').value.trim();
+      const ketFinal = status === 'BELUM' ? '[BELUM] ' + ketInput : ketInput;
+
+      const payload = {
+        tanggal: document.getElementById('tanggal').value,
+        jenis: document.getElementById('jenis').value,
+        kategori: document.getElementById('kategori').value,
+        nominal: Number(document.getElementById('nominal').value) || 0,
+        keterangan: ketFinal
+      };
+
+      if (editIdx >= 0 && semuaData[editIdx]) {
+        semuaData[editIdx] = payload;
+        simpanStorageLokal();
+        tutupModalTransaksi();
+        renderSemuaTampilan();
+        tampilToast('Perubahan transaksi disimpan');
+        return;
+      }
+
+      const btn = document.getElementById('btnSimpan');
+      btn.disabled = true;
+      btn.innerText = 'Menyimpan...';
+
+      // Optimistic update agar langsung tampil seketika
+      semuaData.unshift(payload);
+      if (payload.tanggal && payload.tanggal.length >= 7) {
+        const [th, bl] = payload.tanggal.split('-').map(Number);
+        bulanAktif = new Date(th, bl - 1, 1);
+      }
+      simpanStorageLokal();
+      renderSemuaTampilan();
+
+      const url = profilUser.scriptUrl || DEFAULT_SCRIPT_URL;
+      fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      })
+      .then(res => res.json())
+      .then(res => {
+        if (res && Array.isArray(res.riwayat) && res.riwayat.length > 0) {
+          semuaData = res.riwayat;
+          simpanStorageLokal();
+          renderSemuaTampilan();
+        }
+        tutupModalTransaksi();
+        btn.disabled = false;
+        btn.innerText = 'Simpan Transaksi';
+        tampilToast('Transaksi tersimpan di Google Sheets ✓');
+      })
+      .catch(() => {
+        tutupModalTransaksi();
+        btn.disabled = false;
+        btn.innerText = 'Simpan Transaksi';
+        tampilToast('Tersimpan di perangkat');
+      });
+    }
+
+    function muatDataDariServer(tampilNotif) {
+      const syncTxt = document.getElementById('syncStatusText');
+      syncTxt.innerText = 'Memuat...';
+      const url = profilUser.scriptUrl || DEFAULT_SCRIPT_URL;
+
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          if (data && Array.isArray(data.riwayat)) {
+            semuaData = data.riwayat;
+            if (semuaData.length > 0 && semuaData[0].tanggal) {
+              const [th, bl] = semuaData[0].tanggal.split('-').map(Number);
+              if (th && bl) bulanAktif = new Date(th, bl - 1, 1);
+            }
+            simpanStorageLokal();
+          }
+          syncTxt.innerText = 'Tersinkron';
+          renderSemuaTampilan();
+          if (tampilNotif) tampilToast('Data berhasil disinkronkan dari Google Sheets');
+        })
+        .catch(() => {
+          syncTxt.innerText = 'Mode Lokal';
+          renderSemuaTampilan();
+          if (tampilNotif) tampilToast('Menggunakan data lokal perangkat');
+        });
+    }
+
+    window.onload = function() {
+      muatStorageLokal();
+      bangunDropdownBulan();
+      renderSemuaTampilan();
+      muatDataDariServer(false);
+    };
   </script>
 </body>
 </html>
+```
