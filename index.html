@@ -33,7 +33,6 @@
       --text-white: #f8fafc;
       --text-gray: #94a3b8;
       --text-muted: #64748b;
-      --sidebar-w: clamp(220px, 17vw, 250px);
     }
 
     [data-theme="emerald"] {
@@ -104,7 +103,6 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
       background-color: var(--bg-body);
       color: var(--text-white);
-      display: flex;
       min-height: 100vh;
       overflow-x: hidden;
       transition: background-color 0.2s, color 0.2s;
@@ -130,9 +128,28 @@
       cursor: pointer;
     }
 
-    /* SIDEBAR */
+    /* =====================================================================
+       SIDE MENU DRAWER (TERBUKA DARI TOMBOL SETTING DI BAWAH)
+    ===================================================================== */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.58);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 90;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .sidebar-overlay.open {
+      display: block;
+      opacity: 1;
+    }
+
     .sidebar {
-      width: var(--sidebar-w);
+      width: min(285px, 84vw);
       background-color: var(--bg-sidebar);
       border-right: 1px solid var(--border-subtle);
       display: flex;
@@ -141,30 +158,36 @@
       position: fixed;
       top: 0; left: 0; bottom: 0;
       padding: 18px 14px;
-      z-index: 80;
-      transition: transform 0.25s ease;
+      z-index: 95;
+      transform: translateX(-100%);
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 12px 0 36px rgba(0, 0, 0, 0.45);
     }
 
-    .sidebar-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(3px);
-      z-index: 75;
+    .sidebar.open {
+      transform: translateX(0);
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 4px 6px 18px 8px;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 10px;
     }
 
     .brand {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 4px 8px 18px 8px;
     }
 
     .brand-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 11px;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
       background: var(--btn-grad);
       display: flex;
       align-items: center;
@@ -177,7 +200,30 @@
     .brand-text h2 { font-size: 15px; font-weight: 800; line-height: 1.2; }
     .brand-text span { font-size: 11px; color: var(--text-muted); }
 
-    .nav-scroll { flex: 1; overflow-y: auto; }
+    .sidebar-close-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      color: var(--text-gray);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .sidebar-close-btn:hover {
+      color: var(--text-white);
+      border-color: var(--accent-main);
+    }
+
+    .nav-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
 
     .nav-section {
       font-size: 10px;
@@ -246,9 +292,9 @@
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
-    /* MAIN AREA */
+    /* MAIN AREA (FULL WIDTH TANPA SIDEBAR PERMANEN) */
     .main {
-      margin-left: var(--sidebar-w);
+      margin-left: 0;
       flex: 1;
       display: flex;
       flex-direction: column;
@@ -257,12 +303,12 @@
     }
 
     .topbar {
-      min-height: 62px;
+      min-height: 64px;
       border-bottom: 1px solid var(--border-subtle);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px clamp(16px, 2vw, 28px);
+      padding: 10px clamp(16px, 2.5vw, 32px);
       background: var(--bg-body);
       position: sticky;
       top: 0;
@@ -271,20 +317,34 @@
       flex-wrap: wrap;
     }
 
-    .topbar-left { display: flex; align-items: center; gap: 12px; }
-    .topbar-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-    .menu-toggle {
-      display: none;
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-white);
-      border-radius: 9px;
-      padding: 6px;
+    .topbar-logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: var(--btn-grad);
+      color: var(--btn-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px var(--accent-glow);
       cursor: pointer;
     }
 
-    .topbar-title { font-size: 16px; font-weight: 700; }
+    .topbar-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+    .topbar-title-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar-title { font-size: 15.5px; font-weight: 800; line-height: 1.15; }
+    .topbar-sub { font-size: 11px; color: var(--text-muted); }
 
     .theme-select {
       background-color: var(--bg-card);
@@ -364,11 +424,11 @@
     .month-select:focus { outline: none; }
     .month-select option { background: var(--bg-card); color: var(--text-white); }
 
-    /* CONTENT AREA (EXTRA BOTTOM PADDING FOR PAYMENT-STYLE DOCK) */
+    /* CONTENT AREA */
     .content-area {
-      padding: clamp(16px, 2vw, 26px) clamp(16px, 2vw, 28px) 120px;
+      padding: clamp(16px, 2vw, 26px) clamp(16px, 2.5vw, 32px) 124px;
       width: 100%;
-      max-width: 1400px;
+      max-width: 1360px;
       margin: 0 auto;
     }
 
@@ -380,22 +440,10 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* GREETING ROW (CLEAN WITHOUT TOP BUTTONS) */
-    .greeting-row {
-      margin-bottom: 20px;
-    }
-
-    .greeting-row h1 {
-      font-size: clamp(20px, 1.8vw, 25px);
-      font-weight: 800;
-      margin-bottom: 4px;
-    }
-
-    .greeting-row p {
-      font-size: 13px;
-      color: var(--text-gray);
-    }
-
+    /* GREETING ROW */
+    .greeting-row { margin-bottom: 20px; }
+    .greeting-row h1 { font-size: clamp(20px, 1.8vw, 25px); font-weight: 800; margin-bottom: 4px; }
+    .greeting-row p { font-size: 13px; color: var(--text-gray); }
     .greeting-row p strong { color: var(--text-white); }
 
     /* HERO + 4 KPI CARDS */
@@ -603,7 +651,7 @@
       padding: 3px 8px; border-radius: 6px;
     }
 
-    /* TABLES & CONTROLS FOR OTHER PAGES */
+    /* TABLES & CONTROLS */
     .filter-row {
       display: flex;
       gap: 10px;
@@ -674,12 +722,12 @@
     tr:last-child td { border-bottom: none; }
 
     /* =====================================================================
-       BOTTOM NAVIGATION BAR (PAYMENT APP STYLE WITH ROUND CENTER BUTTON)
+       BOTTOM NAVIGATION BAR (PAYMENT APP STYLE, CENTERED FULL-WIDTH)
     ===================================================================== */
     .bottom-dock-wrapper {
       position: fixed;
       bottom: 16px;
-      left: var(--sidebar-w);
+      left: 0;
       right: 0;
       display: flex;
       justify-content: center;
@@ -877,18 +925,9 @@
     .toast.show { opacity: 1; transform: translateY(0); }
 
     /* RESPONSIVE */
-    @media (max-width: 1120px) {
+    @media (max-width: 1080px) {
       .hero-grid { grid-template-columns: 1fr; }
       .mid-grid, .bot-grid { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 960px) {
-      .sidebar { transform: translateX(-100%); width: 260px; }
-      .sidebar.open { transform: translateX(0); }
-      .sidebar-overlay.open { display: block; }
-      .main { margin-left: 0; }
-      .menu-toggle { display: flex; align-items: center; justify-content: center; }
-      .bottom-dock-wrapper { left: 0; }
     }
 
     @media (max-width: 540px) {
@@ -909,19 +948,25 @@
 </head>
 <body>
 
-  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+  <!-- BACKDROP LACI MENU SAMPING -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="tutupSidebar()"></div>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebarMenu">
+  <!-- LACI MENU SAMPING (DASHBOARD SAMPAI PENGATURAN) -->
+  <aside class="sidebar" id="sidebarMenu" aria-label="Menu Samping">
     <div>
-      <div class="brand">
-        <div class="brand-icon">
-          <span class="material-symbols-rounded">account_balance_wallet</span>
+      <div class="brand-row">
+        <div class="brand">
+          <div class="brand-icon">
+            <span class="material-symbols-rounded">account_balance_wallet</span>
+          </div>
+          <div class="brand-text">
+            <h2>Rekap Keuangan</h2>
+            <span>Menu Lengkap • v2.3</span>
+          </div>
         </div>
-        <div class="brand-text">
-          <h2>Rekap Keuangan</h2>
-          <span>Rekap Keuangan • v2.2</span>
-        </div>
+        <button class="sidebar-close-btn" onclick="tutupSidebar()" title="Tutup Menu" aria-label="Tutup Menu">
+          <span class="material-symbols-rounded" style="font-size:18px;">close</span>
+        </button>
       </div>
 
       <nav class="nav-scroll">
@@ -972,7 +1017,7 @@
           <div class="user-email" id="sidebarEmail">miiftahuls@gmail.com</div>
         </div>
       </div>
-      <span class="material-symbols-rounded" style="color:var(--text-gray);cursor:pointer;" onclick="bukaHalaman('pengaturan')">manage_accounts</span>
+      <span class="material-symbols-rounded" style="color:var(--text-gray);cursor:pointer;" onclick="bukaHalaman('pengaturan')" title="Pengaturan Profil">manage_accounts</span>
     </div>
   </aside>
 
@@ -980,10 +1025,13 @@
   <div class="main">
     <header class="topbar">
       <div class="topbar-left">
-        <button class="menu-toggle" onclick="toggleSidebar()">
-          <span class="material-symbols-rounded">menu</span>
-        </button>
-        <div class="topbar-title" id="topbarJudul">Dasbor</div>
+        <div class="topbar-logo" onclick="toggleSidebar()" title="Buka Menu Samping">
+          <span class="material-symbols-rounded" style="font-size:19px;">account_balance_wallet</span>
+        </div>
+        <div class="topbar-title-wrap">
+          <div class="topbar-title" id="topbarJudul">Dasbor</div>
+          <div class="topbar-sub">Rekap Keuangan</div>
+        </div>
       </div>
 
       <div class="topbar-right">
@@ -1267,9 +1315,7 @@
             Tempel banyak baris catatan sekaligus (format: <strong>Nama Item Nominal</strong> per baris, contoh: <code>Listrik 200700</code> atau <code>Beras 10 kg 149000</code>).
           </p>
           <div class="form-group">
-            <textarea id="inputNoteImpor" rows="6" placeholder="Listrik 200700
-Beras 10 kg 149000
-Susu anak 334000"></textarea>
+            <textarea id="inputNoteImpor" rows="6" placeholder="Listrik 200700&#10;Beras 10 kg 149000&#10;Susu anak 334000"></textarea>
           </div>
           <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
             <select id="imporKategoriDefault" class="input-ctrl custom-select"></select>
@@ -1330,7 +1376,7 @@ Susu anak 334000"></textarea>
   </div>
 
   <!-- =======================================================================
-       BOTTOM NAVIGATION BAR (PAYMENT APP TOOLS + CENTER ROUND CATAT BUTTON)
+       BOTTOM NAVIGATION BAR (SETTING MEMBUKA MENU SAMPING LENGKAP)
   ======================================================================= -->
   <div class="bottom-dock-wrapper">
     <nav class="bottom-dock" aria-label="Navigasi Utama">
@@ -1356,7 +1402,7 @@ Susu anak 334000"></textarea>
         <span class="dock-lbl">Laporan</span>
       </button>
 
-      <button class="dock-btn" data-page="pengaturan" onclick="bukaHalaman('pengaturan')">
+      <button class="dock-btn" id="dockBtnSetting" onclick="toggleSidebar()" title="Buka Menu Samping">
         <span class="material-symbols-rounded">settings</span>
         <span class="dock-lbl">Setting</span>
       </button>
@@ -1429,6 +1475,7 @@ Susu anak 334000"></textarea>
       { nama: 'Tagihan & Langganan', icon: 'wifi', warna: '#a855f7', bg: 'rgba(168,85,247,0.15)' },
       { nama: 'Transportasi', icon: 'directions_car', warna: '#38bdf8', bg: 'rgba(56,189,248,0.15)' },
       { nama: 'Kebutuhan Anak', icon: 'child_care', warna: '#ec4899', bg: 'rgba(236,72,153,0.15)' },
+      { nama: 'Makan & Kuliner', icon: 'restaurant', warna: '#eab308', bg: 'rgba(234,179,8,0.15)' },
       { nama: 'Kebutuhan Suami Istri', icon: 'favorite', warna: '#f43f5e', bg: 'rgba(244,63,94,0.15)' },
       { nama: 'Gaji & Pemasukan', icon: 'payments', warna: '#10b981', bg: 'rgba(16,185,129,0.15)' }
     ];
@@ -1459,6 +1506,9 @@ Susu anak 334000"></textarea>
       pengaturan: 'Pengaturan'
     };
 
+    const HALAMAN_DARI_MENU = ['uraian', 'sumber', 'kategori', 'impor', 'cadangan', 'pengaturan'];
+
+    let halamanAktif = 'dasbor';
     let bulanAktif = new Date(2026, 10, 1);
     let semuaData = [];
     let chartTrenInst = null;
@@ -1483,26 +1533,47 @@ Susu anak 334000"></textarea>
       renderGrafik12Bulan();
     }
 
+    function perbaruiStatusDock() {
+      const isDrawerOpen = document.getElementById('sidebarMenu').classList.contains('open');
+      const isMenuSubPage = HALAMAN_DARI_MENU.includes(halamanAktif);
+
+      document.querySelectorAll('.dock-btn[data-page]').forEach(btn => {
+        btn.classList.toggle('active', !isDrawerOpen && btn.dataset.page === halamanAktif);
+      });
+
+      const settingBtn = document.getElementById('dockBtnSetting');
+      if (settingBtn) {
+        settingBtn.classList.toggle('active', isDrawerOpen || isMenuSubPage);
+      }
+    }
+
     function toggleSidebar() {
-      document.getElementById('sidebarMenu').classList.toggle('open');
-      document.getElementById('sidebarOverlay').classList.toggle('open');
+      const sb = document.getElementById('sidebarMenu');
+      const ov = document.getElementById('sidebarOverlay');
+      sb.classList.toggle('open');
+      ov.classList.toggle('open');
+      perbaruiStatusDock();
+    }
+
+    function tutupSidebar() {
+      document.getElementById('sidebarMenu').classList.remove('open');
+      document.getElementById('sidebarOverlay').classList.remove('open');
+      perbaruiStatusDock();
     }
 
     function bukaHalaman(pageId) {
+      halamanAktif = pageId;
       document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
       const target = document.getElementById('view-' + pageId);
       if (target) target.classList.add('active');
 
       document.getElementById('topbarJudul').innerText = JUDUL_HALAMAN[pageId] || 'Dasbor';
 
-      document.querySelectorAll('.nav-item, .dock-btn').forEach(btn => {
+      document.querySelectorAll('.nav-item').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.page === pageId);
       });
 
-      if (window.innerWidth <= 960) {
-        document.getElementById('sidebarMenu').classList.remove('open');
-        document.getElementById('sidebarOverlay').classList.remove('open');
-      }
+      tutupSidebar();
 
       if (pageId === 'transaksi') renderTabelTransaksi();
       if (pageId === 'laporan') renderLaporan();
@@ -1510,6 +1581,20 @@ Susu anak 334000"></textarea>
       if (pageId === 'sumber') renderMasterSumber();
       if (pageId === 'kategori') renderMasterKategori();
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function cariMetaKategori(namaKat) {
+      const lower = (namaKat || '').toLowerCase();
+      const found = masterKategori.find(m => m.nama.toLowerCase() === lower);
+      if (found) return found;
+      if (lower.includes('makan') || lower.includes('kuliner')) return { icon: 'restaurant', warna: '#eab308', bg: 'rgba(234,179,8,0.15)' };
+      if (lower.includes('anak')) return { icon: 'child_care', warna: '#ec4899', bg: 'rgba(236,72,153,0.15)' };
+      if (lower.includes('suami') || lower.includes('istri')) return { icon: 'favorite', warna: '#f43f5e', bg: 'rgba(244,63,94,0.15)' };
+      if (lower.includes('dapur')) return { icon: 'shopping_basket', warna: '#22c55e', bg: 'rgba(34,197,94,0.15)' };
+      if (lower.includes('rumah') || lower.includes('utilitas')) return { icon: 'home', warna: '#f97316', bg: 'rgba(249,115,22,0.15)' };
+      if (lower.includes('tagihan') || lower.includes('langganan')) return { icon: 'wifi', warna: '#a855f7', bg: 'rgba(168,85,247,0.15)' };
+      if (lower.includes('transport')) return { icon: 'directions_car', warna: '#38bdf8', bg: 'rgba(56,189,248,0.15)' };
+      return { icon: 'label', warna: '#8b5cf6', bg: 'rgba(139,92,246,0.15)' };
     }
 
     function bangunDropdownBulan() {
@@ -1637,9 +1722,7 @@ Susu anak 334000"></textarea>
       daftarKat.forEach(namaKat => {
         const subTotal = mapKat[namaKat];
         const pct = totalKeluar > 0 ? Math.round((subTotal / totalKeluar) * 100) : 0;
-        const meta = masterKategori.find(m => m.nama.toLowerCase() === namaKat.toLowerCase()) || {
-          icon: 'label', warna: '#8b5cf6', bg: 'rgba(139,92,246,0.15)'
-        };
+        const meta = cariMetaKategori(namaKat);
 
         const row = document.createElement('div');
         row.className = 'cat-row';
@@ -1952,6 +2035,7 @@ Susu anak 334000"></textarea>
     }
 
     function bukaModal(jenisDefault) {
+      tutupSidebar();
       if (jenisDefault) document.getElementById('jenis').value = jenisDefault;
       document.getElementById('modalTransaksi').classList.add('show');
     }
@@ -2128,12 +2212,20 @@ Susu anak 334000"></textarea>
       document.getElementById('setUrlScript').value = config.scriptUrl;
     }
 
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        tutupSidebar();
+        tutupModal();
+      }
+    });
+
     window.onload = function() {
       document.getElementById('tanggal').valueAsDate = new Date();
       bangunDropdownBulan();
       isiDropdownKategori();
       terapkanProfil();
       gantiTema(config.theme || 'obsidian');
+      perbaruiStatusDock();
       muatData();
     };
   </script>
