@@ -127,9 +127,7 @@
       cursor: pointer;
     }
 
-    /* =====================================================================
-       HALAMAN LOGIN OTP EMAIL
-    ===================================================================== */
+    /* HALAMAN LOGIN OTP */
     .auth-screen {
       min-height: 100vh;
       display: flex;
@@ -209,9 +207,7 @@
     .app-shell { display: none; }
     .app-shell.visible { display: block; }
 
-    /* =====================================================================
-       SIDE MENU DRAWER (SETTING)
-    ===================================================================== */
+    /* SIDE MENU DRAWER */
     .sidebar-overlay {
       display: none;
       position: fixed;
@@ -221,7 +217,6 @@
       -webkit-backdrop-filter: blur(4px);
       z-index: 90;
     }
-
     .sidebar-overlay.open { display: block; }
 
     .sidebar {
@@ -239,7 +234,6 @@
       transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
       box-shadow: 12px 0 36px rgba(0, 0, 0, 0.45);
     }
-
     .sidebar.open { transform: translateX(0); }
 
     .brand-row {
@@ -276,7 +270,6 @@
     }
     .sidebar-close-btn:hover { color: var(--text-white); border-color: var(--accent-main); }
 
-    /* PANEL TEMA & SINKRON DI DALAM MENU SETTING */
     .drawer-tools-box {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
@@ -352,7 +345,6 @@
       margin-bottom: 3px;
       text-decoration: none;
     }
-
     .nav-item:hover { background: rgba(148, 163, 184, 0.08); color: var(--text-white); }
     .nav-item.active {
       background: var(--nav-active-bg);
@@ -398,15 +390,43 @@
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
-    /* MAIN AREA (TANPA TOPBAR) */
-    .main {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
+    /* BADGE PENCATAT */
+    .author-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px 3px 4px;
+      border-radius: 999px;
+      background: rgba(139, 92, 246, 0.14);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      color: var(--text-white);
+      font-size: 11.5px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .author-chip.empty {
+      background: rgba(148, 163, 184, 0.1);
+      border-color: var(--border-subtle);
+      color: var(--text-muted);
+      padding: 3px 10px;
+    }
+    .author-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--btn-grad);
+      color: var(--btn-text);
+      font-size: 9.5px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
 
-    /* SYMMETRIC MONTH PICKER (DI HALAMAN TRANSAKSI & LAPORAN) */
+    /* MAIN AREA */
+    .main { width: 100%; display: flex; flex-direction: column; min-width: 0; }
+
     .month-control {
       display: inline-flex;
       align-items: center;
@@ -448,7 +468,6 @@
     .month-select:focus { outline: none; }
     .month-select option { background: var(--bg-card); color: var(--text-white); }
 
-    /* CONTENT AREA */
     .content-area {
       padding: clamp(20px, 2.4vw, 30px) clamp(16px, 2.5vw, 32px) 124px;
       width: 100%;
@@ -468,7 +487,7 @@
     .greeting-row p { font-size: 13px; color: var(--text-gray); }
     .greeting-row p strong { color: var(--text-white); }
 
-    /* HERO + 4 KPI CARDS */
+    /* HERO + KPI */
     .hero-grid {
       display: grid;
       grid-template-columns: 1.25fr 1fr;
@@ -577,6 +596,8 @@
       padding: 10px 12px; background: rgba(148, 163, 184, 0.04);
       border: 1px solid var(--border-subtle); border-radius: 11px; flex-wrap: wrap;
     }
+    .list-row.clickable { cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+    .list-row.clickable:hover { border-color: var(--accent-main); background: rgba(139, 92, 246, 0.08); }
     .list-left { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
 
     .check-btn {
@@ -627,12 +648,10 @@
     .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border-subtle); }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border-subtle); }
-    th { background: rgba(148, 163, 184, 0.05); color: var(--text-gray); font-size: 12px; font-weight: 700; }
+    th { background: rgba(148, 163, 184, 0.05); color: var(--text-gray); font-size: 12px; font-weight: 700; white-space: nowrap; }
     tr:last-child td { border-bottom: none; }
 
-    /* =====================================================================
-       BOTTOM NAVIGATION BAR
-    ===================================================================== */
+    /* BOTTOM DOCK */
     .bottom-dock-wrapper {
       position: fixed; bottom: 16px; left: 0; right: 0;
       display: flex; justify-content: center; pointer-events: none; z-index: 70; padding: 0 16px;
@@ -731,13 +750,21 @@
         border-left: none; border-right: none; border-bottom: none; height: 66px;
       }
     }
+
+    /* PRINT / PDF MODE */
+    @media print {
+      body { background: #ffffff !important; color: #0f172a !important; }
+      .bottom-dock-wrapper, .sidebar, .sidebar-overlay, .no-print, .toast { display: none !important; }
+      .content-area { padding: 0 !important; max-width: 100% !important; }
+      .panel { background: #ffffff !important; border: 1px solid #cbd5e1 !important; box-shadow: none !important; break-inside: avoid; margin-bottom: 16px !important; }
+      th, td { color: #0f172a !important; border-bottom: 1px solid #e2e8f0 !important; }
+      .author-chip { border: 1px solid #94a3b8 !important; color: #0f172a !important; background: #f1f5f9 !important; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- =======================================================================
-       1. LAYAR LOGIN OTP EMAIL
-  ======================================================================= -->
+  <!-- 1. LAYAR LOGIN OTP EMAIL -->
   <div id="authScreen" class="auth-screen">
     <div class="auth-card">
       <div class="auth-brand">
@@ -750,7 +777,6 @@
 
       <div id="authAlert" class="auth-alert"></div>
 
-      <!-- STEP 1: INPUT EMAIL -->
       <form id="formStepEmail" onsubmit="mintaOtp(event)">
         <div class="form-group">
           <label>Alamat Email Terdaftar</label>
@@ -762,7 +788,6 @@
         </button>
       </form>
 
-      <!-- STEP 2: INPUT OTP -->
       <form id="formStepOtp" onsubmit="verifikasiOtp(event)" style="display:none;">
         <div class="form-group">
           <label>Kode OTP 6 Digit (cek inbox / spam)</label>
@@ -770,7 +795,7 @@
         </div>
         <button type="submit" id="btnVerifikasiOtp" class="btn-primary" style="width:100%;padding:12px;">
           <span class="material-symbols-rounded" style="font-size:18px;">verified_user</span>
-          Verifikasi & Masuk
+          Verifikasi &amp; Masuk
         </button>
         <div style="display:flex;justify-content:space-between;">
           <button type="button" class="auth-link-btn" onclick="kembaliKeEmail()">← Ganti Email</button>
@@ -793,14 +818,12 @@
     </div>
   </div>
 
-  <!-- =======================================================================
-       2. APLIKASI UTAMA (TANPA TOPBAR & MENU SAMPING BERSIH)
-  ======================================================================= -->
+  <!-- 2. APLIKASI UTAMA -->
   <div id="appShell" class="app-shell">
 
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="tutupSidebar()"></div>
 
-    <!-- LACI MENU SAMPING (DIBUKA DARI BUTTON SETTING) -->
+    <!-- LACI MENU SAMPING -->
     <aside class="sidebar" id="sidebarMenu" aria-label="Menu Samping">
       <div style="display:flex;flex-direction:column;min-height:0;flex:1;">
         <div class="brand-row">
@@ -810,7 +833,7 @@
             </div>
             <div class="brand-text">
               <h2>Rekap Keuangan</h2>
-              <span>Menu & Pengaturan • v3.1</span>
+              <span>Menu &amp; Pengaturan • v3.3</span>
             </div>
           </div>
           <button class="sidebar-close-btn" onclick="tutupSidebar()" title="Tutup Menu">
@@ -818,7 +841,6 @@
           </button>
         </div>
 
-        <!-- BUTTON TEMA & TERSINKRON DI DALAM MENU SETTING -->
         <div class="drawer-tools-box">
           <select id="pilihTemaDrawer" class="custom-select theme-select" onchange="gantiTema(this.value)">
             <option value="obsidian">✨ Tema: Obsidian Violet</option>
@@ -852,11 +874,10 @@
             <span class="material-symbols-rounded">backup</span> Cadangan Database
           </a>
 
-          <!-- KHUSUS SUPER ADMIN -->
           <div id="navAdminSection" style="display:none;">
             <div class="nav-section">Super Admin</div>
             <a class="nav-item" data-page="anggota" onclick="bukaHalaman('anggota')">
-              <span class="material-symbols-rounded">group_add</span> Kelola & Undang Anggota
+              <span class="material-symbols-rounded">group_add</span> Kelola &amp; Undang Anggota
             </a>
           </div>
 
@@ -888,7 +909,7 @@
     <div class="main">
       <div class="content-area">
 
-        <!-- ==================== 1. HALAMAN DASBOR ==================== -->
+        <!-- 1. HALAMAN DASBOR -->
         <section id="view-dasbor" class="page-view active">
           <div class="greeting-row">
             <h1>Halo, <span id="namaSapaan">Huda</span>!</h1>
@@ -986,12 +1007,24 @@
             </div>
           </div>
 
+          <!-- PANEL REKAP USER PENCATAT DI DASBOR -->
+          <div class="panel" style="margin-bottom:20px;">
+            <div class="panel-head">
+              <div class="panel-title">
+                <span class="material-symbols-rounded" style="color:var(--accent-main);">groups</span>
+                Rekap Pencatatan per User
+              </div>
+              <span class="panel-badge">Klik nama user untuk lihat rincian di Transaksi</span>
+            </div>
+            <div class="item-list" id="rekapUserDasborBox"></div>
+          </div>
+
           <div class="bot-grid">
             <div class="panel">
               <div class="panel-head">
                 <div class="panel-title">
                   <span class="material-symbols-rounded" style="color:var(--amber-val);">assignment_late</span>
-                  Jatuh Tempo & Belum Dibayar
+                  Jatuh Tempo &amp; Belum Dibayar
                 </div>
                 <span class="panel-badge" style="color:var(--accent-main);cursor:pointer;font-weight:700;" onclick="bukaHalaman('transaksi')">Lihat semua</span>
               </div>
@@ -1010,7 +1043,7 @@
           </div>
         </section>
 
-        <!-- ==================== 2. HALAMAN TRANSAKSI (PILIHAN BULAN DI SINI) ==================== -->
+        <!-- 2. HALAMAN TRANSAKSI -->
         <section id="view-transaksi" class="page-view">
           <div class="panel">
             <div class="panel-head">
@@ -1032,7 +1065,10 @@
             </div>
 
             <div class="filter-row">
-              <input type="text" id="cariTrx" class="input-ctrl" style="flex:1;min-width:180px;" placeholder="Cari uraian atau kategori..." oninput="renderTabelTransaksi()">
+              <input type="text" id="cariTrx" class="input-ctrl" style="flex:1;min-width:180px;" placeholder="Cari uraian, kategori, atau pencatat..." oninput="renderTabelTransaksi()">
+              <select id="filterOlehTrx" class="input-ctrl custom-select" onchange="renderTabelTransaksi()">
+                <option value="ALL">Semua Pencatat</option>
+              </select>
               <select id="filterJenisTrx" class="input-ctrl custom-select" onchange="renderTabelTransaksi()">
                 <option value="ALL">Semua Jenis</option>
                 <option value="Pemasukan">Pemasukan</option>
@@ -1050,7 +1086,8 @@
                 <thead>
                   <tr>
                     <th>Tanggal</th>
-                    <th>Uraian & Kategori</th>
+                    <th>Uraian &amp; Kategori</th>
+                    <th>Dicatat Oleh</th>
                     <th>Status</th>
                     <th>Nominal</th>
                     <th style="text-align:right;">Aksi</th>
@@ -1062,16 +1099,16 @@
           </div>
         </section>
 
-        <!-- ==================== 3. HALAMAN LAPORAN (PILIHAN BULAN DI SINI) ==================== -->
+        <!-- 3. HALAMAN LAPORAN -->
         <section id="view-laporan" class="page-view">
           <div class="panel" style="margin-bottom:18px;">
             <div class="panel-head">
               <div class="panel-title">
                 <span class="material-symbols-rounded" style="color:var(--accent-main);">bar_chart</span>
-                Laporan Keuangan & Analitik
+                Laporan Keuangan &amp; Analitik
               </div>
 
-              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;" class="no-print">
                 <div class="month-control">
                   <button class="month-btn" onclick="geserBulan(-1)" title="Bulan Sebelumnya">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -1081,6 +1118,10 @@
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                   </button>
                 </div>
+
+                <select id="filterOlehLap" class="input-ctrl custom-select" style="padding:8px 34px 8px 12px;" onchange="renderLaporan()">
+                  <option value="ALL">Semua Pencatat</option>
+                </select>
 
                 <button class="btn-outline" onclick="window.print()">
                   <span class="material-symbols-rounded" style="font-size:17px;">print</span> Cetak / PDF
@@ -1104,9 +1145,44 @@
               </div>
             </div>
           </div>
+
+          <div class="panel" style="margin-bottom:18px;">
+            <div class="panel-head">
+              <div class="panel-title">
+                <span class="material-symbols-rounded" style="color:var(--accent-main);">groups</span>
+                Rekap Pencatatan per User
+              </div>
+              <span class="panel-badge no-print">Klik nama user untuk memfilter laporan</span>
+            </div>
+            <div class="item-list" id="rekapPencatatBox"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">
+                <span class="material-symbols-rounded" style="color:var(--accent-main);">fact_check</span>
+                Rincian Transaksi Laporan
+              </div>
+              <span class="panel-badge" id="lapJumlahLbl">0 transaksi</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Tanggal</th>
+                    <th>Uraian &amp; Kategori</th>
+                    <th>Dicatat Oleh</th>
+                    <th>Status</th>
+                    <th style="text-align:right;">Nominal</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyLaporan"></tbody>
+              </table>
+            </div>
+          </div>
         </section>
 
-        <!-- ==================== 4. MASTER URAIAN ==================== -->
+        <!-- 4. MASTER URAIAN -->
         <section id="view-uraian" class="page-view">
           <div class="panel">
             <div class="panel-head">
@@ -1120,7 +1196,7 @@
           </div>
         </section>
 
-        <!-- ==================== 5. MASTER SUMBER PEMASUKAN ==================== -->
+        <!-- 5. MASTER SUMBER PEMASUKAN -->
         <section id="view-sumber" class="page-view">
           <div class="panel">
             <div class="panel-head">
@@ -1134,7 +1210,7 @@
           </div>
         </section>
 
-        <!-- ==================== 6. MASTER KATEGORI ==================== -->
+        <!-- 6. MASTER KATEGORI -->
         <section id="view-kategori" class="page-view">
           <div class="panel">
             <div class="panel-head">
@@ -1148,7 +1224,7 @@
           </div>
         </section>
 
-        <!-- ==================== 7. IMPOR DARI NOTE ==================== -->
+        <!-- 7. IMPOR DARI NOTE -->
         <section id="view-impor" class="page-view">
           <div class="panel">
             <div class="panel-head">
@@ -1158,12 +1234,10 @@
               </div>
             </div>
             <p style="font-size:12.5px;color:var(--text-gray);margin-bottom:12px;">
-              Tempel banyak baris catatan sekaligus (format: <strong>Nama Item Nominal</strong> per baris, contoh: <code>Listrik 200700</code> atau <code>Beras 10 kg 149000</code>).
+              Tempel banyak baris catatan sekaligus (format: <strong>Nama Item Nominal</strong> per baris, contoh: <code>Listrik 200700</code> atau <code>Beras 10 kg 149000</code>). Semua baris otomatis tercatat atas nama akun Anda.
             </p>
             <div class="form-group">
-              <textarea id="inputNoteImpor" rows="6" placeholder="Listrik 200700
-Beras 10 kg 149000
-Susu anak 334000"></textarea>
+              <textarea id="inputNoteImpor" rows="6" placeholder="Listrik 200700&#10;Beras 10 kg 149000&#10;Susu anak 334000"></textarea>
             </div>
             <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
               <select id="imporKategoriDefault" class="input-ctrl custom-select"></select>
@@ -1172,7 +1246,7 @@ Susu anak 334000"></textarea>
           </div>
         </section>
 
-        <!-- ==================== 8. CADANGAN DATABASE ==================== -->
+        <!-- 8. CADANGAN DATABASE -->
         <section id="view-cadangan" class="page-view">
           <div class="panel">
             <div class="panel-head">
@@ -1182,7 +1256,7 @@ Susu anak 334000"></textarea>
               </div>
             </div>
             <p style="font-size:13px;color:var(--text-gray);margin-bottom:18px;">
-              Unduh salinan lengkap seluruh riwayat transaksi Anda dalam format Excel/CSV atau JSON.
+              Unduh salinan lengkap seluruh riwayat transaksi Anda (termasuk kolom Diinput Oleh) dalam format Excel/CSV atau JSON.
             </p>
             <div style="display:flex;gap:12px;flex-wrap:wrap;">
               <button class="btn-primary" onclick="unduhCSV()">
@@ -1195,7 +1269,7 @@ Susu anak 334000"></textarea>
           </div>
         </section>
 
-        <!-- ==================== 9. KELOLA & UNDANG ANGGOTA (KHUSUS SUPER ADMIN) ==================== -->
+        <!-- 9. KELOLA & UNDANG ANGGOTA (SUPER ADMIN) -->
         <section id="view-anggota" class="page-view">
           <div class="bot-grid">
             <div class="panel">
@@ -1217,9 +1291,9 @@ Susu anak 334000"></textarea>
                 <div class="form-group">
                   <label>Hak Akses / Peran</label>
                   <select id="inviteRole" class="custom-select">
-                    <option value="Anggota">Anggota (Catat, Lihat & Hapus Transaksi)</option>
-                    <option value="Viewer">Viewer (Hanya Lihat Dasbor & Laporan)</option>
-                    <option value="Super Admin">Super Admin (Akses Penuh & Kelola Tim)</option>
+                    <option value="Anggota">Anggota (Catat, Lihat &amp; Hapus Transaksi)</option>
+                    <option value="Viewer">Viewer (Hanya Lihat Dasbor &amp; Laporan)</option>
+                    <option value="Super Admin">Super Admin (Akses Penuh &amp; Kelola Tim)</option>
                   </select>
                 </div>
                 <button type="submit" id="btnKirimUndangan" class="btn-primary" style="width:100%;padding:12px;">
@@ -1242,14 +1316,14 @@ Susu anak 334000"></textarea>
           </div>
         </section>
 
-        <!-- ==================== 10. HALAMAN PENGATURAN ==================== -->
+        <!-- 10. PENGATURAN -->
         <section id="view-pengaturan" class="page-view">
           <div class="bot-grid">
             <div class="panel">
               <div class="panel-head">
                 <div class="panel-title">
                   <span class="material-symbols-rounded" style="color:var(--accent-main);">palette</span>
-                  Tampilan Tema & Sinkronisasi Data
+                  Tampilan Tema &amp; Sinkronisasi Data
                 </div>
               </div>
               <div class="form-group">
@@ -1298,9 +1372,7 @@ Susu anak 334000"></textarea>
       </div>
     </div>
 
-    <!-- =====================================================================
-         BOTTOM NAVIGATION BAR (SETTING MEMBUKA MENU SAMPING)
-    ===================================================================== -->
+    <!-- BOTTOM NAVIGATION BAR -->
     <div class="bottom-dock-wrapper">
       <nav class="bottom-dock" aria-label="Navigasi Utama">
         <button class="dock-btn active" data-page="dasbor" onclick="bukaHalaman('dasbor')">
@@ -1325,7 +1397,7 @@ Susu anak 334000"></textarea>
           <span class="dock-lbl">Laporan</span>
         </button>
 
-        <button class="dock-btn" id="dockBtnSetting" onclick="toggleSidebar()" title="Buka Menu Samping & Setting">
+        <button class="dock-btn" id="dockBtnSetting" onclick="toggleSidebar()" title="Buka Menu Samping &amp; Setting">
           <span class="material-symbols-rounded">settings</span>
           <span class="dock-lbl">Setting</span>
         </button>
@@ -1370,7 +1442,10 @@ Susu anak 334000"></textarea>
             <label>Nominal (Rp)</label>
             <input type="number" id="nominal" placeholder="Contoh: 150000" required>
           </div>
-          <button type="submit" id="btnSimpan" class="btn-primary" style="width:100%;padding:12px;margin-top:6px;">
+          <div style="font-size:11.5px;color:var(--text-muted);margin-bottom:10px;">
+            Otomatis dicatat atas nama: <strong id="modalNamaPencatat" style="color:var(--text-white);">-</strong>
+          </div>
+          <button type="submit" id="btnSimpan" class="btn-primary" style="width:100%;padding:12px;">
             Simpan Transaksi
           </button>
         </form>
@@ -1446,11 +1521,26 @@ Susu anak 334000"></textarea>
       return 'Rp ' + Number(n || 0).toLocaleString('id-ID');
     }
 
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str == null ? '' : String(str);
+      return div.innerHTML;
+    }
+
+    function renderBadgePencatat(nama) {
+      const clean = (nama || '').trim();
+      if (!clean) {
+        return '<span class="author-chip empty">Belum tercatat</span>';
+      }
+      const inisial = clean.substring(0, 2).toUpperCase();
+      return '<span class="author-chip"><span class="author-dot">' + escapeHtml(inisial) + '</span>' + escapeHtml(clean) + '</span>';
+    }
+
     function showToast(msg) {
       const t = document.getElementById('toastBox');
       document.getElementById('toastText').innerText = msg;
       t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2800);
+      setTimeout(function() { t.classList.remove('show'); }, 2800);
     }
 
     function showAuthAlert(msg, type) {
@@ -1481,7 +1571,7 @@ Susu anak 334000"></textarea>
       return json;
     }
 
-    /* ======================== LOGIN OTP FLOW ======================== */
+    /* LOGIN OTP */
     async function mintaOtp(e) {
       e.preventDefault();
       hideAuthAlert();
@@ -1491,7 +1581,7 @@ Susu anak 334000"></textarea>
       btn.innerHTML = 'Mengirim OTP...';
 
       try {
-        const res = await apiCall({ action: 'request_otp', email });
+        const res = await apiCall({ action: 'request_otp', email: email });
         if (!res.ok) {
           showAuthAlert(res.error || 'Gagal mengirim OTP.', 'err');
         } else {
@@ -1534,7 +1624,7 @@ Susu anak 334000"></textarea>
         const res = await apiCall({
           action: 'verify_otp',
           email: pendingEmail,
-          otp,
+          otp: otp,
           device: (navigator.userAgent || 'Browser').slice(0, 80)
         });
         if (!res.ok) {
@@ -1556,7 +1646,7 @@ Susu anak 334000"></textarea>
         showAuthAlert('Gagal memverifikasi OTP.', 'err');
       } finally {
         btn.disabled = false;
-        btn.innerHTML = '<span class="material-symbols-rounded" style="font-size:18px;">verified_user</span> Verifikasi & Masuk';
+        btn.innerHTML = '<span class="material-symbols-rounded" style="font-size:18px;">verified_user</span> Verifikasi &amp; Masuk';
       }
     }
 
@@ -1583,7 +1673,7 @@ Susu anak 334000"></textarea>
             authEmail: session.email,
             authToken: session.token
           })
-        }).catch(() => {});
+        }).catch(function() {});
       }
       session = null;
       localStorage.removeItem('rk_session');
@@ -1609,8 +1699,9 @@ Susu anak 334000"></textarea>
       document.getElementById('sidebarUser').innerText = session.nama;
       document.getElementById('sidebarEmail').innerText = session.email;
       document.getElementById('avatarInitial').innerText = inisial;
+      document.getElementById('modalNamaPencatat').innerText = session.nama;
 
-      ['sidebarRole', 'infoRole'].forEach(id => {
+      ['sidebarRole', 'infoRole'].forEach(function(id) {
         const el = document.getElementById(id);
         el.innerText = session.role;
         el.className = 'role-pill' + (isSuper ? ' super' : '');
@@ -1622,10 +1713,10 @@ Susu anak 334000"></textarea>
       document.getElementById('navAdminSection').style.display = isSuper ? 'block' : 'none';
     }
 
-    /* ======================== TEMA & SINKRONISASI ======================== */
+    /* TEMA & SINKRONISASI */
     function gantiTema(tema) {
       document.documentElement.setAttribute('data-theme', tema);
-      ['pilihTemaDrawer', 'pilihTemaPage'].forEach(id => {
+      ['pilihTemaDrawer', 'pilihTemaPage'].forEach(function(id) {
         const el = document.getElementById(id);
         if (el) el.value = tema;
       });
@@ -1638,7 +1729,7 @@ Susu anak 334000"></textarea>
       const html = loading
         ? '<span class="material-symbols-rounded" style="font-size:17px;">sync</span><span>Menyinkronkan...</span>'
         : '<span class="material-symbols-rounded" style="font-size:17px;">cloud_done</span><span>Tersinkron • Muat Ulang</span>';
-      ['btnSyncDrawer', 'btnSyncPage'].forEach(id => {
+      ['btnSyncDrawer', 'btnSyncPage'].forEach(function(id) {
         const el = document.getElementById(id);
         if (el) el.innerHTML = html;
       });
@@ -1666,12 +1757,12 @@ Susu anak 334000"></textarea>
       }
     }
 
-    /* ======================== NAVIGASI & DRAWER ======================== */
+    /* NAVIGASI & DRAWER */
     function perbaruiStatusDock() {
       const isDrawerOpen = document.getElementById('sidebarMenu').classList.contains('open');
       const isMenuSubPage = HALAMAN_DARI_MENU.includes(halamanAktif);
 
-      document.querySelectorAll('.dock-btn[data-page]').forEach(btn => {
+      document.querySelectorAll('.dock-btn[data-page]').forEach(function(btn) {
         btn.classList.toggle('active', !isDrawerOpen && btn.dataset.page === halamanAktif);
       });
 
@@ -1696,12 +1787,12 @@ Susu anak 334000"></textarea>
         return showToast('Menu ini khusus Super Admin');
       }
       halamanAktif = pageId;
-      document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.page-view').forEach(function(el) { el.classList.remove('active'); });
       const target = document.getElementById('view-' + pageId);
       if (target) target.classList.add('active');
 
       document.title = (JUDUL_HALAMAN[pageId] || 'Dasbor') + ' • Rekap Keuangan';
-      document.querySelectorAll('.nav-item').forEach(btn => {
+      document.querySelectorAll('.nav-item').forEach(function(btn) {
         btn.classList.toggle('active', btn.dataset.page === pageId);
       });
 
@@ -1715,17 +1806,17 @@ Susu anak 334000"></textarea>
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    /* ======================== BULAN & DATA RENDER ======================== */
+    /* BULAN & FILTER PENCATAT */
     function bangunDropdownBulan() {
-      ['pilihBulanTrx', 'pilihBulanLap'].forEach(id => {
+      ['pilihBulanTrx', 'pilihBulanLap'].forEach(function(id) {
         const sel = document.getElementById(id);
         if (!sel) return;
         sel.innerHTML = '';
         for (let th = 2025; th <= 2027; th++) {
           for (let bl = 0; bl < 12; bl++) {
             const opt = document.createElement('option');
-            opt.value = `${th}-${bl}`;
-            opt.innerText = `${NAMA_BULAN[bl]} ${th}`;
+            opt.value = th + '-' + bl;
+            opt.innerText = NAMA_BULAN[bl] + ' ' + th;
             sel.appendChild(opt);
           }
         }
@@ -1733,11 +1824,11 @@ Susu anak 334000"></textarea>
     }
 
     function isiDropdownKategori() {
-      ['kategori', 'imporKategoriDefault'].forEach(id => {
+      ['kategori', 'imporKategoriDefault'].forEach(function(id) {
         const el = document.getElementById(id);
         if (!el) return;
         el.innerHTML = '';
-        masterKategori.forEach(k => {
+        masterKategori.forEach(function(k) {
           const opt = document.createElement('option');
           opt.value = k.nama;
           opt.innerText = k.nama;
@@ -1746,14 +1837,56 @@ Susu anak 334000"></textarea>
       });
     }
 
+    function isiFilterPencatat() {
+      const namaSet = new Set();
+      let adaKosong = false;
+      semuaData.forEach(function(d) {
+        const o = (d.oleh || '').trim();
+        if (o) namaSet.add(o);
+        else adaKosong = true;
+      });
+      daftarAnggota.forEach(function(u) {
+        if (u.nama && u.nama.trim()) namaSet.add(u.nama.trim());
+      });
+      const daftarNama = Array.from(namaSet).sort();
+
+      ['filterOlehTrx', 'filterOlehLap'].forEach(function(id) {
+        const sel = document.getElementById(id);
+        if (!sel) return;
+        const prev = sel.value || 'ALL';
+        sel.innerHTML = '<option value="ALL">Semua Pencatat</option>';
+        daftarNama.forEach(function(nama) {
+          const opt = document.createElement('option');
+          opt.value = nama;
+          opt.innerText = 'Pencatat: ' + nama;
+          sel.appendChild(opt);
+        });
+        if (adaKosong) {
+          const optEmpty = document.createElement('option');
+          optEmpty.value = '__KOSONG__';
+          optEmpty.innerText = 'Belum tercatat (Data lama)';
+          sel.appendChild(optEmpty);
+        }
+        const masihAda = Array.from(sel.options).some(function(o) { return o.value === prev; });
+        sel.value = masihAda ? prev : 'ALL';
+      });
+    }
+
+    function cocokFilterPencatat(item, filterVal) {
+      if (!filterVal || filterVal === 'ALL') return true;
+      const o = (item.oleh || '').trim();
+      if (filterVal === '__KOSONG__') return o === '';
+      return o === filterVal;
+    }
+
     function geserBulan(arah) {
       bulanAktif.setMonth(bulanAktif.getMonth() + arah);
       renderSemua();
     }
 
     function pilihBulanLangsung(val) {
-      const [th, bl] = val.split('-').map(Number);
-      bulanAktif = new Date(th, bl, 1);
+      const parts = val.split('-');
+      bulanAktif = new Date(Number(parts[0]), Number(parts[1]), 1);
       renderSemua();
     }
 
@@ -1761,12 +1894,12 @@ Susu anak 334000"></textarea>
       const thn = bulanAktif.getFullYear();
       const bln = bulanAktif.getMonth();
       const prefix = thn + '-' + String(bln + 1).padStart(2, '0');
-      return semuaData.filter(d => d.tanggal && d.tanggal.startsWith(prefix));
+      return semuaData.filter(function(d) { return d.tanggal && d.tanggal.startsWith(prefix); });
     }
 
     function cariMetaKategori(namaKat) {
       const lower = (namaKat || '').toLowerCase();
-      const found = masterKategori.find(m => m.nama.toLowerCase() === lower);
+      const found = masterKategori.find(function(m) { return m.nama.toLowerCase() === lower; });
       if (found) return found;
       if (lower.includes('makan') || lower.includes('kuliner')) return { icon: 'restaurant', warna: '#eab308', bg: 'rgba(234,179,8,0.15)' };
       if (lower.includes('anak')) return { icon: 'child_care', warna: '#ec4899', bg: 'rgba(236,72,153,0.15)' };
@@ -1778,13 +1911,25 @@ Susu anak 334000"></textarea>
       return { icon: 'label', warna: '#8b5cf6', bg: 'rgba(139,92,246,0.15)' };
     }
 
+    function bangunRekapPencatat(dataBulan) {
+      const mapPencatat = {};
+      dataBulan.forEach(function(d) {
+        const key = (d.oleh || '').trim() || '__KOSONG__';
+        if (!mapPencatat[key]) mapPencatat[key] = { jumlah: 0, masuk: 0, keluar: 0 };
+        mapPencatat[key].jumlah++;
+        if (d.jenis === 'Pemasukan') mapPencatat[key].masuk += Number(d.nominal) || 0;
+        if (d.jenis === 'Pengeluaran') mapPencatat[key].keluar += Number(d.nominal) || 0;
+      });
+      return mapPencatat;
+    }
+
     function renderSemua() {
       const thn = bulanAktif.getFullYear();
       const bln = bulanAktif.getMonth();
-      const valBulan = `${thn}-${bln}`;
+      const valBulan = thn + '-' + bln;
       const teksBulan = NAMA_BULAN[bln] + ' ' + thn;
 
-      ['pilihBulanTrx', 'pilihBulanLap'].forEach(id => {
+      ['pilihBulanTrx', 'pilihBulanLap'].forEach(function(id) {
         const el = document.getElementById(id);
         if (el) el.value = valBulan;
       });
@@ -1792,11 +1937,13 @@ Susu anak 334000"></textarea>
       document.getElementById('labelBulanSub').innerText = teksBulan;
       document.getElementById('lapBulanLbl').innerText = teksBulan;
 
+      isiFilterPencatat();
+
       const dataBulan = ambilDataBulanAktif();
       let pemasukan = 0, pengeluaran = 0, sudahDibayar = 0, belumDibayar = 0;
       let jmlMasuk = 0, jmlLunas = 0, jmlBelum = 0;
 
-      dataBulan.forEach(item => {
+      dataBulan.forEach(function(item) {
         const nom = Number(item.nominal) || 0;
         const isBelum = (item.keterangan || '').startsWith('[BELUM]');
         if (item.jenis === 'Pemasukan') {
@@ -1817,17 +1964,18 @@ Susu anak 334000"></textarea>
       document.getElementById('txtPengeluaran').innerText = formatRp(pengeluaran);
       document.getElementById('barAnggaran').style.width = persen + '%';
       document.getElementById('txtPersenPakai').innerText = persen + '% anggaran terpakai';
-      document.getElementById('txtStatusLunas').innerText = jmlBelum === 0 ? 'Semua transaksi lunas ✓' : `${jmlBelum} tagihan belum dibayar`;
+      document.getElementById('txtStatusLunas').innerText = jmlBelum === 0 ? 'Semua transaksi lunas ✓' : jmlBelum + ' tagihan belum dibayar';
 
       document.getElementById('txtDiterima').innerText = formatRp(pemasukan);
-      document.getElementById('subDiterima').innerText = `${jmlMasuk} transaksi masuk`;
+      document.getElementById('subDiterima').innerText = jmlMasuk + ' transaksi masuk';
       document.getElementById('txtSudahBayar').innerText = formatRp(sudahDibayar);
-      document.getElementById('subSudahBayar').innerText = `${jmlLunas} item lunas`;
+      document.getElementById('subSudahBayar').innerText = jmlLunas + ' item lunas';
       document.getElementById('txtBelumBayar').innerText = formatRp(belumDibayar);
-      document.getElementById('subBelumBayar').innerText = `${jmlBelum} item belum dibayar`;
+      document.getElementById('subBelumBayar').innerText = jmlBelum + ' item belum dibayar';
       document.getElementById('txtSaldoRiil').innerText = formatRp(saldoRiil);
 
       renderKategoriDasbor(dataBulan, pengeluaran);
+      renderRekapUserDasbor(dataBulan);
       renderListBawah(dataBulan);
       renderGrafik12Bulan();
       renderTabelTransaksi();
@@ -1839,14 +1987,14 @@ Susu anak 334000"></textarea>
       const wadah = document.getElementById('wadahKategori');
       wadah.innerHTML = '';
       const mapKat = {};
-      dataBulan.forEach(d => {
+      dataBulan.forEach(function(d) {
         if (d.jenis === 'Pengeluaran') {
           const k = d.kategori || 'Lainnya';
           mapKat[k] = (mapKat[k] || 0) + (Number(d.nominal) || 0);
         }
       });
 
-      const daftarKat = Object.keys(mapKat).sort((a, b) => mapKat[b] - mapKat[a]);
+      const daftarKat = Object.keys(mapKat).sort(function(a, b) { return mapKat[b] - mapKat[a]; });
       document.getElementById('jmlKategoriLabel').innerText = daftarKat.length + ' kategori';
 
       if (!daftarKat.length) {
@@ -1854,25 +2002,59 @@ Susu anak 334000"></textarea>
         return;
       }
 
-      daftarKat.forEach(namaKat => {
+      daftarKat.forEach(function(namaKat) {
         const subTotal = mapKat[namaKat];
         const pct = totalKeluar > 0 ? Math.round((subTotal / totalKeluar) * 100) : 0;
         const meta = cariMetaKategori(namaKat);
         const row = document.createElement('div');
         row.className = 'cat-row';
-        row.innerHTML = `
-          <div class="cat-left">
-            <div class="cat-ic" style="background:${meta.bg};color:${meta.warna};">
-              <span class="material-symbols-rounded">${meta.icon}</span>
-            </div>
-            <div class="cat-name">${namaKat}</div>
-          </div>
-          <div class="cat-right">
-            <div class="cat-val">${formatRp(subTotal)}</div>
-            <div class="cat-pct">${pct}%</div>
-          </div>
-        `;
+        row.innerHTML =
+          '<div class="cat-left">' +
+            '<div class="cat-ic" style="background:' + meta.bg + ';color:' + meta.warna + ';">' +
+              '<span class="material-symbols-rounded">' + meta.icon + '</span>' +
+            '</div>' +
+            '<div class="cat-name">' + escapeHtml(namaKat) + '</div>' +
+          '</div>' +
+          '<div class="cat-right">' +
+            '<div class="cat-val">' + formatRp(subTotal) + '</div>' +
+            '<div class="cat-pct">' + pct + '%</div>' +
+          '</div>';
         wadah.appendChild(row);
+      });
+    }
+
+    function renderRekapUserDasbor(dataBulan) {
+      const box = document.getElementById('rekapUserDasborBox');
+      if (!box) return;
+      box.innerHTML = '';
+      const mapPencatat = bangunRekapPencatat(dataBulan);
+      const keys = Object.keys(mapPencatat).sort(function(a, b) { return mapPencatat[b].jumlah - mapPencatat[a].jumlah; });
+
+      if (!keys.length) {
+        box.innerHTML = '<div style="font-size:12.5px;color:var(--text-muted);">Belum ada transaksi tercatat pada bulan ini.</div>';
+        return;
+      }
+
+      keys.forEach(function(key) {
+        const st = mapPencatat[key];
+        const namaTampil = key === '__KOSONG__' ? '' : key;
+        const div = document.createElement('div');
+        div.className = 'list-row clickable';
+        div.onclick = function() {
+          const sel = document.getElementById('filterOlehTrx');
+          if (sel) sel.value = key;
+          bukaHalaman('transaksi');
+        };
+        div.innerHTML =
+          '<div class="list-left">' +
+            renderBadgePencatat(namaTampil) +
+            '<span class="item-sub">' + st.jumlah + ' transaksi</span>' +
+          '</div>' +
+          '<div style="display:flex;gap:14px;font-size:12.5px;flex-wrap:wrap;">' +
+            '<span style="color:var(--green-val);font-weight:700;">+' + formatRp(st.masuk) + '</span>' +
+            '<span style="color:var(--red-val);font-weight:700;">-' + formatRp(st.keluar) + '</span>' +
+          '</div>';
+        box.appendChild(div);
       });
     }
 
@@ -1882,56 +2064,58 @@ Susu anak 334000"></textarea>
       wadahTempo.innerHTML = '';
       wadahBesar.innerHTML = '';
 
-      const pengeluaran = dataBulan.filter(d => d.jenis === 'Pengeluaran');
-      const belumList = pengeluaran.filter(d => (d.keterangan || '').startsWith('[BELUM]'));
+      const pengeluaran = dataBulan.filter(function(d) { return d.jenis === 'Pengeluaran'; });
+      const belumList = pengeluaran.filter(function(d) { return (d.keterangan || '').startsWith('[BELUM]'); });
 
       if (!belumList.length) {
-        wadahTempo.innerHTML = `
-          <div style="text-align:center;padding:24px 12px;color:var(--text-muted);font-size:13px;">
-            <span class="material-symbols-rounded" style="font-size:32px;color:var(--green-val);display:block;margin-bottom:6px;">verified</span>
-            Semua tagihan bulan ini sudah lunas.
-          </div>`;
+        wadahTempo.innerHTML =
+          '<div style="text-align:center;padding:24px 12px;color:var(--text-muted);font-size:13px;">' +
+            '<span class="material-symbols-rounded" style="font-size:32px;color:var(--green-val);display:block;margin-bottom:6px;">verified</span>' +
+            'Semua tagihan bulan ini sudah lunas.' +
+          '</div>';
       } else {
-        belumList.slice(0, 6).forEach(item => {
+        belumList.slice(0, 6).forEach(function(item) {
           const nama = (item.keterangan || item.kategori).replace('[BELUM] ', '').replace('[BELUM]', '');
+          const olehTag = item.oleh ? ' • oleh ' + escapeHtml(item.oleh) : '';
           const div = document.createElement('div');
           div.className = 'list-row';
-          div.innerHTML = `
-            <div class="list-left">
-              <button class="check-btn" title="Tandai Lunas" onclick="lunasiItem(${item.baris})">
-                <span class="material-symbols-rounded" style="font-size:16px;">check</span>
-              </button>
-              <div style="min-width:0;">
-                <div class="item-title">${nama}</div>
-                <div class="item-sub">${item.kategori} • ${item.tanggal}</div>
-              </div>
-            </div>
-            <strong style="font-size:13px;white-space:nowrap;">${formatRp(item.nominal)}</strong>`;
+          div.innerHTML =
+            '<div class="list-left">' +
+              '<button class="check-btn" title="Tandai Lunas" onclick="lunasiItem(' + Number(item.baris) + ')">' +
+                '<span class="material-symbols-rounded" style="font-size:16px;">check</span>' +
+              '</button>' +
+              '<div style="min-width:0;">' +
+                '<div class="item-title">' + escapeHtml(nama) + '</div>' +
+                '<div class="item-sub">' + escapeHtml(item.kategori) + ' • ' + escapeHtml(item.tanggal) + olehTag + '</div>' +
+              '</div>' +
+            '</div>' +
+            '<strong style="font-size:13px;white-space:nowrap;">' + formatRp(item.nominal) + '</strong>';
           wadahTempo.appendChild(div);
         });
       }
 
-      const terbesar = pengeluaran.slice().sort((a, b) => Number(b.nominal) - Number(a.nominal)).slice(0, 7);
+      const terbesar = pengeluaran.slice().sort(function(a, b) { return Number(b.nominal) - Number(a.nominal); }).slice(0, 7);
       if (!terbesar.length) {
         wadahBesar.innerHTML = '<div style="font-size:12.5px;color:var(--text-muted);padding:12px 0;">Belum ada pengeluaran bulan ini.</div>';
       } else {
-        terbesar.forEach((item, idx) => {
+        terbesar.forEach(function(item, idx) {
           const isBelum = (item.keterangan || '').startsWith('[BELUM]');
           const nama = (item.keterangan || item.kategori).replace('[BELUM] ', '').replace('[BELUM]', '');
+          const olehTag = item.oleh ? ' • oleh ' + escapeHtml(item.oleh) : '';
           const div = document.createElement('div');
           div.className = 'list-row';
-          div.innerHTML = `
-            <div class="list-left">
-              <div class="rank-badge">${idx + 1}</div>
-              <div style="min-width:0;">
-                <div class="item-title">${nama}</div>
-                <div class="item-sub">${item.kategori}</div>
-              </div>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
-              <span class="${isBelum ? 'badge-belum' : 'badge-lunas'}">${isBelum ? 'Belum' : 'Lunas'}</span>
-              <strong style="font-size:13px;white-space:nowrap;">${formatRp(item.nominal)}</strong>
-            </div>`;
+          div.innerHTML =
+            '<div class="list-left">' +
+              '<div class="rank-badge">' + (idx + 1) + '</div>' +
+              '<div style="min-width:0;">' +
+                '<div class="item-title">' + escapeHtml(nama) + '</div>' +
+                '<div class="item-sub">' + escapeHtml(item.kategori) + olehTag + '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">' +
+              '<span class="' + (isBelum ? 'badge-belum' : 'badge-lunas') + '">' + (isBelum ? 'Belum' : 'Lunas') + '</span>' +
+              '<strong style="font-size:13px;white-space:nowrap;">' + formatRp(item.nominal) + '</strong>' +
+            '</div>';
           wadahBesar.appendChild(div);
         });
       }
@@ -1946,7 +2130,7 @@ Susu anak 334000"></textarea>
         labels.push(BULAN_SINGKAT[d.getMonth()] + ' ' + String(d.getFullYear()).slice(-2));
         const prefix = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
         let m = 0, k = 0;
-        semuaData.forEach(item => {
+        semuaData.forEach(function(item) {
           if (item.tanggal && item.tanggal.startsWith(prefix)) {
             if (item.jenis === 'Pemasukan') m += Number(item.nominal) || 0;
             if (item.jenis === 'Pengeluaran') k += Number(item.nominal) || 0;
@@ -1961,7 +2145,7 @@ Susu anak 334000"></textarea>
       chartTrenInst = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels,
+          labels: labels,
           datasets: [
             { label: 'Pemasukan', data: dataMasuk, backgroundColor: '#22c55e', borderRadius: 5 },
             { label: 'Pengeluaran', data: dataKeluar, backgroundColor: '#f43f5e', borderRadius: 5 }
@@ -1982,53 +2166,101 @@ Susu anak 334000"></textarea>
       const tbody = document.getElementById('tbodyTransaksi');
       if (!tbody) return;
       const q = (document.getElementById('cariTrx').value || '').toLowerCase();
+      const fOleh = document.getElementById('filterOlehTrx').value;
       const fJenis = document.getElementById('filterJenisTrx').value;
       const fStatus = document.getElementById('filterStatusTrx').value;
       const isViewer = session && session.role === 'Viewer';
 
-      const list = ambilDataBulanAktif().filter(d => {
+      const list = ambilDataBulanAktif().filter(function(d) {
         const isBelum = (d.keterangan || '').startsWith('[BELUM]');
-        const matchQ = ((d.keterangan || '') + ' ' + (d.kategori || '')).toLowerCase().includes(q);
+        const teks = ((d.keterangan || '') + ' ' + (d.kategori || '') + ' ' + (d.oleh || '')).toLowerCase();
+        const matchQ = teks.includes(q);
+        const matchO = cocokFilterPencatat(d, fOleh);
         const matchJ = fJenis === 'ALL' || d.jenis === fJenis;
         const matchS = fStatus === 'ALL' || (fStatus === 'BELUM' ? isBelum : !isBelum);
-        return matchQ && matchJ && matchS;
+        return matchQ && matchO && matchJ && matchS;
       });
 
       document.getElementById('trxJumlahLbl').innerText = list.length + ' transaksi';
       tbody.innerHTML = '';
 
       if (!list.length) {
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:24px;">Tidak ada transaksi pada bulan ini.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:24px;">Tidak ada transaksi yang cocok pada bulan ini.</td></tr>';
         return;
       }
 
-      list.forEach(item => {
+      list.forEach(function(item) {
         const isBelum = (item.keterangan || '').startsWith('[BELUM]');
         const nama = (item.keterangan || item.kategori).replace('[BELUM] ', '').replace('[BELUM]', '');
         const clrNom = item.jenis === 'Pemasukan' ? 'var(--green-val)' : 'var(--red-val)';
         const sign = item.jenis === 'Pemasukan' ? '+' : '-';
-        const olehInfo = item.oleh ? ` • oleh ${item.oleh}` : '';
+
+        let aksiHtml = '';
+        if (!isViewer && isBelum && item.baris) {
+          aksiHtml += '<button class="check-btn" style="display:inline-flex;margin-right:4px;" title="Tandai Lunas" onclick="lunasiItem(' + Number(item.baris) + ')"><span class="material-symbols-rounded" style="font-size:15px;">check</span></button>';
+        }
+        if (!isViewer && item.baris) {
+          aksiHtml += '<button class="btn-danger-sm" title="Hapus" onclick="hapusItem(' + Number(item.baris) + ')"><span class="material-symbols-rounded" style="font-size:16px;">delete</span></button>';
+        }
 
         const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td style="white-space:nowrap;">${item.tanggal}</td>
-          <td><strong>${nama}</strong><div class="item-sub">${item.kategori}${olehInfo}</div></td>
-          <td><span class="${isBelum ? 'badge-belum' : 'badge-lunas'}">${isBelum ? 'Belum' : 'Lunas'}</span></td>
-          <td style="font-weight:700;color:${clrNom};white-space:nowrap;">${sign} ${formatRp(item.nominal)}</td>
-          <td style="text-align:right;white-space:nowrap;">
-            ${!isViewer && isBelum && item.baris ? `<button class="check-btn" style="display:inline-flex;margin-right:4px;" title="Tandai Lunas" onclick="lunasiItem(${item.baris})"><span class="material-symbols-rounded" style="font-size:15px;">check</span></button>` : ''}
-            ${!isViewer && item.baris ? `<button class="btn-danger-sm" title="Hapus" onclick="hapusItem(${item.baris})"><span class="material-symbols-rounded" style="font-size:16px;">delete</span></button>` : ''}
-          </td>`;
+        tr.innerHTML =
+          '<td style="white-space:nowrap;">' + escapeHtml(item.tanggal) + '</td>' +
+          '<td><strong>' + escapeHtml(nama) + '</strong><div class="item-sub">' + escapeHtml(item.kategori) + '</div></td>' +
+          '<td>' + renderBadgePencatat(item.oleh) + '</td>' +
+          '<td><span class="' + (isBelum ? 'badge-belum' : 'badge-lunas') + '">' + (isBelum ? 'Belum' : 'Lunas') + '</span></td>' +
+          '<td style="font-weight:700;color:' + clrNom + ';white-space:nowrap;">' + sign + ' ' + formatRp(item.nominal) + '</td>' +
+          '<td style="text-align:right;white-space:nowrap;">' + aksiHtml + '</td>';
         tbody.appendChild(tr);
       });
     }
 
+    function pilihPencatatLaporan(val) {
+      const sel = document.getElementById('filterOlehLap');
+      if (!sel) return;
+      sel.value = sel.value === val ? 'ALL' : val;
+      renderLaporan();
+    }
+
     function renderLaporan() {
-      const dataBulan = ambilDataBulanAktif();
+      const dataBulanSemua = ambilDataBulanAktif();
+      const selLap = document.getElementById('filterOlehLap');
+      const fOleh = (selLap && selLap.value) || 'ALL';
+      const dataBulan = dataBulanSemua.filter(function(d) { return cocokFilterPencatat(d, fOleh); });
+
+      const mapPencatat = bangunRekapPencatat(dataBulanSemua);
+      const rekapBox = document.getElementById('rekapPencatatBox');
+      if (rekapBox) {
+        rekapBox.innerHTML = '';
+        const keys = Object.keys(mapPencatat).sort(function(a, b) { return mapPencatat[b].jumlah - mapPencatat[a].jumlah; });
+        if (!keys.length) {
+          rekapBox.innerHTML = '<div style="font-size:12.5px;color:var(--text-muted);">Belum ada pencatatan pada bulan ini.</div>';
+        } else {
+          keys.forEach(function(key) {
+            const st = mapPencatat[key];
+            const isSelected = fOleh === key;
+            const namaTampil = key === '__KOSONG__' ? '' : key;
+            const div = document.createElement('div');
+            div.className = 'list-row clickable';
+            if (isSelected) div.style.borderColor = 'var(--accent-main)';
+            div.onclick = function() { pilihPencatatLaporan(key); };
+            div.innerHTML =
+              '<div class="list-left">' +
+                renderBadgePencatat(namaTampil) +
+                '<span class="item-sub">' + st.jumlah + ' transaksi' + (isSelected ? ' • (Aktif difilter)' : '') + '</span>' +
+              '</div>' +
+              '<div style="display:flex;gap:14px;font-size:12.5px;flex-wrap:wrap;">' +
+                '<span style="color:var(--green-val);font-weight:700;">+' + formatRp(st.masuk) + '</span>' +
+                '<span style="color:var(--red-val);font-weight:700;">-' + formatRp(st.keluar) + '</span>' +
+              '</div>';
+            rekapBox.appendChild(div);
+          });
+        }
+      }
+
       const mapKat = {};
       let masuk = 0, keluar = 0;
-
-      dataBulan.forEach(d => {
+      dataBulan.forEach(function(d) {
         const n = Number(d.nominal) || 0;
         if (d.jenis === 'Pemasukan') masuk += n;
         if (d.jenis === 'Pengeluaran') {
@@ -2041,37 +2273,65 @@ Susu anak 334000"></textarea>
       const box = document.getElementById('ringkasanLaporanBox');
       if (box) {
         const rasio = masuk > 0 ? Math.round(((masuk - keluar) / masuk) * 100) : 0;
-        box.innerHTML = `
-          <div class="list-row"><span>Total Pemasukan</span><strong style="color:var(--green-val);">${formatRp(masuk)}</strong></div>
-          <div class="list-row"><span>Total Pengeluaran</span><strong style="color:var(--red-val);">${formatRp(keluar)}</strong></div>
-          <div class="list-row"><span>Surplus / Defisit Kas</span><strong>${formatRp(masuk - keluar)}</strong></div>
-          <div class="list-row"><span>Rasio Tabungan</span><strong style="color:var(--accent-main);">${rasio}%</strong></div>`;
+        const labelFilter = fOleh === 'ALL' ? 'Semua User' : (fOleh === '__KOSONG__' ? 'Belum tercatat' : fOleh);
+        box.innerHTML =
+          '<div class="list-row"><span>Cakupan Pencatat</span><strong>' + escapeHtml(labelFilter) + '</strong></div>' +
+          '<div class="list-row"><span>Total Pemasukan</span><strong style="color:var(--green-val);">' + formatRp(masuk) + '</strong></div>' +
+          '<div class="list-row"><span>Total Pengeluaran</span><strong style="color:var(--red-val);">' + formatRp(keluar) + '</strong></div>' +
+          '<div class="list-row"><span>Surplus / Defisit Kas</span><strong>' + formatRp(masuk - keluar) + '</strong></div>' +
+          '<div class="list-row"><span>Rasio Tabungan</span><strong style="color:var(--accent-main);">' + rasio + '%</strong></div>';
       }
 
       const ctx = document.getElementById('chartDonatLaporan');
-      if (!ctx) return;
-      const lbls = Object.keys(mapKat);
-      const vals = lbls.map(k => mapKat[k]);
+      if (ctx) {
+        const lbls = Object.keys(mapKat);
+        const vals = lbls.map(function(k) { return mapKat[k]; });
+        if (chartDonatInst) chartDonatInst.destroy();
+        chartDonatInst = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: lbls.length ? lbls : ['Belum ada data'],
+            datasets: [{
+              data: vals.length ? vals : [1],
+              backgroundColor: ['#8b5cf6', '#ec4899', '#22c55e', '#f59e0b', '#38bdf8', '#f43f5e', '#14b8a6'],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', boxWidth: 12 } } }
+          }
+        });
+      }
 
-      if (chartDonatInst) chartDonatInst.destroy();
-      chartDonatInst = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-          labels: lbls.length ? lbls : ['Belum ada data'],
-          datasets: [{
-            data: vals.length ? vals : [1],
-            backgroundColor: ['#8b5cf6', '#ec4899', '#22c55e', '#f59e0b', '#38bdf8', '#f43f5e', '#14b8a6'],
-            borderWidth: 0
-          }]
-        },
-        options: {
-          responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', boxWidth: 12 } } }
+      const tbodyLap = document.getElementById('tbodyLaporan');
+      const lapCount = document.getElementById('lapJumlahLbl');
+      if (lapCount) lapCount.innerText = dataBulan.length + ' transaksi';
+      if (tbodyLap) {
+        tbodyLap.innerHTML = '';
+        if (!dataBulan.length) {
+          tbodyLap.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:24px;">Tidak ada transaksi untuk periode dan pencatat ini.</td></tr>';
+        } else {
+          dataBulan.forEach(function(item) {
+            const isBelum = (item.keterangan || '').startsWith('[BELUM]');
+            const nama = (item.keterangan || item.kategori).replace('[BELUM] ', '').replace('[BELUM]', '');
+            const clrNom = item.jenis === 'Pemasukan' ? 'var(--green-val)' : 'var(--red-val)';
+            const sign = item.jenis === 'Pemasukan' ? '+' : '-';
+
+            const tr = document.createElement('tr');
+            tr.innerHTML =
+              '<td style="white-space:nowrap;">' + escapeHtml(item.tanggal) + '</td>' +
+              '<td><strong>' + escapeHtml(nama) + '</strong><div class="item-sub">' + escapeHtml(item.kategori) + '</div></td>' +
+              '<td>' + renderBadgePencatat(item.oleh) + '</td>' +
+              '<td><span class="' + (isBelum ? 'badge-belum' : 'badge-lunas') + '">' + (isBelum ? 'Belum' : 'Lunas') + '</span></td>' +
+              '<td style="text-align:right;font-weight:700;color:' + clrNom + ';white-space:nowrap;">' + sign + ' ' + formatRp(item.nominal) + '</td>';
+            tbodyLap.appendChild(tr);
+          });
         }
-      });
+      }
     }
 
-    /* ======================== SUPER ADMIN: KELOLA ANGGOTA ======================== */
+    /* SUPER ADMIN: KELOLA ANGGOTA */
     function renderDaftarAnggota() {
       const box = document.getElementById('listAnggotaBox');
       if (!box) return;
@@ -2083,32 +2343,36 @@ Susu anak 334000"></textarea>
         return;
       }
 
-      daftarAnggota.forEach(u => {
+      daftarAnggota.forEach(function(u, idx) {
         const isSelf = session && u.email === session.email;
         const isSuper = u.role === 'Super Admin';
         const div = document.createElement('div');
         div.className = 'list-row';
-        div.innerHTML = `
-          <div class="list-left">
-            <div class="avatar" style="width:34px;height:34px;font-size:12px;">${(u.nama || 'U').substring(0,2).toUpperCase()}</div>
-            <div style="min-width:0;">
-              <div class="item-title">${u.nama} ${isSelf ? '(Anda)' : ''}</div>
-              <div class="item-sub">${u.email}</div>
-            </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-            ${isSelf
-              ? `<span class="role-pill ${isSuper ? 'super' : ''}">${u.role}</span>`
-              : `<select class="input-ctrl custom-select" style="padding:5px 28px 5px 8px;font-size:11.5px;" onchange="ubahRoleAnggota('${u.email}', this.value)">
-                  <option value="Anggota" ${u.role === 'Anggota' ? 'selected' : ''}>Anggota</option>
-                  <option value="Viewer" ${u.role === 'Viewer' ? 'selected' : ''}>Viewer</option>
-                  <option value="Super Admin" ${u.role === 'Super Admin' ? 'selected' : ''}>Super Admin</option>
-                 </select>
-                 <button class="btn-danger-sm" title="Cabut Akses" onclick="hapusAnggota('${u.email}')">
-                   <span class="material-symbols-rounded" style="font-size:16px;">person_remove</span>
-                 </button>`
-            }
-          </div>`;
+
+        let kontrolHtml = '';
+        if (isSelf) {
+          kontrolHtml = '<span class="role-pill ' + (isSuper ? 'super' : '') + '">' + escapeHtml(u.role) + '</span>';
+        } else {
+          kontrolHtml =
+            '<select class="input-ctrl custom-select" style="padding:5px 28px 5px 8px;font-size:11.5px;" onchange="ubahRoleByIndex(' + idx + ', this.value)">' +
+              '<option value="Anggota"' + (u.role === 'Anggota' ? ' selected' : '') + '>Anggota</option>' +
+              '<option value="Viewer"' + (u.role === 'Viewer' ? ' selected' : '') + '>Viewer</option>' +
+              '<option value="Super Admin"' + (u.role === 'Super Admin' ? ' selected' : '') + '>Super Admin</option>' +
+            '</select>' +
+            '<button class="btn-danger-sm" title="Cabut Akses" onclick="hapusAnggotaByIndex(' + idx + ')">' +
+              '<span class="material-symbols-rounded" style="font-size:16px;">person_remove</span>' +
+            '</button>';
+        }
+
+        div.innerHTML =
+          '<div class="list-left">' +
+            '<div class="avatar" style="width:34px;height:34px;font-size:12px;">' + escapeHtml((u.nama || 'U').substring(0, 2).toUpperCase()) + '</div>' +
+            '<div style="min-width:0;">' +
+              '<div class="item-title">' + escapeHtml(u.nama) + (isSelf ? ' (Anda)' : '') + '</div>' +
+              '<div class="item-sub">' + escapeHtml(u.email) + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">' + kontrolHtml + '</div>';
         box.appendChild(div);
       });
     }
@@ -2131,6 +2395,7 @@ Susu anak 334000"></textarea>
           alert(res.error || 'Gagal mengundang anggota.');
         } else {
           daftarAnggota = res.users || [];
+          isiFilterPencatat();
           renderDaftarAnggota();
           document.getElementById('formUndangAnggota').reset();
           showToast(res.message);
@@ -2143,9 +2408,11 @@ Susu anak 334000"></textarea>
       }
     }
 
-    async function ubahRoleAnggota(targetEmail, targetRole) {
+    async function ubahRoleByIndex(idx, targetRole) {
+      const u = daftarAnggota[idx];
+      if (!u) return;
       try {
-        const res = await apiCall({ action: 'update_user_role', targetEmail, targetRole });
+        const res = await apiCall({ action: 'update_user_role', targetEmail: u.email, targetRole: targetRole });
         if (!res.ok) alert(res.error);
         else {
           daftarAnggota = res.users || [];
@@ -2155,10 +2422,11 @@ Susu anak 334000"></textarea>
       } catch (e) {}
     }
 
-    async function hapusAnggota(targetEmail) {
-      if (!confirm('Cabut akses untuk ' + targetEmail + '?')) return;
+    async function hapusAnggotaByIndex(idx) {
+      const u = daftarAnggota[idx];
+      if (!u || !confirm('Cabut akses untuk ' + u.email + '?')) return;
       try {
-        const res = await apiCall({ action: 'delete_user', targetEmail });
+        const res = await apiCall({ action: 'delete_user', targetEmail: u.email });
         if (!res.ok) alert(res.error);
         else {
           daftarAnggota = res.users || [];
@@ -2168,19 +2436,19 @@ Susu anak 334000"></textarea>
       } catch (e) {}
     }
 
-    /* ======================== MASTER DATA & TRANSAKSI ======================== */
+    /* MASTER DATA & TRANSAKSI */
     function renderMasterUraian() {
       const box = document.getElementById('listMasterUraian');
       box.innerHTML = '';
-      masterUraian.forEach((u, i) => {
+      masterUraian.forEach(function(u, i) {
         const div = document.createElement('div');
         div.className = 'list-row';
-        div.innerHTML = `
-          <div><div class="item-title">${u.nama}</div><div class="item-sub">${u.kategori} • Estimasi ${formatRp(u.nominal)}</div></div>
-          <div style="display:flex;gap:8px;">
-            <button class="btn-outline" onclick="pakaiTemplate('${u.nama}','${u.kategori}',${u.nominal},'Pengeluaran')">Catat</button>
-            <button class="btn-danger-sm" onclick="hapusMaster('uraian',${i})"><span class="material-symbols-rounded" style="font-size:16px;">delete</span></button>
-          </div>`;
+        div.innerHTML =
+          '<div><div class="item-title">' + escapeHtml(u.nama) + '</div><div class="item-sub">' + escapeHtml(u.kategori) + ' • Estimasi ' + formatRp(u.nominal) + '</div></div>' +
+          '<div style="display:flex;gap:8px;">' +
+            '<button class="btn-outline" onclick="pakaiTemplateUraian(' + i + ')">Catat</button>' +
+            '<button class="btn-danger-sm" onclick="hapusMaster(\'uraian\',' + i + ')"><span class="material-symbols-rounded" style="font-size:16px;">delete</span></button>' +
+          '</div>';
         box.appendChild(div);
       });
     }
@@ -2188,15 +2456,15 @@ Susu anak 334000"></textarea>
     function renderMasterSumber() {
       const box = document.getElementById('listMasterSumber');
       box.innerHTML = '';
-      masterSumber.forEach((s, i) => {
+      masterSumber.forEach(function(s, i) {
         const div = document.createElement('div');
         div.className = 'list-row';
-        div.innerHTML = `
-          <div><div class="item-title">${s.nama}</div><div class="item-sub">Estimasi ${formatRp(s.nominal)}</div></div>
-          <div style="display:flex;gap:8px;">
-            <button class="btn-outline" onclick="pakaiTemplate('${s.nama}','Gaji & Pemasukan',${s.nominal},'Pemasukan')">Catat</button>
-            <button class="btn-danger-sm" onclick="hapusMaster('sumber',${i})"><span class="material-symbols-rounded" style="font-size:16px;">delete</span></button>
-          </div>`;
+        div.innerHTML =
+          '<div><div class="item-title">' + escapeHtml(s.nama) + '</div><div class="item-sub">Estimasi ' + formatRp(s.nominal) + '</div></div>' +
+          '<div style="display:flex;gap:8px;">' +
+            '<button class="btn-outline" onclick="pakaiTemplateSumber(' + i + ')">Catat</button>' +
+            '<button class="btn-danger-sm" onclick="hapusMaster(\'sumber\',' + i + ')"><span class="material-symbols-rounded" style="font-size:16px;">delete</span></button>' +
+          '</div>';
         box.appendChild(div);
       });
     }
@@ -2204,31 +2472,43 @@ Susu anak 334000"></textarea>
     function renderMasterKategori() {
       const box = document.getElementById('listMasterKategori');
       box.innerHTML = '';
-      masterKategori.forEach((k, i) => {
+      masterKategori.forEach(function(k, i) {
         const div = document.createElement('div');
         div.className = 'list-row';
-        div.innerHTML = `
-          <div class="cat-left">
-            <div class="cat-ic" style="background:${k.bg};color:${k.warna};"><span class="material-symbols-rounded">${k.icon}</span></div>
-            <div class="item-title">${k.nama}</div>
-          </div>
-          <button class="btn-danger-sm" onclick="hapusMaster('kategori',${i})"><span class="material-symbols-rounded" style="font-size:16px;">delete</span></button>`;
+        div.innerHTML =
+          '<div class="cat-left">' +
+            '<div class="cat-ic" style="background:' + k.bg + ';color:' + k.warna + ';"><span class="material-symbols-rounded">' + k.icon + '</span></div>' +
+            '<div class="item-title">' + escapeHtml(k.nama) + '</div>' +
+          '</div>' +
+          '<button class="btn-danger-sm" onclick="hapusMaster(\'kategori\',' + i + ')"><span class="material-symbols-rounded" style="font-size:16px;">delete</span></button>';
         box.appendChild(div);
       });
     }
 
-    function pakaiTemplate(nama, kat, nom, jenis) {
-      bukaModal(jenis);
-      document.getElementById('keterangan').value = nama;
-      document.getElementById('kategori').value = kat;
-      document.getElementById('nominal').value = nom;
+    function pakaiTemplateUraian(idx) {
+      const u = masterUraian[idx];
+      if (!u) return;
+      bukaModal('Pengeluaran');
+      document.getElementById('keterangan').value = u.nama;
+      document.getElementById('kategori').value = u.kategori;
+      document.getElementById('nominal').value = u.nominal;
+    }
+
+    function pakaiTemplateSumber(idx) {
+      const s = masterSumber[idx];
+      if (!s) return;
+      bukaModal('Pemasukan');
+      document.getElementById('keterangan').value = s.nama;
+      document.getElementById('kategori').value = 'Gaji & Pemasukan';
+      document.getElementById('nominal').value = s.nominal;
     }
 
     function tambahUraianPrompt() {
       const nama = prompt('Nama pengeluaran rutin:');
       if (!nama) return;
       const nom = Number(prompt('Estimasi nominal (Rp):', '150000')) || 0;
-      masterUraian.push({ nama, kategori: masterKategori[0]?.nama || 'Rumah & Utilitas', nominal: nom });
+      const katDef = (masterKategori[0] && masterKategori[0].nama) || 'Rumah & Utilitas';
+      masterUraian.push({ nama: nama, kategori: katDef, nominal: nom });
       localStorage.setItem('rk_uraian', JSON.stringify(masterUraian));
       renderMasterUraian();
     }
@@ -2237,7 +2517,7 @@ Susu anak 334000"></textarea>
       const nama = prompt('Nama sumber pemasukan:');
       if (!nama) return;
       const nom = Number(prompt('Estimasi nominal (Rp):', '1000000')) || 0;
-      masterSumber.push({ nama, nominal: nom });
+      masterSumber.push({ nama: nama, nominal: nom });
       localStorage.setItem('rk_sumber', JSON.stringify(masterSumber));
       renderMasterSumber();
     }
@@ -2245,7 +2525,7 @@ Susu anak 334000"></textarea>
     function tambahKategoriPrompt() {
       const nama = prompt('Nama kategori baru:');
       if (!nama) return;
-      masterKategori.push({ nama, icon: 'label', warna: '#8b5cf6', bg: 'rgba(139,92,246,0.15)' });
+      masterKategori.push({ nama: nama, icon: 'label', warna: '#8b5cf6', bg: 'rgba(139,92,246,0.15)' });
       localStorage.setItem('rk_kategori', JSON.stringify(masterKategori));
       isiDropdownKategori();
       renderMasterKategori();
@@ -2260,6 +2540,7 @@ Susu anak 334000"></textarea>
     function bukaModal(jenisDefault) {
       if (session && session.role === 'Viewer') return showToast('Akun Viewer tidak dapat mencatat transaksi');
       tutupSidebar();
+      if (session) document.getElementById('modalNamaPencatat').innerText = session.nama;
       if (jenisDefault) document.getElementById('jenis').value = jenisDefault;
       document.getElementById('modalTransaksi').classList.add('show');
     }
@@ -2294,7 +2575,7 @@ Susu anak 334000"></textarea>
           document.getElementById('formTransaksi').reset();
           document.getElementById('tanggal').valueAsDate = new Date();
           tutupModal();
-          showToast('Transaksi berhasil disimpan');
+          showToast('Transaksi dicatat atas nama ' + session.nama);
         }
       } catch (err) {
         alert('Gagal menyimpan transaksi.');
@@ -2308,7 +2589,7 @@ Susu anak 334000"></textarea>
       if (!baris || (session && session.role === 'Viewer')) return;
       setSyncState(true);
       try {
-        const res = await apiCall({ action: 'lunasi', baris });
+        const res = await apiCall({ action: 'lunasi', baris: baris });
         if (res.ok) {
           semuaData = (res.data && res.data.riwayat) || [];
           renderSemua();
@@ -2322,7 +2603,7 @@ Susu anak 334000"></textarea>
       if (!confirm('Hapus transaksi ini dari Google Sheets?')) return;
       setSyncState(true);
       try {
-        const res = await apiCall({ action: 'hapus', baris });
+        const res = await apiCall({ action: 'hapus', baris: baris });
         if (res.ok) {
           semuaData = (res.data && res.data.riwayat) || [];
           renderSemua();
@@ -2339,13 +2620,13 @@ Susu anak 334000"></textarea>
       const tglHariIni = new Date().toISOString().slice(0, 10);
       const items = [];
 
-      raw.split('\n').forEach(line => {
+      raw.split('\n').forEach(function(line) {
         const match = line.trim().match(/^(.*?)[\s:-]+([\d.,]+)\s*(pemasukan|pengeluaran)?$/i);
         if (match) {
           const nom = Number(match[2].replace(/[.,]/g, ''));
           if (nom > 0) {
             const jenis = match[3] && match[3].toLowerCase() === 'pemasukan' ? 'Pemasukan' : 'Pengeluaran';
-            items.push({ tanggal: tglHariIni, jenis, kategori: katDef, nominal: nom, keterangan: match[1].trim() });
+            items.push({ tanggal: tglHariIni, jenis: jenis, kategori: katDef, nominal: nom, keterangan: match[1].trim() });
           }
         }
       });
@@ -2356,12 +2637,12 @@ Susu anak 334000"></textarea>
       btn.disabled = true;
       btn.innerText = 'Mengimpor...';
       try {
-        const res = await apiCall({ action: 'bulk', items });
+        const res = await apiCall({ action: 'bulk', items: items });
         if (res.ok) {
           semuaData = (res.data && res.data.riwayat) || [];
           renderSemua();
           document.getElementById('inputNoteImpor').value = '';
-          showToast(`${items.length} transaksi berhasil diimpor`);
+          showToast(items.length + ' transaksi diimpor atas nama ' + session.nama);
         } else alert(res.error);
       } finally {
         btn.disabled = false;
@@ -2372,8 +2653,10 @@ Susu anak 334000"></textarea>
     function unduhCSV() {
       if (!semuaData.length) return alert('Belum ada data transaksi.');
       let csv = 'Tanggal,Jenis,Kategori,Nominal,Keterangan,Diinput Oleh\n';
-      semuaData.forEach(r => {
-        csv += `"${r.tanggal}","${r.jenis}","${r.kategori}","${r.nominal}","${(r.keterangan || '').replace(/"/g, '""')}","${r.oleh || ''}"\n`;
+      semuaData.forEach(function(r) {
+        const ket = String(r.keterangan || '').replace(/"/g, '""');
+        const oleh = String(r.oleh || '').replace(/"/g, '""');
+        csv += '"' + r.tanggal + '","' + r.jenis + '","' + r.kategori + '","' + r.nominal + '","' + ket + '","' + oleh + '"\n';
       });
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const a = document.createElement('a');
