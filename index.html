@@ -843,7 +843,7 @@
             </div>
             <div class="brand-text">
               <h2>Rekap Keuangan</h2>
-              <span>Menu & Pengaturan • v3.4</span>
+              <span>Menu & Pengaturan • v3.5</span>
             </div>
           </div>
           <button class="sidebar-close-btn" onclick="tutupSidebar()" title="Tutup Menu">
@@ -1529,6 +1529,7 @@ Susu anak 334000"></textarea>
     let pendingEmail = '';
     let chartTrenInst = null;
     let chartDonatInst = null;
+    let guardAktif = false;
 
     function formatRp(n) {
       return 'Rp ' + Number(n || 0).toLocaleString('id-ID');
@@ -1553,7 +1554,7 @@ Susu anak 334000"></textarea>
       const t = document.getElementById('toastBox');
       document.getElementById('toastText').innerText = msg;
       t.classList.add('show');
-      setTimeout(function() { t.classList.remove('show'); }, 2800);
+      setTimeout(function() { t.classList.remove('show'); }, 2600);
     }
 
     function showAuthAlert(msg, type) {
@@ -1565,6 +1566,89 @@ Susu anak 334000"></textarea>
     function hideAuthAlert() {
       document.getElementById('authAlert').className = 'auth-alert';
     }
+
+    /* === PENGUNCI TOMBOL BACK CHROME (MAKSIMAL DI DASHBOARD) === */
+    function pasangGuardDasbor() {
+      const basePath = window.location.pathname;
+      try {
+        history.replaceState({ page: 'dasbor', isRoot: true }, '', basePath + '#dasbor');
+        history.pushState({ page: 'dasbor', isGuard: true }, '', basePath + '#dasbor');
+        guardAktif = true;
+      } catch (e) {}
+    }
+
+    function perkuatGuardSaatInteraksi() {
+      if (!session || !session.token) return;
+      const st = history.state;
+      if (!st || st.isRoot) {
+        try {
+          history.pushState({ page: halamanAktif || 'dasbor', isGuard: true }, '', window.location.pathname + '#' + (halamanAktif || 'dasbor'));
+          guardAktif = true;
+        } catch (e) {}
+      }
+    }
+
+    window.addEventListener('popstate', function(e) {
+      const basePath = window.location.pathname;
+
+      // Jika sudah logout, tahan tetap di halaman login
+      if (!session || !session.token) {
+        document.getElementById('appShell').classList.remove('visible');
+        document.getElementById('authScreen').style.display = 'flex';
+        try { history.replaceState({ page: 'login' }, '', basePath); } catch (err) {}
+        return;
+      }
+
+      // 1. Jika modal transaksi terbuka, tutup modal dulu
+      const modalEl = document.getElementById('modalTransaksi');
+      if (modalEl && modalEl.classList.contains('show')) {
+        tutupModal();
+        try { history.pushState({ page: halamanAktif, isGuard: true }, '', basePath + '#' + halamanAktif); } catch (err) {}
+        return;
+      }
+
+      // 2. Jika menu samping terbuka, tutup menu samping dulu
+      const sidebarEl = document.getElementById('sidebarMenu');
+      if (sidebarEl && sidebarEl.classList.contains('open')) {
+        tutupSidebar();
+        try { history.pushState({ page: halamanAktif, isGuard: true }, '', basePath + '#' + halamanAktif); } catch (err) {}
+        return;
+      }
+
+      // 3. Jika sedang di halaman selain Dashboard, kembali ke halaman tujuan atau Dashboard
+      const targetPage = e.state && e.state.page && JUDUL_HALAMAN[e.state.page] ? e.state.page : 'dasbor';
+      if (halamanAktif !== 'dasbor') {
+        bukaHalaman(targetPage, true);
+        if (targetPage === 'dasbor') {
+          try { history.pushState({ page: 'dasbor', isGuard: true }, '', basePath + '#dasbor'); } catch (err) {}
+        }
+        return;
+      }
+
+      // 4. Sudah berada di Dashboard: tahan agar tidak kembali ke login / keluar
+      bukaHalaman('dasbor', true);
+      try { history.pushState({ page: 'dasbor', isGuard: true }, '', basePath + '#dasbor'); } catch (err) {}
+      showToast('Sudah di halaman utama Dashboard');
+    });
+
+    // Proteksi browser Back-Forward Cache (bfcache)
+    window.addEventListener('pageshow', function() {
+      if (session && session.token) {
+        document.getElementById('authScreen').style.display = 'none';
+        document.getElementById('appShell').classList.add('visible');
+        perkuatGuardSaatInteraksi();
+      } else {
+        document.getElementById('appShell').classList.remove('visible');
+        document.getElementById('authScreen').style.display = 'flex';
+      }
+    });
+
+    // Pastikan Chrome mengakui history guard setelah interaksi pertama pengguna
+    document.addEventListener('pointerdown', function() {
+      if (session && session.token && !guardAktif) {
+        pasangGuardDasbor();
+      }
+    }, { passive: true });
 
     async function apiCall(payload) {
       if (session) {
@@ -1689,17 +1773,22 @@ Susu anak 334000"></textarea>
         }).catch(function() {});
       }
       session = null;
+      guardAktif = false;
       localStorage.removeItem('rk_session');
       tutupSidebar();
+      tutupModal();
       document.getElementById('appShell').classList.remove('visible');
       document.getElementById('authScreen').style.display = 'flex';
       kembaliKeEmail();
+      try { history.replaceState({ page: 'login' }, '', window.location.pathname); } catch (e) {}
     }
 
     function masukKeAplikasi() {
       document.getElementById('authScreen').style.display = 'none';
       document.getElementById('appShell').classList.add('visible');
       terapkanProfilSesi();
+      pasangGuardDasbor();
+      bukaHalaman('dasbor', true);
       renderSemua();
     }
 
@@ -1794,11 +1883,14 @@ Susu anak 334000"></textarea>
       perbaruiStatusDock();
     }
 
-    function bukaHalaman(pageId) {
+    function bukaHalaman(pageId, dariPopstate) {
       if (pageId === 'anggota' && (!session || session.role !== 'Super Admin')) {
         return showToast('Menu ini khusus Super Admin');
       }
+
+      const halamanSebelumnya = halamanAktif;
       halamanAktif = pageId;
+
       document.querySelectorAll('.page-view').forEach(function(el) { el.classList.remove('active'); });
       const target = document.getElementById('view-' + pageId);
       if (target) target.classList.add('active');
@@ -1809,6 +1901,19 @@ Susu anak 334000"></textarea>
       });
 
       tutupSidebar();
+
+      // Sinkronkan riwayat browser agar tombol Back selalu berhenti maksimal di Dashboard
+      if (!dariPopstate && session && session.token) {
+        const basePath = window.location.pathname;
+        try {
+          if (pageId === 'dasbor') {
+            history.replaceState({ page: 'dasbor', isGuard: true }, '', basePath + '#dasbor');
+          } else if (halamanSebelumnya !== pageId) {
+            history.pushState({ page: pageId }, '', basePath + '#' + pageId);
+          }
+        } catch (e) {}
+      }
+
       if (pageId === 'transaksi') renderTabelTransaksi();
       if (pageId === 'laporan') renderLaporan();
       if (pageId === 'uraian') renderMasterUraian();
@@ -2771,6 +2876,7 @@ Susu anak 334000"></textarea>
       } else {
         document.getElementById('authScreen').style.display = 'flex';
         document.getElementById('appShell').classList.remove('visible');
+        try { history.replaceState({ page: 'login' }, '', window.location.pathname); } catch (e) {}
       }
     };
   </script>
