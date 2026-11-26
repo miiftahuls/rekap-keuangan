@@ -288,13 +288,6 @@
       gap: 9px;
     }
 
-    .drawer-tool-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
     .sync-pill-btn {
       display: inline-flex;
       align-items: center;
@@ -325,7 +318,16 @@
       font-weight: 600;
     }
 
-    .nav-scroll { flex: 1; overflow-y: auto; padding-right: 2px; }
+    .nav-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 4px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-subtle) transparent;
+    }
+    .nav-scroll::-webkit-scrollbar { width: 5px; }
+    .nav-scroll::-webkit-scrollbar-track { background: transparent; }
+    .nav-scroll::-webkit-scrollbar-thumb { background: var(--border-subtle); border-radius: 10px; }
 
     .nav-section {
       font-size: 10px;
@@ -396,53 +398,13 @@
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
-    /* MAIN AREA & CLEAN TOPBAR */
+    /* MAIN AREA (TANPA TOPBAR) */
     .main {
       width: 100%;
       display: flex;
       flex-direction: column;
       min-width: 0;
     }
-
-    .topbar {
-      min-height: 62px;
-      border-bottom: 1px solid var(--border-subtle);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px clamp(16px, 2.5vw, 32px);
-      background: var(--bg-body);
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      gap: 12px;
-    }
-
-    .topbar-left { display: flex; align-items: center; gap: 12px; }
-    .topbar-logo {
-      width: 34px; height: 34px;
-      border-radius: 10px;
-      background: var(--btn-grad);
-      color: var(--btn-text);
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 12px var(--accent-glow);
-      cursor: pointer;
-    }
-    .topbar-title-wrap { display: flex; flex-direction: column; }
-    .topbar-title { font-size: 15.5px; font-weight: 800; line-height: 1.15; }
-    .topbar-sub { font-size: 11px; color: var(--text-muted); }
-
-    .topbar-user-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 999px;
-      padding: 4px 12px 4px 5px;
-      cursor: pointer;
-    }
-    .topbar-user-chip:hover { border-color: var(--accent-main); }
 
     /* SYMMETRIC MONTH PICKER (DI HALAMAN TRANSAKSI & LAPORAN) */
     .month-control {
@@ -488,7 +450,7 @@
 
     /* CONTENT AREA */
     .content-area {
-      padding: clamp(16px, 2vw, 26px) clamp(16px, 2.5vw, 32px) 124px;
+      padding: clamp(20px, 2.4vw, 30px) clamp(16px, 2.5vw, 32px) 124px;
       width: 100%;
       max-width: 1360px;
       margin: 0 auto;
@@ -748,7 +710,7 @@
     [data-theme="daylight"] input[type="date"]::-webkit-calendar-picker-indicator { filter: none; }
 
     .toast {
-      position: fixed; top: 76px; right: 24px; background: var(--bg-card);
+      position: fixed; top: 20px; right: 20px; background: var(--bg-card);
       border: 1px solid var(--accent-main); color: var(--text-white);
       padding: 10px 16px; border-radius: 12px; display: flex; align-items: center; gap: 8px;
       font-size: 13px; font-weight: 600; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
@@ -832,7 +794,7 @@
   </div>
 
   <!-- =======================================================================
-       2. APLIKASI UTAMA (MUNCUL SETELAH LOGIN)
+       2. APLIKASI UTAMA (TANPA TOPBAR & MENU SAMPING BERSIH)
   ======================================================================= -->
   <div id="appShell" class="app-shell">
 
@@ -848,7 +810,7 @@
             </div>
             <div class="brand-text">
               <h2>Rekap Keuangan</h2>
-              <span>Menu & Pengaturan • v3.0</span>
+              <span>Menu & Pengaturan • v3.1</span>
             </div>
           </div>
           <button class="sidebar-close-btn" onclick="tutupSidebar()" title="Tutup Menu">
@@ -871,17 +833,7 @@
         </div>
 
         <nav class="nav-scroll">
-          <a class="nav-item active" data-page="dasbor" onclick="bukaHalaman('dasbor')">
-            <span class="material-symbols-rounded">space_dashboard</span> Dasbor
-          </a>
-          <a class="nav-item" data-page="transaksi" onclick="bukaHalaman('transaksi')">
-            <span class="material-symbols-rounded">receipt_long</span> Transaksi
-          </a>
-          <a class="nav-item" data-page="laporan" onclick="bukaHalaman('laporan')">
-            <span class="material-symbols-rounded">bar_chart</span> Laporan
-          </a>
-
-          <div class="nav-section">Master Data</div>
+          <div class="nav-section" style="padding-top:4px;">Master Data</div>
           <a class="nav-item" data-page="uraian" onclick="bukaHalaman('uraian')">
             <span class="material-symbols-rounded">playlist_add_check</span> Uraian Pengeluaran
           </a>
@@ -934,25 +886,6 @@
 
     <!-- MAIN AREA -->
     <div class="main">
-      <!-- TOPBAR BERSIH (TANPA TEMA, SINKRON, & PILIHAN BULAN) -->
-      <header class="topbar">
-        <div class="topbar-left">
-          <div class="topbar-logo" onclick="toggleSidebar()" title="Buka Menu">
-            <span class="material-symbols-rounded" style="font-size:19px;">account_balance_wallet</span>
-          </div>
-          <div class="topbar-title-wrap">
-            <div class="topbar-title" id="topbarJudul">Dasbor</div>
-            <div class="topbar-sub">Rekap Keuangan</div>
-          </div>
-        </div>
-
-        <div class="topbar-user-chip" onclick="toggleSidebar()" title="Buka Setting & Profil">
-          <div class="avatar" id="topbarAvatar" style="width:28px;height:28px;font-size:11px;">HU</div>
-          <span id="topbarNama" style="font-size:12.5px;font-weight:700;">Huda</span>
-          <span class="role-pill" id="topbarRole">Anggota</span>
-        </div>
-      </header>
-
       <div class="content-area">
 
         <!-- ==================== 1. HALAMAN DASBOR ==================== -->
@@ -1087,7 +1020,6 @@
                 <span class="panel-badge" id="trxJumlahLbl" style="margin-left:6px;">0 transaksi</span>
               </div>
 
-              <!-- PILIHAN BULAN DI HALAMAN TRANSAKSI -->
               <div class="month-control">
                 <button class="month-btn" onclick="geserBulan(-1)" title="Bulan Sebelumnya">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -1140,7 +1072,6 @@
               </div>
 
               <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-                <!-- PILIHAN BULAN DI HALAMAN LAPORAN -->
                 <div class="month-control">
                   <button class="month-btn" onclick="geserBulan(-1)" title="Bulan Sebelumnya">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -1461,7 +1392,7 @@ Susu anak 334000"></textarea>
       theme: 'obsidian'
     };
 
-    let session = JSON.parse(localStorage.getItem('rk_session') || 'null'); // { email, nama, role, token }
+    let session = JSON.parse(localStorage.getItem('rk_session') || 'null');
 
     let masterKategori = JSON.parse(localStorage.getItem('rk_kategori') || 'null') || [
       { nama: 'Kebutuhan Dapur', icon: 'shopping_basket', warna: '#22c55e', bg: 'rgba(34,197,94,0.15)' },
@@ -1600,7 +1531,12 @@ Susu anak 334000"></textarea>
       btn.innerHTML = 'Memverifikasi...';
 
       try {
-        const res = await apiCall({ action: 'verify_otp', email: pendingEmail, otp });
+        const res = await apiCall({
+          action: 'verify_otp',
+          email: pendingEmail,
+          otp,
+          device: (navigator.userAgent || 'Browser').slice(0, 80)
+        });
         if (!res.ok) {
           showAuthAlert(res.error || 'Kode OTP tidak valid.', 'err');
         } else {
@@ -1639,6 +1575,16 @@ Susu anak 334000"></textarea>
 
     function logoutAkun(silent) {
       if (!silent && !confirm('Keluar dari akun ' + (session ? session.email : '') + '?')) return;
+      if (!silent && session && session.token) {
+        fetch(config.scriptUrl, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: 'logout',
+            authEmail: session.email,
+            authToken: session.token
+          })
+        }).catch(() => {});
+      }
       session = null;
       localStorage.removeItem('rk_session');
       tutupSidebar();
@@ -1663,10 +1609,8 @@ Susu anak 334000"></textarea>
       document.getElementById('sidebarUser').innerText = session.nama;
       document.getElementById('sidebarEmail').innerText = session.email;
       document.getElementById('avatarInitial').innerText = inisial;
-      document.getElementById('topbarAvatar').innerText = inisial;
-      document.getElementById('topbarNama').innerText = session.nama;
 
-      ['sidebarRole', 'topbarRole', 'infoRole'].forEach(id => {
+      ['sidebarRole', 'infoRole'].forEach(id => {
         const el = document.getElementById(id);
         el.innerText = session.role;
         el.className = 'role-pill' + (isSuper ? ' super' : '');
@@ -1756,7 +1700,7 @@ Susu anak 334000"></textarea>
       const target = document.getElementById('view-' + pageId);
       if (target) target.classList.add('active');
 
-      document.getElementById('topbarJudul').innerText = JUDUL_HALAMAN[pageId] || 'Dasbor';
+      document.title = (JUDUL_HALAMAN[pageId] || 'Dasbor') + ' • Rekap Keuangan';
       document.querySelectorAll('.nav-item').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.page === pageId);
       });
